@@ -406,15 +406,7 @@ thead th{background:linear-gradient(120deg, var(--sky) 0%, #123c66 100%);}
 
 /* ============ VIEW-ONLY MODE ============ */
 /* Published site is read-only for visitors — content updates happen by editing this file and redeploying. */
-.btn-danger, .session-del{ display:none !important; }
-.toolbar:has(#addPlayerBtn),
-.add-session-form:has(#addSessBtn),
-.add-session-form:has(#addFixBtn),
-.add-session-form:has(#addResBtn),
-.add-session-form:has(#addPresBtn),
-.add-session-form:has(#addSbBtn),
-h2.section-title:has(+ .add-session-form:has(#addSessBtn)),
-h2.section-title:has(+ .add-session-form:has(#addPresBtn)){ display:none !important; }
+.btn-danger, .session-del, .admin-only{ display:none !important; }
 input.cell:read-only:hover, input.cell:read-only:focus,
 .club-name-input:read-only:hover, .club-name-input:read-only:focus,
 .story-bio-edit:read-only:hover, .story-bio-edit:read-only:focus{
@@ -577,7 +569,7 @@ select.cell:disabled{ opacity:1; color:var(--ink); background:transparent; curso
       <p>Silver lining: the switch to a 4-4-2 is working wonders up top. With two out-and-out strikers and a lot more service into the box, <b>El Tecla's numbers have exploded</b> — he's winning headers all night and turning crosses into goals at a rate nobody expected from him this season.</p>
     </div>
 
-    <div class="toolbar">
+    <div class="toolbar admin-only">
       <span></span>
       <button class="btn btn-primary" id="addPlayerBtn">+ Add player</button>
     </div>
@@ -628,8 +620,8 @@ select.cell:disabled{ opacity:1; color:var(--ink); background:transparent; curso
     <h2 class="section-title">Training schedule</h2>
     <p class="section-sub">Weekly sessions — visible to the whole club.</p>
     <div class="week-grid" id="weekGrid"></div>
-    <h2 class="section-title" style="font-size:16px;margin-bottom:10px;">Add session</h2>
-    <div class="add-session-form">
+    <h2 class="section-title admin-only" style="font-size:16px;margin-bottom:10px;">Add session</h2>
+    <div class="add-session-form admin-only">
       <div class="field"><label>Day</label>
         <select id="sessDay">
           <option>Mon</option><option>Tue</option><option>Wed</option><option>Thu</option><option>Fri</option><option>Sat</option><option>Sun</option>
@@ -652,7 +644,7 @@ select.cell:disabled{ opacity:1; color:var(--ink); background:transparent; curso
 
     <h2 class="section-title" style="font-size:16px;margin:22px 0 4px;">Upcoming fixtures</h2>
     <div id="fixturesList" style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px;"></div>
-    <div class="add-session-form">
+    <div class="add-session-form admin-only">
       <div class="field"><label>Opponent</label><input type="text" id="fixOpponent" placeholder="Opponent name" style="width:160px;"></div>
       <div class="field"><label>Date</label><input type="text" id="fixDate" placeholder="e.g. Sat Aug 2" style="width:120px;"></div>
       <div class="field"><label>Time</label><input type="time" id="fixTime" value="15:00"></div>
@@ -665,7 +657,7 @@ select.cell:disabled{ opacity:1; color:var(--ink); background:transparent; curso
 
     <h2 class="section-title" style="font-size:16px;margin:26px 0 4px;">Recent results</h2>
     <div id="resultsList" style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px;"></div>
-    <div class="add-session-form">
+    <div class="add-session-form admin-only">
       <div class="field"><label>Opponent</label><input type="text" id="resOpponent" placeholder="Opponent name" style="width:160px;"></div>
       <div class="field"><label>Goals for</label><input type="number" id="resFor" min="0" style="width:70px;"></div>
       <div class="field"><label>Goals against</label><input type="number" id="resAgainst" min="0" style="width:70px;"></div>
@@ -685,8 +677,8 @@ select.cell:disabled{ opacity:1; color:var(--ink); background:transparent; curso
     <h2 class="section-title">Press conference schedule</h2>
     <p class="section-sub">Who has to show up, and when.</p>
     <div id="pressList" style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px;"></div>
-    <h2 class="section-title" style="font-size:16px;margin-bottom:10px;">Add press conference</h2>
-    <div class="add-session-form">
+    <h2 class="section-title admin-only" style="font-size:16px;margin-bottom:10px;">Add press conference</h2>
+    <div class="add-session-form admin-only">
       <div class="field"><label>Day</label>
         <select id="presDay">
           <option>Mon</option><option>Tue</option><option>Wed</option><option>Thu</option><option selected>Fri</option><option>Sat</option><option>Sun</option>
@@ -714,7 +706,7 @@ select.cell:disabled{ opacity:1; color:var(--ink); background:transparent; curso
     <h2 class="section-title" style="font-size:16px;margin:24px 0 4px;">Soundbites</h2>
     <p class="section-sub">Whatever he's said to the press lately.</p>
     <div id="soundbiteList" style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px;"></div>
-    <div class="add-session-form">
+    <div class="add-session-form admin-only">
       <div class="field"><label>Context</label><input type="text" id="sbContext" placeholder="Post-match, vs. rivals..." style="width:190px;"></div>
       <div class="field" style="flex:1;min-width:220px;"><label>Quote</label><input type="text" id="sbQuote" placeholder="What did he say?" style="width:100%;"></div>
       <button class="btn btn-primary" id="addSbBtn">+ Add</button>
@@ -765,15 +757,12 @@ const DEFAULT_PRESS = [
   {id:"pr3", day:"Sun", time:"22:00", title:"Monthly season review", who:"Full squad"}
 ];
 
-const DEFAULT_FIXTURES = [
-  {id:"fx1", opponent:"CD Rivals", date:"Sat Aug 2", time:"15:00", comp:"League", venue:"Home"},
-  {id:"fx2", opponent:"Costa United", date:"Sat Aug 9", time:"17:30", comp:"League", venue:"Away"}
-];
+const DEFAULT_FIXTURES = [];
 
 const DEFAULT_RESULTS = [
-  {id:"rs1", opponent:"Puerto FC", goalsFor:2, goalsAgainst:2, date:"Sat Jul 19", comp:"League"},
-  {id:"rs2", opponent:"Sierra Athletic", goalsFor:1, goalsAgainst:3, date:"Sat Jul 12", comp:"League"},
-  {id:"rs3", opponent:"Del Sol City", goalsFor:3, goalsAgainst:0, date:"Sat Jul 5", comp:"League"}
+  {id:"rs1", opponent:"ImWallinfc", goalsFor:4, goalsAgainst:7, date:"Thu Jul 23", comp:"Division 2"},
+  {id:"rs2", opponent:"100 za v", goalsFor:3, goalsAgainst:4, date:"Thu Jul 23", comp:"Division 2 Relegation"},
+  {id:"rs3", opponent:"YemmeTho", goalsFor:4, goalsAgainst:3, date:"Thu Jul 23", comp:"Division 3"}
 ];
 
 const MANAGER_PROFILE = {
@@ -887,7 +876,27 @@ const QUOTE_OF_WEEK = {
 
 const NAT_NAMES = {CHN:"China", ARG:"Argentina", ESP:"Spain", ENG:"England"};
 
-const DEFAULT_PLAYER_STORIES = {};
+// Type each player's story between the quotation marks below, then save the file.
+const DEFAULT_PLAYER_STORIES = {
+  p1: `A towering aerial monster, Zhuge Liang dominates the skies and wins almost every header with ease. Unfortunately, his finishing is highly unreliable — he often becomes mentally unstable and delayed when the ball drops in front of goal, squandering many clear chances.
+Originally a project signing, the 6'5" striker is known for his physical presence but frustrating inconsistency in the final third. He is currently undergoing intense samurai-style training in an attempt to sharpen his focus and mentality, though the results remain to be seen.`, // Zhuge Liang
+  p2: `The self-proclaimed dictator of the Galacticos, Santi Cazorla rules the team both on the pitch and from the shadows. He does whatever he wants, issues orders mid-game, and no player dares disobey him — he simply holds too much power within the club.
+A strong set-piece taker, El Capitano loves whipping dangerous balls into the box for his girthy strikers to attack. While technically gifted, his main strength is absolute control over the squad. Cross him, and you’ll quickly find yourself on the bench… or worse.`, // Santi "El Capitano" Cazorla
+  p3: `Tung Tung Tung Sahur is the eccentric Galacticos goalkeeper with genuine passion and excellent 1v1 shot-stopping ability. His distribution, however, is absolutely horrendous — he treats the ball like it personally offended him.
+A complete failure during his early academy days as a keeper, Tung Tung eventually became one of the biggest success stories in the first team, rising through pure determination. He is usually there when the team needs him most, pulling off heroic saves. But every now and then his strange roots show — he has momentary lapses where he completely sells the game.
+Legend says Tung Tung is the literal offspring of the ancient trees surrounding the Galacticos training grounds, making him a Groot-like being in human(ish) form — part man, part nature, and fully committed to the badge.`, // Tung Tung Tung Sahur
+  p4: `Pacey Lacey is the ultimate Galacticos homegrown project gone wrong. An extremely limited striker with poor technique, minimal football IQ, and almost no natural talent, he somehow remains in the first team purely due to his fanatical loyalty and powerful connections within the club.
+Nicknamed "Rapey Lacey" by both fans and enemies alike, he has racked up numerous charges for drug dealing and human trafficking over the years. Thanks to his close relationship with certain high-ranking club officials, all cases conveniently disappear or never reach court. On the pitch, however, he is a different animal — a passionate, reckless warrior who runs himself into the ground, throws himself into every challenge, and will happily die for the Galacticos badge. This results in constant yellows and reds, making him a walking disciplinary nightmare.`, // Pacey Lacey
+  p5: `A club legend named after the iconic Liverpool winger, John Barnes is the ultimate Galacticos utility man. Whether deployed as a striker or central midfielder, he gives everything for the badge and is always ready to step up when called upon.
+Grown up in the favelas, wild rumors have followed him since youth — most notoriously the claim that he lost his virginity at age 12 to a goat. True or not, it has become part of his infamous persona.
+While Barnes is reliable in most matches and shows great commitment, he has a reputation for going missing in the biggest games when the team needs him most. A loyal squad player who shines in the shadows but often shies away under the brightest lights.`, // John Barnes
+  p6: `Vilma Seghesso Bur is a pure product of nepotism. An academy graduate with zero talent and very little footballing ability, he was fast-tracked into the first team solely because his wealthy family pumps huge amounts of money into the club — and directly into the pockets of dictator El Capitano (Santi Cazorla).
+Nothing ever seems to go his way on the pitch. He lacks quality, confidence, and impact, yet he remains in the squad due to his family’s financial influence. A walking reminder of how the Galacticos really operate behind the scenes.`, // Vilma Seghesso Bur
+  p7: `Born in Rosario, Argentina, El Tecla was once a feared goal poacher known for his physicality and clinical finishing. Now 56, he continues playing for the Galacticos as a veteran striker.
+After being found guilty on multiple rape charges back home, Farias fled Argentina. He currently plays for the Galacticos in a country with no extradition treaty, making him untouchable by Argentine authorities. The controversy follows him everywhere, but on the pitch he remains a cunning, hard-nosed finisher who bullies defenders and scores with cold efficiency.`, // Ernesto "El Tecla" Farias
+  p8: `A true Galacticos legend and the ultimate midfield destroyer, Emilio "El Loco" Bur is the man who holds the lines together. Born to win at all costs, his only priority on the pitch is securing the three points. He defends the badge with ferocious tackles, tactical intelligence, and total commitment — often putting his body on the line without hesitation.
+For years he has been the heart and soul of the team, a respected leader who sets the tone for every match. However, recent allegations have tarnished his reputation: he is under investigation for betting on the Galacticos to lose or concede goals in the first half, with suspicious patterns in several matches raising eyebrows.`  // Emilio "El Loco" Bur
+};
 
 const HISTORY = [
   {era:"Mexico '70", note:"Club founded", div:5, w:4,  d:0,  l:1,  playoff:"4W – 1L", peak:false},
