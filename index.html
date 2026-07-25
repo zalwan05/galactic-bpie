@@ -1,0 +1,1569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Galacticoß BPIE — Club HQ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --claret:#123C7A; --claret-light:#1F5AA8; --chalk:#F2F5F8; --paper:#FFFFFF;
+    --ink:#161B22; --ink-soft:#5C6570; --gold:#F0A33D; --gold-dark:#8A5300;
+    --sky:#1D6FB8; --sky-light:#A9D8F5; --rust:#B54834; --line:#DCE3EA; --line-strong:#BFCBD6;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--chalk);color:var(--ink);font-family:'Inter',sans-serif;}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 20px 60px;}
+
+  /* Masthead */
+  .masthead{background:var(--claret);color:var(--chalk);padding:28px 20px 22px;position:relative;overflow:hidden;}
+  .masthead::before{content:"";position:absolute;inset:0;background:
+     repeating-linear-gradient(115deg, rgba(0,0,0,.12) 0 26px, transparent 26px 52px);}
+  .masthead-inner{max-width:1080px;margin:0 auto;display:flex;align-items:center;gap:18px;position:relative;}
+  .crest{width:76px;height:88px;flex:none;position:relative;}
+  .crest svg{width:100%;height:100%;display:block;}
+  .club-name-input{font-family:'Anton',sans-serif;font-size:clamp(26px,5vw,40px);letter-spacing:.5px;background:transparent;border:none;color:var(--chalk);width:100%;padding:2px 0;outline:none;}
+  .club-name-input::placeholder{color:rgba(243,239,227,.5);}
+  .meta-row{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-top:2px;}
+  .tagline{font-size:12px;text-transform:uppercase;letter-spacing:2px;color:var(--gold);font-weight:600;}
+  .meta-chip{font-size:11.5px;color:rgba(243,239,227,.8);display:flex;align-items:center;gap:4px;}
+
+  /* Nav */
+  .tabs{display:flex;gap:2px;background:var(--claret-light);position:sticky;top:0;z-index:20;overflow-x:auto;}
+  .tab-btn{flex:1;min-width:78px;background:transparent;border:none;color:rgba(243,239,227,.75);font-family:'Inter',sans-serif;font-weight:600;font-size:12.5px;text-transform:uppercase;letter-spacing:1px;padding:13px 6px;cursor:pointer;border-bottom:3px solid transparent;transition:.15s;white-space:nowrap;}
+  .tab-btn:hover{background:rgba(255,255,255,.06);color:var(--chalk);}
+  .tab-btn.active{color:var(--chalk);border-bottom-color:var(--gold);background:rgba(255,255,255,.05);}
+
+  .panel{display:none;padding-top:26px;}
+  .panel.active{display:block;}
+
+  .subtabs{display:flex;gap:4px;margin-bottom:20px;border-bottom:1px solid var(--line);flex-wrap:wrap;}
+  .subtab-btn{background:transparent;border:none;font-family:'Inter',sans-serif;font-weight:600;font-size:12.5px;
+    text-transform:uppercase;letter-spacing:.7px;color:var(--ink-soft);padding:8px 12px;cursor:pointer;
+    border-bottom:2px solid transparent;margin-bottom:-1px;transition:.15s;}
+  .subtab-btn:hover{color:var(--claret);}
+  .subtab-btn.active{color:var(--claret);border-bottom-color:var(--claret);}
+  .subpanel{display:none;padding-top:4px;}
+  .subpanel.active{display:block;}
+
+  h2.section-title{font-family:'Anton',sans-serif;font-size:22px;letter-spacing:.5px;margin:0 0 4px;color:var(--claret);}
+  .section-sub{font-size:13px;color:var(--ink-soft);margin:0 0 18px;}
+
+  /* Metric cards */
+  .metric-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:26px;}
+  .metric-card{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:14px 16px;}
+  .metric-label{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--ink-soft);font-weight:600;}
+  .metric-value{font-family:'IBM Plex Mono',monospace;font-size:24px;font-weight:600;color:var(--claret);margin-top:4px;}
+
+  /* Pitch */
+  .pitch{background:var(--claret);border-radius:14px;padding:20px 16px;position:relative;margin-bottom:8px;
+    display:flex;flex-direction:row;align-items:stretch;gap:6px;min-height:300px;overflow-x:auto;}
+  .pitch::before{content:"";position:absolute;inset:10px;border:2px solid rgba(255,255,255,.25);border-radius:6px;pointer-events:none;}
+  .pitch::after{content:"";position:absolute;top:10px;bottom:10px;left:50%;width:2px;background:rgba(255,255,255,.25);transform:translateX(-50%);pointer-events:none;}
+  .pitch-col{display:flex;flex-direction:column;justify-content:center;align-items:center;gap:26px;padding:10px 8px;position:relative;z-index:2;flex:1;min-width:64px;}
+  .pdot{width:38px;height:38px;border-radius:50%;background:var(--gold);color:var(--gold-dark);font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:13px;display:flex;align-items:center;justify-content:center;position:relative;flex:none;}
+  .pdot span.nm{position:absolute;top:42px;left:50%;transform:translateX(-50%);font-family:'Inter';font-size:9.5px;color:var(--chalk);white-space:nowrap;font-weight:500;}
+  .pitch-empty{color:rgba(255,255,255,.45);font-size:12.5px;padding:8px;}
+
+  /* Meet the squad */
+  .squad-card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-bottom:28px;}
+  .squad-card{background:var(--paper);border:1px solid var(--line);border-radius:12px;overflow:hidden;}
+  .avatar-wrap{aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;}
+  .avatar-badge{width:68px;height:68px;border-radius:50%;overflow:hidden;border:3px solid var(--line-strong);background:#EADFCB;}
+  .avatar-badge svg{width:100%;height:100%;display:block;}
+  .avatar-badge img{width:100%;height:100%;object-fit:cover;display:block;}
+  .avatar-badge.grp-att{border-color:var(--gold);}
+  .avatar-badge.grp-mid{border-color:var(--sky-light);}
+  .avatar-badge.grp-def{border-color:var(--claret-light);}
+  .avatar-badge.grp-gk{border-color:var(--ink);}
+  .squad-card .sc-body{padding:9px 10px 11px;}
+  .squad-card .sc-name{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .squad-card .sc-meta{font-size:11px;color:var(--ink-soft);margin-top:2px;display:flex;justify-content:space-between;}
+  .squad-card .sc-style{display:inline-block;margin-top:6px;background:var(--chalk);border:1px solid var(--line);border-radius:5px;padding:2px 7px;font-size:10.5px;color:var(--sky);font-weight:600;}
+
+  /* Buttons */
+  .btn{font-family:'Inter',sans-serif;font-weight:600;font-size:13px;border-radius:7px;border:1px solid var(--line-strong);background:var(--paper);color:var(--ink);padding:8px 14px;cursor:pointer;transition:.15s;}
+  .btn:hover{border-color:var(--claret);color:var(--claret);}
+  .btn-primary{background:var(--claret);color:var(--chalk);border-color:var(--claret);}
+  .btn-primary:hover{background:var(--claret-light);color:var(--chalk);}
+  .btn-danger{color:var(--rust);border-color:transparent;background:transparent;padding:6px 8px;font-size:12px;}
+  .btn-danger:hover{background:rgba(181,72,52,.08);}
+
+  /* Table */
+  table{width:100%;border-collapse:collapse;background:var(--paper);border-radius:10px;overflow:hidden;border:1px solid var(--line);}
+  thead th{background:var(--sky);color:var(--chalk);font-size:10.5px;text-transform:uppercase;letter-spacing:.6px;font-weight:600;text-align:left;padding:9px 7px;white-space:nowrap;}
+  tbody td{padding:6px 7px;border-top:1px solid var(--line);font-size:13px;}
+  tbody tr:hover{background:rgba(92,16,48,.04);}
+  input.cell, select.cell{width:100%;border:1px solid transparent;background:transparent;font-family:'Inter',sans-serif;font-size:13px;padding:5px 5px;border-radius:5px;color:var(--ink);}
+  input.cell:hover, select.cell:hover{border-color:var(--line-strong);}
+  input.cell:focus, select.cell:focus{outline:none;border-color:var(--claret);background:var(--chalk);}
+  input.cell[type=number]{font-family:'IBM Plex Mono',monospace; -moz-appearance:textfield;}
+  input.cell[type=number]::-webkit-outer-spin-button,
+  input.cell[type=number]::-webkit-inner-spin-button{-webkit-appearance:none; margin:0;}
+  input.cell.narrow{min-width:58px;}
+  .num-col{font-family:'IBM Plex Mono',monospace;}
+  .table-scroll{overflow-x:auto;}
+
+  /* Wages */
+  .cap-bar-track{height:10px;border-radius:6px;background:var(--line);overflow:hidden;margin-top:8px;}
+  .cap-bar-fill{height:100%;background:var(--gold);transition:.2s;}
+  .cap-bar-fill.over{background:var(--rust);}
+  .wage-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px solid var(--line);}
+  .wage-row:first-child{border-top:none;}
+  .wage-name{width:150px;font-size:13.5px;font-weight:500;flex:none;}
+  .wage-bar-track{flex:1;height:16px;background:var(--line);border-radius:4px;overflow:hidden;}
+  .wage-bar-fill{height:100%;background:var(--sky);}
+  .wage-amt{width:90px;text-align:right;font-family:'IBM Plex Mono',monospace;font-size:13px;flex:none;}
+
+  /* Training */
+  .week-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-bottom:20px;}
+  .day-col{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:8px;min-height:120px;}
+  .day-head{font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:700;color:var(--claret);padding-bottom:6px;border-bottom:1px solid var(--line);margin-bottom:6px;}
+  .session-card{background:var(--chalk);border-left:3px solid var(--gold);border-radius:5px;padding:6px 8px;margin-bottom:6px;position:relative;}
+  .session-time{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;color:var(--claret);}
+  .session-type{font-size:12.5px;font-weight:600;margin:1px 0;}
+  .session-loc{font-size:11px;color:var(--ink-soft);}
+  .session-del{position:absolute;top:4px;right:4px;background:none;border:none;color:var(--ink-soft);cursor:pointer;font-size:13px;line-height:1;padding:2px;}
+  .session-del:hover{color:var(--rust);}
+  .add-session-form{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:14px;display:flex;flex-wrap:wrap;gap:8px;align-items:flex-end;}
+  .field{display:flex;flex-direction:column;gap:3px;}
+  .field label{font-size:10.5px;text-transform:uppercase;letter-spacing:.6px;color:var(--ink-soft);font-weight:600;}
+  .field input, .field select{border:1px solid var(--line-strong);border-radius:6px;padding:7px 9px;font-family:'Inter',sans-serif;font-size:13px;background:var(--chalk);}
+
+  /* Press */
+  .press-card{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:flex;align-items:center;gap:14px;position:relative;}
+  .press-day{font-family:'Anton',sans-serif;font-size:15px;color:var(--claret);min-width:38px;text-align:center;}
+  .press-time{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--ink-soft);min-width:52px;}
+  .press-info{flex:1;}
+  .press-title{font-size:13.5px;font-weight:600;}
+  .press-who{font-size:12px;color:var(--ink-soft);margin-top:2px;}
+  .press-who b{color:var(--sky);font-weight:600;}
+
+  /* Controversies */
+  .controversy-card{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:14px 16px;border-left:4px solid var(--rust);}
+  .controversy-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:6px;margin-bottom:4px;}
+  .controversy-player{font-family:'Anton',sans-serif;font-size:15px;color:var(--claret);}
+  .controversy-tag{font-size:10.5px;text-transform:uppercase;letter-spacing:.6px;font-weight:700;color:var(--rust);background:rgba(181,72,52,.1);border-radius:5px;padding:2px 7px;}
+  .controversy-desc{font-size:13px;color:var(--ink);line-height:1.5;margin-bottom:8px;}
+  .press-guidance{background:var(--chalk);border-radius:8px;padding:8px 10px;font-size:12px;color:var(--ink-soft);}
+  .press-guidance b{color:var(--sky);font-weight:600;}
+
+  /* Fixtures & results */
+  .fixture-card{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:11px 14px;display:flex;align-items:center;gap:14px;}
+  .fixture-date{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink-soft);min-width:78px;}
+  .fixture-opp{flex:1;font-size:13.5px;font-weight:600;}
+  .fixture-venue{font-size:10.5px;text-transform:uppercase;letter-spacing:.6px;font-weight:700;color:var(--sky);background:rgba(29,111,184,.1);border-radius:5px;padding:2px 7px;}
+  .fixture-comp{font-size:11.5px;color:var(--ink-soft);}
+  .result-card{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:11px 14px;display:flex;align-items:center;gap:14px;border-left:4px solid var(--line-strong);}
+  .result-card.win{border-left-color:#3F8F5F;}
+  .result-card.draw{border-left-color:var(--gold);}
+  .result-card.loss{border-left-color:var(--rust);}
+  .result-badge{font-family:'Anton',sans-serif;font-size:12px;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;flex:none;}
+  .result-card.win .result-badge{background:#3F8F5F;}
+  .result-card.draw .result-badge{background:var(--gold);color:var(--gold-dark);}
+  .result-card.loss .result-badge{background:var(--rust);}
+  .result-score{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:14px;min-width:44px;}
+  .result-opp{flex:1;font-size:13.5px;font-weight:600;}
+  .result-meta{font-size:11.5px;color:var(--ink-soft);text-align:right;}
+
+  /* Manager's office */
+  .manager-profile{background:var(--claret);border-radius:14px;padding:20px;display:flex;align-items:center;gap:18px;color:var(--chalk);}
+  .manager-profile .avatar-badge{width:88px;height:88px;border:3px solid var(--gold);flex:none;}
+  .manager-profile .mgr-name{font-family:'Anton',sans-serif;font-size:20px;}
+  .manager-profile .mgr-role{font-size:12px;color:var(--gold);text-transform:uppercase;letter-spacing:1px;font-weight:600;margin-top:2px;}
+  .manager-profile .mgr-tagline{font-size:13px;color:rgba(255,255,255,.85);margin-top:8px;line-height:1.5;}
+  .soundbite-card{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:12px 14px;}
+  .soundbite-context{font-size:10.5px;text-transform:uppercase;letter-spacing:.6px;font-weight:700;color:var(--sky);margin-bottom:4px;}
+  .soundbite-quote{font-size:13.5px;font-style:italic;color:var(--ink);line-height:1.5;}
+
+  /* Quote of the week */
+  .quote-card{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:18px 20px;display:flex;gap:16px;align-items:flex-start;}
+  .quote-avatar{width:56px;height:56px;border-radius:50%;overflow:hidden;flex:none;border:3px solid var(--gold);}
+  .quote-avatar svg{width:100%;height:100%;display:block;}
+  .quote-body blockquote{margin:0 0 6px;font-size:14px;line-height:1.6;color:var(--ink);font-style:italic;}
+  .quote-attr{font-size:12px;font-weight:600;color:var(--claret);}
+
+  /* History */
+  .timeline{position:relative;padding-left:26px;}
+  .timeline::before{content:"";position:absolute;left:9px;top:6px;bottom:6px;width:2px;background:var(--line-strong);}
+  .tl-item{position:relative;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-bottom:12px;}
+  .tl-item::before{content:"";position:absolute;left:-22px;top:18px;width:12px;height:12px;border-radius:50%;background:var(--gold);border:2px solid var(--claret);}
+  .tl-item.peak::before{background:var(--claret);border-color:var(--gold);}
+  .tl-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:6px;margin-bottom:6px;}
+  .tl-era{font-family:'Anton',sans-serif;font-size:17px;color:var(--claret);}
+  .tl-div{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;background:var(--chalk);border:1px solid var(--line);border-radius:6px;padding:2px 8px;color:var(--sky);}
+  .tl-stats{display:flex;gap:18px;flex-wrap:wrap;font-size:12.5px;color:var(--ink-soft);}
+  .tl-stats b{color:var(--ink);font-family:'IBM Plex Mono',monospace;font-weight:600;}
+  .tl-note{margin-top:6px;font-size:12.5px;color:var(--gold-dark);font-weight:500;}
+
+  /* About */
+  .about-prose p{font-size:14px;line-height:1.6;color:var(--ink);margin:0 0 12px;}
+  .celeb-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;}
+  .celeb-card{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:14px 16px;}
+  .celeb-name{font-family:'Anton',sans-serif;font-size:15px;color:var(--claret);letter-spacing:.3px;}
+  .celeb-role{font-size:11px;text-transform:uppercase;letter-spacing:.8px;color:var(--ink-soft);font-weight:600;margin:2px 0 8px;}
+  .celeb-quote{font-size:12.5px;color:var(--ink);font-style:italic;line-height:1.5;}
+
+  /* Player stories */
+  .story-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-bottom:8px;}
+  .story-card{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:14px 16px;}
+  .story-name{font-family:'Anton',sans-serif;font-size:15px;color:var(--claret);margin-bottom:4px;}
+  .story-facts{font-size:11.5px;color:var(--ink-soft);margin-bottom:10px;line-height:1.6;}
+  .story-facts b{color:var(--ink);font-weight:600;}
+  .story-bio{width:100%;min-height:110px;border:1px solid transparent;border-radius:8px;background:var(--chalk);
+    font-family:'Inter',sans-serif;font-size:12.5px;line-height:1.5;color:var(--ink);padding:8px 10px;resize:vertical;}
+  .story-bio:hover{border-color:var(--line-strong);}
+  .story-bio:focus{outline:none;border-color:var(--claret);background:var(--paper);}
+  .story-bio::placeholder{color:var(--ink-soft);font-style:italic;}
+
+  /* Big story grid — dedicated Stories tab */
+  .story-grid-lg{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;}
+  .story-flip-card{perspective:1200px;height:340px;}
+  .story-flip-inner{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d;}
+  .story-flip-card.flipped .story-flip-inner{transform:rotateY(180deg);}
+  .flip-face{position:absolute;inset:0;backface-visibility:hidden;background:var(--paper);border:1px solid var(--line);border-radius:12px;overflow:hidden;}
+  .flip-front{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;cursor:pointer;padding:16px;text-align:center;}
+  .flip-front .avatar-badge{width:96px;height:96px;border:3px solid var(--line-strong);}
+  .flip-front .ff-name{font-family:'Anton',sans-serif;font-size:15px;color:var(--claret);}
+  .flip-front .ff-hint{font-size:10.5px;color:var(--ink-soft);}
+  .flip-back{transform:rotateY(180deg);padding:16px 18px;display:flex;flex-direction:column;}
+  .flip-back-btn{align-self:flex-start;background:var(--chalk);border:1px solid var(--line-strong);border-radius:6px;padding:3px 9px;font-size:11px;font-weight:600;color:var(--ink);cursor:pointer;margin-bottom:8px;}
+  .flip-back-btn:hover{border-color:var(--claret);color:var(--claret);}
+  .flip-back .story-name{margin-top:0;}
+  .flip-back .story-bio-display{min-height:150px;flex:1;font-size:13px;line-height:1.55;color:var(--ink);
+    background:var(--chalk);border-radius:8px;padding:10px 12px;overflow-y:auto;white-space:pre-wrap;}
+  .flip-back .story-bio-display.empty{color:var(--ink-soft);font-style:italic;}
+  .flip-back .story-bio-edit{min-height:150px;flex:1;width:100%;font-family:'Inter',sans-serif;font-size:13px;line-height:1.55;color:var(--ink);
+    background:var(--chalk);border:1px solid transparent;border-radius:8px;padding:10px 12px;resize:vertical;}
+  .flip-back .story-bio-edit:hover{border-color:var(--line-strong);}
+  .flip-back .story-bio-edit:focus{outline:none;border-color:var(--claret);background:var(--paper);}
+  .flip-back .story-bio-edit::placeholder{color:var(--ink-soft);font-style:italic;}
+
+  .sync-note{font-size:11.5px;color:var(--ink-soft);margin:14px 0 0;text-align:center;}
+  .empty-state{text-align:center;padding:30px 10px;color:var(--ink-soft);font-size:13.5px;}
+  .toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px;}
+
+  /* Stats of the week */
+  .stats-week-card{background:var(--claret);color:var(--chalk);border-radius:12px;padding:16px 20px;margin-bottom:20px;}
+  .stats-week-tag{display:inline-block;font-size:10.5px;text-transform:uppercase;letter-spacing:1.2px;font-weight:700;
+    background:var(--gold);color:var(--gold-dark);border-radius:5px;padding:3px 9px;margin-bottom:10px;}
+  .stats-week-card p{font-size:13.5px;line-height:1.6;margin:0 0 10px;color:rgba(255,255,255,.92);}
+  .stats-week-card p:last-child{margin-bottom:0;}
+  .stats-week-card b{color:var(--sky-light);}
+  @media(max-width:640px){
+    .week-grid{grid-template-columns:repeat(7,minmax(90px,1fr));overflow-x:auto;display:flex;}
+    .day-col{min-width:110px;}
+  }
+
+/* ============ BROADCAST GRAPHICS PACKAGE ============ */
+
+/* Masthead: richer gradient + glossy diagonal sweep + angled bottom edge */
+.masthead{
+  background:linear-gradient(120deg, #0A2A54 0%, var(--claret) 45%, #1F5AA8 100%);
+  position:relative; overflow:hidden;
+}
+.masthead::before{
+  background:
+    linear-gradient(115deg, rgba(255,255,255,.14) 0%, rgba(255,255,255,0) 30%),
+    repeating-linear-gradient(115deg, rgba(0,0,0,.14) 0 26px, transparent 26px 52px);
+}
+.masthead::after{
+  content:"";position:absolute;left:0;right:0;bottom:-1px;height:14px;
+  background:linear-gradient(100deg, transparent 46%, var(--gold) 46% 48%, transparent 48%);
+  opacity:.9;
+}
+.crest svg{filter:drop-shadow(0 3px 8px rgba(0,0,0,.35));}
+
+/* Tabs: glowing active state + gradient sweep */
+.tabs{position:relative;}
+.tab-btn.active{
+  background:linear-gradient(180deg, rgba(244,180,0,.14), rgba(244,180,0,.03));
+  box-shadow: inset 0 -2px 0 var(--gold), 0 0 14px -4px rgba(244,180,0,.6);
+}
+.tab-btn{transition:background .18s, color .18s, box-shadow .18s;}
+
+/* Section titles: broadcast lower-third accent */
+h2.section-title{position:relative; padding-left:14px;}
+h2.section-title::before{
+  content:"";position:absolute;left:0;top:2px;bottom:2px;width:5px;
+  background:linear-gradient(180deg, var(--gold), var(--claret));
+  transform:skewX(-12deg);
+  box-shadow:0 0 8px -1px rgba(244,180,0,.7);
+}
+
+/* Buttons: gradient fill + glow on primary */
+.btn-primary{
+  background:linear-gradient(135deg, var(--claret) 0%, var(--claret-light) 100%);
+  border-color:transparent; position:relative; overflow:hidden;
+  box-shadow:0 2px 10px -2px rgba(18,60,122,.55);
+  transition:transform .15s, box-shadow .15s, background .15s;
+}
+.btn-primary:hover{
+  transform:translateY(-1px);
+  box-shadow:0 6px 16px -3px rgba(18,60,122,.65), 0 0 0 1px rgba(244,180,0,.4);
+  background:linear-gradient(135deg, var(--claret-light) 0%, var(--claret) 100%);
+}
+.btn{transition:transform .15s, box-shadow .15s, border-color .15s, color .15s;}
+.btn:hover{transform:translateY(-1px);}
+
+/* Card hover lift, applied broadly */
+.metric-card, .story-card, .fixture-card, .result-card, .celeb-card, .controversy-card,
+.session-card, .squad-card, .soundbite-card, .day-col, .press-card, .tl-item, .quote-card{
+  transition:transform .18s ease, box-shadow .18s ease;
+}
+.metric-card:hover, .story-card:hover, .fixture-card:hover, .result-card:hover, .celeb-card:hover,
+.controversy-card:hover, .squad-card:hover, .soundbite-card:hover, .press-card:hover, .tl-item:hover, .quote-card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 10px 24px -8px rgba(18,60,122,.28);
+}
+
+/* Metric values glow slightly for that broadcast-stat feel */
+.metric-value{text-shadow:0 0 14px rgba(29,111,184,.18);}
+
+/* Stats-of-week / manager-profile / quote-card: diagonal gloss + accent corner */
+.stats-week-card, .manager-profile{
+  background:linear-gradient(120deg, var(--claret) 0%, #0A2A54 100%);
+  position:relative; overflow:hidden;
+}
+.stats-week-card::before, .manager-profile::before{
+  content:"";position:absolute;top:-40%;right:-10%;width:60%;height:180%;
+  background:linear-gradient(100deg, rgba(255,255,255,.09), transparent 60%);
+  transform:rotate(8deg);
+}
+.stats-week-tag{box-shadow:0 0 10px -1px rgba(244,180,0,.6);}
+
+/* Pitch dots: glow like a broadcast graphic marker */
+.pdot{box-shadow:0 0 0 3px rgba(244,180,0,.18), 0 2px 6px rgba(0,0,0,.35);}
+
+/* Table header gradient */
+thead th{background:linear-gradient(120deg, var(--sky) 0%, #123c66 100%);}
+
+/* Result / controversy left-border glow */
+.result-card.win{box-shadow:0 0 0 1px rgba(63,143,95,.15);}
+.result-card.loss{box-shadow:0 0 0 1px rgba(181,72,52,.15);}
+.controversy-card{box-shadow:0 0 0 1px rgba(181,72,52,.1);}
+
+/* Smooth entrance animation on tab/subtab switch */
+@keyframes panelIn{ from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);} }
+.panel.active{animation:panelIn .35s ease;}
+.subpanel.active{animation:panelIn .3s ease;}
+
+/* Subtab underline slide feel */
+.subtab-btn{position:relative;}
+.subtab-btn.active::after{
+  content:"";position:absolute;left:10%;right:10%;bottom:-1px;height:2px;
+  background:var(--claret); box-shadow:0 0 6px -1px rgba(18,60,122,.6);
+}
+
+/* Crest name input focus glow, small nice touch */
+.club-name-input:focus{text-shadow:0 0 12px rgba(244,180,0,.5);}
+
+/* Fan forum */
+.forum-post{background:var(--paper);border:1px solid var(--line);border-radius:9px;padding:10px 13px;display:flex;gap:10px;align-items:baseline;}
+.forum-user{font-family:'IBM Plex Mono',monospace;font-size:11.5px;font-weight:600;color:var(--sky);flex:none;white-space:nowrap;}
+.forum-text{font-size:12.5px;color:var(--ink);line-height:1.5;}
+
+/* Live ticker */
+.live-ticker{background:var(--ink);color:#fff;overflow:hidden;position:relative;display:flex;align-items:center;height:34px;}
+.ticker-live-badge{flex:none;background:var(--rust);color:#fff;font-family:'Anton',sans-serif;font-size:11px;letter-spacing:1px;
+  padding:0 12px;height:100%;display:flex;align-items:center;position:relative;z-index:2;}
+.ticker-live-badge::after{content:"";position:absolute;right:-9px;top:0;bottom:0;width:0;border-style:solid;
+  border-width:17px 0 17px 9px;border-color:transparent transparent transparent var(--rust);}
+.ticker-live-dot{width:6px;height:6px;border-radius:50%;background:#fff;margin-right:6px;animation:tickerPulse 1.4s ease-in-out infinite;}
+@keyframes tickerPulse{0%,100%{opacity:1;}50%{opacity:.25;}}
+.ticker-viewport{flex:1;overflow:hidden;white-space:nowrap;position:relative;}
+.ticker-track{display:inline-block;white-space:nowrap;animation:tickerScroll 32s linear infinite;padding-left:2%;}
+.ticker-track span{font-size:12px;font-weight:500;color:#fff;}
+.ticker-track .tsep{color:var(--gold);margin:0 22px;}
+@keyframes tickerScroll{ from{transform:translateX(0);} to{transform:translateX(-50%);} }
+
+/* Animated crest shine sweep */
+.crest{overflow:hidden;}
+.crest::before{
+  content:"";position:absolute;top:-20%;left:-60%;width:40%;height:140%;
+  background:linear-gradient(75deg, transparent 0%, rgba(255,255,255,.85) 50%, transparent 100%);
+  transform:skewX(-20deg);
+  animation:crestShine 6s ease-in-out infinite;
+  z-index:5; pointer-events:none;
+}
+@keyframes crestShine{
+  0%{left:-60%;} 18%{left:130%;} 100%{left:130%;}
+}
+
+/* Holo-shine — every squad card gets one, each player its own colorway */
+.squad-card.holo{position:relative;}
+.squad-card.holo::after{
+  content:"";position:absolute;inset:0;border-radius:12px;pointer-events:none;opacity:0;
+  background:linear-gradient(115deg, transparent 20%, var(--holo-c1, rgba(255,0,150,.28)) 35%, var(--holo-c2, rgba(255,200,0,.28)) 50%,
+    var(--holo-c3, rgba(0,220,255,.28)) 65%, transparent 80%);
+  background-size:250% 250%;
+  transition:opacity .25s;
+}
+.squad-card.holo:hover::after{opacity:1; animation:holoShift 1.6s ease infinite;}
+@keyframes holoShift{ 0%{background-position:0% 0%;} 100%{background-position:100% 100%;} }
+.squad-card.holo{box-shadow:0 0 0 1px rgba(244,180,0,.35);}
+
+/* ============ VIEW-ONLY MODE ============ */
+/* Published site is read-only for visitors — content updates happen by editing this file and redeploying. */
+.btn-danger, .session-del{ display:none !important; }
+.toolbar:has(#addPlayerBtn),
+.add-session-form:has(#addSessBtn),
+.add-session-form:has(#addFixBtn),
+.add-session-form:has(#addResBtn),
+.add-session-form:has(#addPresBtn),
+.add-session-form:has(#addSbBtn),
+h2.section-title:has(+ .add-session-form:has(#addSessBtn)),
+h2.section-title:has(+ .add-session-form:has(#addPresBtn)){ display:none !important; }
+input.cell:read-only:hover, input.cell:read-only:focus,
+.club-name-input:read-only:hover, .club-name-input:read-only:focus,
+.story-bio-edit:read-only:hover, .story-bio-edit:read-only:focus{
+  border-color:transparent; background:transparent; text-shadow:none; cursor:default;
+}
+select.cell:disabled{ opacity:1; color:var(--ink); background:transparent; cursor:default; -webkit-text-fill-color:var(--ink); }
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-inner">
+    <div class="crest">
+      <svg viewBox="0 0 200 232" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <clipPath id="shieldClip">
+            <path d="M100 8 L184 34 L184 108 Q184 186 100 224 Q16 186 16 108 L16 34 Z"/>
+          </clipPath>
+        </defs>
+
+        <!-- shield base -->
+        <path d="M100 8 L184 34 L184 108 Q184 186 100 224 Q16 186 16 108 L16 34 Z" fill="#fff" stroke="var(--gold)" stroke-width="7"/>
+
+        <g clip-path="url(#shieldClip)">
+          <!-- sky backdrop for castle scene -->
+          <rect x="10" y="8" width="180" height="80" fill="#EAF3FB"/>
+
+          <!-- original castle silhouette (three towers) -->
+          <g fill="var(--gold)">
+            <rect x="46" y="46" width="16" height="34" />
+            <rect x="42" y="40" width="6" height="8" />
+            <rect x="54" y="40" width="6" height="8" />
+            <rect x="62" y="40" width="6" height="8" />
+            <rect x="82" y="30" width="22" height="50" />
+            <rect x="78" y="24" width="6" height="8" />
+            <rect x="88" y="24" width="6" height="8" />
+            <rect x="98" y="24" width="6" height="8" />
+            <rect x="112" y="50" width="16" height="30" />
+            <rect x="108" y="44" width="6" height="8" />
+            <rect x="120" y="44" width="6" height="8" />
+            <rect x="90" y="10" width="5" height="18" />
+            <polygon points="92.5,6 98,14 87,14" />
+          </g>
+
+          <!-- waves -->
+          <path d="M10 84 Q35 76 60 84 T110 84 T160 84 T190 84 L190 96 Q160 90 130 96 T80 96 T30 96 T10 96 Z" fill="var(--sky-light)"/>
+          <path d="M10 94 Q35 88 60 94 T110 94 T160 94 T190 94 L190 106 Q160 100 130 106 T80 106 T30 106 T10 106 Z" fill="#fff" opacity="0.8"/>
+
+          <!-- lower pinstripes -->
+          <g>
+            <rect x="16" y="140" width="168" height="90" fill="#fff"/>
+            <g fill="var(--claret)">
+              <rect x="26" y="140" width="9" height="90"/>
+              <rect x="48" y="140" width="9" height="90"/>
+              <rect x="70" y="140" width="9" height="90"/>
+              <rect x="92" y="140" width="9" height="90"/>
+              <rect x="114" y="140" width="9" height="90"/>
+              <rect x="136" y="140" width="9" height="90"/>
+              <rect x="158" y="140" width="9" height="90"/>
+            </g>
+          </g>
+
+          <!-- diagonal club-name banner -->
+          <g transform="rotate(-11 100 118)">
+            <rect x="-10" y="103" width="220" height="34" fill="var(--claret)"/>
+            <rect x="-10" y="103" width="220" height="34" fill="none" stroke="var(--gold)" stroke-width="2.5"/>
+            <text x="100" y="126" text-anchor="middle" font-family="'Anton',sans-serif" font-size="21" fill="#fff" letter-spacing="1">GALACTICOS BPIE</text>
+          </g>
+
+          <!-- ball -->
+          <circle cx="100" cy="176" r="21" fill="var(--gold)" stroke="#fff" stroke-width="3"/>
+          <g stroke="#fff" stroke-width="2" fill="none">
+            <circle cx="100" cy="176" r="7"/>
+            <path d="M100 169 L94 174 L96 181 L104 181 L106 174 Z" fill="#fff" stroke="none"/>
+            <path d="M79 176 Q88 176 94 174 M121 176 Q112 176 106 174 M100 197 Q100 189 96 181 M100 155 Q100 163 104 174"/>
+          </g>
+        </g>
+
+        <!-- shield outline on top for crisp edge -->
+        <path d="M100 8 L184 34 L184 108 Q184 186 100 224 Q16 186 16 108 L16 34 Z" fill="none" stroke="var(--gold)" stroke-width="7"/>
+      </svg>
+    </div>
+    <div style="flex:1;">
+      <input class="club-name-input" id="clubNameInput" placeholder="Your club name" maxlength="34" readonly>
+      <div class="meta-row">
+        <div class="tagline">Squad handbook</div>
+        <div class="meta-chip"><span id="repChip">Well Known</span></div>
+        <div class="meta-chip"><span id="fansChip">24M</span> fans</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="live-ticker">
+  <div class="ticker-live-badge"><span class="ticker-live-dot"></span>LIVE</div>
+  <div class="ticker-viewport"><div class="ticker-track" id="tickerTrack"></div></div>
+</div>
+
+<div class="tabs">
+  <button class="tab-btn active" data-tab="overview">Overview</button>
+  <button class="tab-btn" data-tab="club">Club</button>
+  <button class="tab-btn" data-tab="squadhub">Squad</button>
+  <button class="tab-btn" data-tab="matchday">Matchday</button>
+  <button class="tab-btn" data-tab="media">Media</button>
+</div>
+
+<div class="wrap">
+
+  <div class="panel active" id="panel-overview">
+    <h2 class="section-title">Club overview</h2>
+    <p class="section-sub">Live snapshot — updates as the squad, wages and schedule change.</p>
+    <div class="metric-grid" id="overviewMetrics"></div>
+    <h2 class="section-title" style="font-size:16px;margin-bottom:10px;">Meet the squad</h2>
+    <div class="squad-card-grid" id="squadCardGrid"></div>
+    <h2 class="section-title" style="font-size:16px;margin-bottom:10px;">Squad shape — 4-2-3-1</h2>
+    <div class="pitch" id="pitchView"></div>
+    <p class="section-sub" style="margin-top:6px;">Starting XI, goalkeeper on the left, striker on the right.</p>
+  </div>
+
+  <div class="panel" id="panel-club">
+    <div class="subtabs">
+      <button class="subtab-btn active" data-subtab="about">About</button>
+      <button class="subtab-btn" data-subtab="history">History</button>
+    </div>
+  <div class="subpanel active" id="panel-about">
+    <h2 class="section-title">About the club</h2>
+    <p class="section-sub">Who we are, where we came from.</p>
+    <div class="about-prose">
+      <p>Galacticoß BPIE was founded in Mexico '70 as a fifth-division side with nothing but a kit and a dream. Five decades on, the club has been everywhere a football club can go — all the way up to the top flight in Italy '90, and back down to Division 3 by South Africa '10 — before clawing its way back to a settled Division 2 outfit heading into the 2030 season.</p>
+      <p>The club now plays in Málaga blue and white, and the crest carries the same castle-and-sea imagery that's watched over the city's own football club for generations. It's a "Well Known" outfit these days, with a reported 24 million fans across every platform the boys play on.</p>
+      <p>The current squad runs a 4-2-3-1: Tung Tung Tung Sahur between the sticks, Vilma Seghesso Bur at left back backed up by an AI-manned back three, Pacey Lacey and Emilio "El Loco" Bur screening the defence, John Barnes, Santi "El Capitano" Cazorla and El Tecla supplying the final ball, and Zhuge Liang leading the line.</p>
+    </div>
+    <h2 class="section-title" style="font-size:16px;margin:26px 0 4px;">Celebrity supporters</h2>
+    <p class="section-sub">A completely made-up fan crew — fictional characters, not real people.</p>
+    <div class="celeb-grid" id="celebGrid"></div>
+    <h2 class="section-title" style="font-size:16px;margin:26px 0 4px;">Wants to join</h2>
+    <p class="section-sub">Players openly angling for a move here — all fictional.</p>
+    <div class="celeb-grid" id="aspiringGrid"></div>
+  </div>
+  <div class="subpanel" id="panel-history">
+    <h2 class="section-title">Club history</h2>
+    <p class="section-sub">From Division 5 in Mexico '70 to today — every era the club has played through.</p>
+    <div class="timeline" id="historyTimeline"></div>
+  </div>
+  </div>
+
+  <div class="panel" id="panel-squadhub">
+    <div class="subtabs">
+      <button class="subtab-btn active" data-subtab="squad">Roster</button>
+      <button class="subtab-btn" data-subtab="stories">Stories</button>
+      <button class="subtab-btn" data-subtab="wages">Wages</button>
+    </div>
+  <div class="subpanel active" id="panel-squad">
+    <h2 class="section-title">Squad</h2>
+    <p class="section-sub">Career numbers plus club-management fields — anyone can add or edit players here.</p>
+
+    <div class="stats-week-card">
+      <div class="stats-week-tag">Stats of the week</div>
+      <p>One point. That's all Galacticos needed heading into the final round to lock in a spot in the promotion games — and somehow, they let it slip through their fingers, turning a routine finish into one of the most talked-about collapses the club has seen this century.</p>
+      <p>Silver lining: the switch to a 4-4-2 is working wonders up top. With two out-and-out strikers and a lot more service into the box, <b>El Tecla's numbers have exploded</b> — he's winning headers all night and turning crosses into goals at a rate nobody expected from him this season.</p>
+    </div>
+
+    <div class="toolbar">
+      <span></span>
+      <button class="btn btn-primary" id="addPlayerBtn">+ Add player</button>
+    </div>
+    <div class="table-scroll">
+      <table id="squadTable">
+        <thead><tr>
+          <th>No.</th><th>Name</th><th>Nat</th><th>Pos</th><th>Height</th><th>Style</th>
+          <th>Wage / wk</th><th>Contract</th>
+          <th>Apps</th><th>G</th><th>A</th><th>CS</th><th>POTM</th><th>Red</th><th>Pass%</th><th>SoT%</th><th></th>
+        </tr></thead>
+        <tbody id="squadBody"></tbody>
+      </table>
+    </div>
+    <div class="empty-state" id="squadEmpty" style="display:none;">No players yet — add your first signing above.</div>
+  </div>
+  <div class="subpanel" id="panel-stories">
+    <h2 class="section-title">Player stories</h2>
+    <p class="section-sub">The story behind each player — click into any box and write it yourself. Bigger boxes here so there's room to actually write.</p>
+    <div class="story-grid-lg" id="playerStoriesGrid"></div>
+  </div>
+  <div class="subpanel" id="panel-wages">
+    <h2 class="section-title">Wages</h2>
+    <p class="section-sub">Weekly wage bill against the club's budget.</p>
+    <div class="metric-grid" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr));">
+      <div class="metric-card">
+        <div class="metric-label">Weekly wage bill</div>
+        <div class="metric-value" id="wageBillTotal">£0</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Wage cap</div>
+        <input class="cell" type="number" id="wageCapInput" min="0" step="500" style="font-family:'IBM Plex Mono',monospace;font-size:20px;font-weight:600;color:var(--claret);border:none;padding:4px 0;margin-top:2px;" readonly>
+      </div>
+    </div>
+    <div class="cap-bar-track"><div class="cap-bar-fill" id="capBarFill"></div></div>
+    <div class="section-sub" id="capBarLabel" style="margin-top:6px;"></div>
+    <h2 class="section-title" style="font-size:16px;margin:24px 0 4px;">By player</h2>
+    <div id="wageList" style="background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:14px 16px;"></div>
+    <div class="empty-state" id="wagesEmpty" style="display:none;">Add players in the Squad tab to see wages here.</div>
+  </div>
+  </div>
+
+  <div class="panel" id="panel-matchday">
+    <div class="subtabs">
+      <button class="subtab-btn active" data-subtab="training">Training</button>
+      <button class="subtab-btn" data-subtab="fixtures">Fixtures</button>
+    </div>
+  <div class="subpanel active" id="panel-training">
+    <h2 class="section-title">Training schedule</h2>
+    <p class="section-sub">Weekly sessions — visible to the whole club.</p>
+    <div class="week-grid" id="weekGrid"></div>
+    <h2 class="section-title" style="font-size:16px;margin-bottom:10px;">Add session</h2>
+    <div class="add-session-form">
+      <div class="field"><label>Day</label>
+        <select id="sessDay">
+          <option>Mon</option><option>Tue</option><option>Wed</option><option>Thu</option><option>Fri</option><option>Sat</option><option>Sun</option>
+        </select>
+      </div>
+      <div class="field"><label>Time</label><input type="time" id="sessTime" value="19:00"></div>
+      <div class="field"><label>Type</label><input type="text" id="sessType" placeholder="Tactical shape" style="width:150px;"></div>
+      <div class="field"><label>Location</label><input type="text" id="sessLoc" placeholder="Galacticos TG" style="width:150px;"></div>
+      <button class="btn btn-primary" id="addSessBtn">+ Add</button>
+    </div>
+
+    <h2 class="section-title" style="font-size:16px;margin:28px 0 4px;">Quote of the week</h2>
+    <p class="section-sub">One player, one thought, every week.</p>
+    <div id="quoteOfWeek"></div>
+  </div>
+  <div class="subpanel" id="panel-fixtures">
+    <h2 class="section-title">Fixtures & results</h2>
+    <p class="section-sub">This season's record, plus what's coming up.</p>
+    <div class="metric-grid" id="recordMetrics"></div>
+
+    <h2 class="section-title" style="font-size:16px;margin:22px 0 4px;">Upcoming fixtures</h2>
+    <div id="fixturesList" style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px;"></div>
+    <div class="add-session-form">
+      <div class="field"><label>Opponent</label><input type="text" id="fixOpponent" placeholder="Opponent name" style="width:160px;"></div>
+      <div class="field"><label>Date</label><input type="text" id="fixDate" placeholder="e.g. Sat Aug 2" style="width:120px;"></div>
+      <div class="field"><label>Time</label><input type="time" id="fixTime" value="15:00"></div>
+      <div class="field"><label>Competition</label><input type="text" id="fixComp" placeholder="League" style="width:130px;"></div>
+      <div class="field"><label>Venue</label>
+        <select id="fixVenue"><option>Home</option><option>Away</option></select>
+      </div>
+      <button class="btn btn-primary" id="addFixBtn">+ Add fixture</button>
+    </div>
+
+    <h2 class="section-title" style="font-size:16px;margin:26px 0 4px;">Recent results</h2>
+    <div id="resultsList" style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px;"></div>
+    <div class="add-session-form">
+      <div class="field"><label>Opponent</label><input type="text" id="resOpponent" placeholder="Opponent name" style="width:160px;"></div>
+      <div class="field"><label>Goals for</label><input type="number" id="resFor" min="0" style="width:70px;"></div>
+      <div class="field"><label>Goals against</label><input type="number" id="resAgainst" min="0" style="width:70px;"></div>
+      <div class="field"><label>Date</label><input type="text" id="resDate" placeholder="e.g. Sat Jul 26" style="width:120px;"></div>
+      <div class="field"><label>Competition</label><input type="text" id="resComp" placeholder="League" style="width:130px;"></div>
+      <button class="btn btn-primary" id="addResBtn">+ Add result</button>
+    </div>
+  </div>
+  </div>
+
+  <div class="panel" id="panel-media">
+    <div class="subtabs">
+      <button class="subtab-btn active" data-subtab="press">Press</button>
+      <button class="subtab-btn" data-subtab="manager">Manager</button>
+    </div>
+  <div class="subpanel active" id="panel-press">
+    <h2 class="section-title">Press conference schedule</h2>
+    <p class="section-sub">Who has to show up, and when.</p>
+    <div id="pressList" style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px;"></div>
+    <h2 class="section-title" style="font-size:16px;margin-bottom:10px;">Add press conference</h2>
+    <div class="add-session-form">
+      <div class="field"><label>Day</label>
+        <select id="presDay">
+          <option>Mon</option><option>Tue</option><option>Wed</option><option>Thu</option><option selected>Fri</option><option>Sat</option><option>Sun</option>
+        </select>
+      </div>
+      <div class="field"><label>Time</label><input type="time" id="presTime" value="17:00"></div>
+      <div class="field"><label>Title</label><input type="text" id="presTitle" placeholder="Pre-match presser" style="width:170px;"></div>
+      <div class="field"><label>Required attendees</label><input type="text" id="presWho" placeholder="Manager, captain" style="width:190px;"></div>
+      <button class="btn btn-primary" id="addPresBtn">+ Add</button>
+    </div>
+
+    <h2 class="section-title" style="font-size:16px;margin:28px 0 4px;">Controversies of the week</h2>
+    <p class="section-sub">What the press manager is currently firefighting.</p>
+    <div id="controversyList" style="display:flex;flex-direction:column;gap:12px;"></div>
+
+    <h2 class="section-title" style="font-size:16px;margin:28px 0 4px;">Fan forum</h2>
+    <p class="section-sub">What the terrace is saying this week — unfiltered.</p>
+    <div id="fanForumList" style="display:flex;flex-direction:column;gap:8px;"></div>
+  </div>
+  <div class="subpanel" id="panel-manager">
+    <h2 class="section-title">Manager's office</h2>
+    <p class="section-sub">The gaffer's take on things.</p>
+    <div class="manager-profile" id="managerProfile"></div>
+
+    <h2 class="section-title" style="font-size:16px;margin:24px 0 4px;">Soundbites</h2>
+    <p class="section-sub">Whatever he's said to the press lately.</p>
+    <div id="soundbiteList" style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px;"></div>
+    <div class="add-session-form">
+      <div class="field"><label>Context</label><input type="text" id="sbContext" placeholder="Post-match, vs. rivals..." style="width:190px;"></div>
+      <div class="field" style="flex:1;min-width:220px;"><label>Quote</label><input type="text" id="sbQuote" placeholder="What did he say?" style="width:100%;"></div>
+      <button class="btn btn-primary" id="addSbBtn">+ Add</button>
+    </div>
+  </div>
+  </div>
+
+
+  <p class="sync-note">Galacticoß BPIE Club HQ — updated behind the scenes, not editable here.</p>
+</div>
+
+<script>
+const POSITIONS = ["GK","CB","LB","RB","CDM","CM","CAM","LM","RM","LW","RW","ST","CF"];
+const POS_GROUP = {GK:"gk",CB:"def",LB:"def",RB:"def",CDM:"mid",CM:"mid",CAM:"mid",LM:"mid",RM:"mid",LW:"att",RW:"att",ST:"att",CF:"att"};
+const DAYS = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+
+const DEFAULT_ROSTER = [
+  {id:"p1", number:9,  name:"Zhuge Liang (Astrocube)",                nat:"CHN", position:"ST", age:29, height:"6'5\"",  style:"Target",       rating:86, wage:200000,contract:"S5", apps:274, goals:245, assists:199, cs:0,  potm:47, red:9,  passPct:74, sotPct:28},
+  {id:"p2", number:8,  name:"Santi \"El Capitano\" Cazorla (Nicorugby13305)", nat:"ARG", position:"CM", age:35, height:"5'7\"",  style:"Spark",        rating:90, wage:220000,contract:"S5", apps:378, goals:297, assists:381, cs:1,  potm:81, red:5,  passPct:73, sotPct:39},
+  {id:"p3", number:1,  name:"Tung Tung Tung Sahur (inferno-samurai1)",nat:"ENG", position:"GK", age:30, height:"6'7\"",  style:"Shot Stopper", rating:83, wage:100000,contract:"S5", apps:261, goals:24,  assists:15,  cs:17, potm:8,  red:9,  passPct:70, sotPct:21},
+  {id:"p4", number:6,  name:"Pacey Lacey (JonasGarciaGutie)",         nat:"ESP", position:"RM", age:24, height:"5'8\"",  style:"Maestro",      rating:76, wage:80000, contract:"S4", apps:141, goals:44,  assists:11,  cs:0,  potm:2,  red:33, passPct:75, sotPct:26},
+  {id:"p5", number:10, name:"John Barnes (MaskedGarlic938)",          nat:"ENG", position:"ST", age:33, height:"5'6\"",  style:"Magician",     rating:91, wage:180000,contract:"S5", apps:394, goals:247, assists:214, cs:0,  potm:65, red:31, passPct:84, sotPct:33},
+  {id:"p6", number:19, name:"Vilma Seghesso Bur (mattefede_21)",      nat:"ARG", position:"ST", age:19, height:"5'6\"",  style:"Magician",     rating:71, wage:500,   contract:"Trial", apps:10,  goals:5,   assists:4,   cs:0,  potm:0,  red:0,  passPct:85, sotPct:19},
+  {id:"p7", number:7,  name:"Ernesto \"El Tecla\" Farias (Argenks)", nat:"ARG", position:"ST", age:56, height:"6'5\"",  style:"Target",       rating:82, wage:120000,contract:"S4", apps:260, goals:145, assists:77,  cs:3,  potm:14, red:18, passPct:74, sotPct:21},
+  {id:"p8", number:4,  name:"Emilio \"El Loco\" Bur (Emiliobur)",     nat:"ARG", position:"CDM", age:27, height:"5'9\"",  style:"Maestro",      rating:79, wage:150000,contract:"S4", apps:178, goals:65,  assists:52,  cs:0,  potm:14, red:34, passPct:82, sotPct:30}
+];
+
+const FORMATION = [
+  {line:"Goalkeeper",     cls:"gk",  players:[{label:"TTS", name:"Tung Tung Tung Sahur"}]},
+  {line:"Defence",        cls:"def", players:[{label:"VS",  name:"Vilma Seghesso Bur"},{label:"AI", name:"AI"},{label:"AI", name:"AI"},{label:"AI", name:"AI"}]},
+  {line:"Def mid",        cls:"mid", players:[{label:"PL",  name:"Pacey Lacey"},{label:"EB", name:"Emilio \"El Loco\" Bur"}]},
+  {line:"Attack mid",     cls:"mid", players:[{label:"JB",  name:"John Barnes"},{label:"SC", name:"Santi \"El Capitano\" Cazorla"},{label:"ET", name:"El Tecla"}]},
+  {line:"Striker",        cls:"att", players:[{label:"ZL",  name:"Zhuge Liang"}]}
+];
+
+const DEFAULT_TRAINING = [
+  {id:"t1", day:"Mon", time:"18:00", type:"Recovery & fitness", location:"Galacticos TG"},
+  {id:"t2", day:"Tue", time:"19:00", type:"4-2-3-1 shape work", location:"Galacticos TG"},
+  {id:"t3", day:"Wed", time:"20:00", type:"Passing & possession drills", location:"Galacticos TG"},
+  {id:"t4", day:"Thu", time:"19:30", type:"Set pieces & finishing", location:"Galacticos TG"},
+  {id:"t5", day:"Sat", time:"12:00", type:"Matchday warm-up", location:"Galacticos TG"},
+  {id:"t6", day:"Sun", time:"16:00", type:"Optional extra reps", location:"Galacticos TG"}
+];
+
+const DEFAULT_PRESS = [
+  {id:"pr1", day:"Fri", time:"17:00", title:"Pre-match presser", who:"Manager, Nicorugby13305 (captain)"},
+  {id:"pr2", day:"Sun", time:"21:30", title:"Post-match presser", who:"Manager, Player of the Match"},
+  {id:"pr3", day:"Sun", time:"22:00", title:"Monthly season review", who:"Full squad"}
+];
+
+const DEFAULT_FIXTURES = [
+  {id:"fx1", opponent:"CD Rivals", date:"Sat Aug 2", time:"15:00", comp:"League", venue:"Home"},
+  {id:"fx2", opponent:"Costa United", date:"Sat Aug 9", time:"17:30", comp:"League", venue:"Away"}
+];
+
+const DEFAULT_RESULTS = [
+  {id:"rs1", opponent:"Puerto FC", goalsFor:2, goalsAgainst:2, date:"Sat Jul 19", comp:"League"},
+  {id:"rs2", opponent:"Sierra Athletic", goalsFor:1, goalsAgainst:3, date:"Sat Jul 12", comp:"League"},
+  {id:"rs3", opponent:"Del Sol City", goalsFor:3, goalsAgainst:0, date:"Sat Jul 5", comp:"League"}
+];
+
+const MANAGER_PROFILE = {
+  name: "Dean Syche",
+  role: "Head Coach (fictional)",
+  tagline: "Third season in charge. Brought in the 4-2-3-1, took the blame for the promotion collapse before anyone could pin it on the players, and still hasn't explained why an AI plays left back."
+};
+const MANAGER_FACE = {skin:"#E0AD7D", hair:"#C1591A", style:"short", accessory:"none", facial:true, beard:false};
+
+const DEFAULT_SOUNDBITES = [
+  {id:"sb1", context:"Post-match, missed promotion", quote:"We had it in our hands. I won't make excuses — that one's on me as much as anyone."},
+  {id:"sb2", context:"On the switch to 4-4-2", quote:"More bodies in the box, more crosses in, and frankly El Tecla's head is a better finisher than half our feet."},
+  {id:"sb3", context:"Asked about Vilma at left back", quote:"She's earned it in training every week. I don't care that she's the water girl on paper."}
+];
+
+const HOLO_COLORS = {
+  p1: ["rgba(255,61,138,.28)", "rgba(255,217,61,.28)", "rgba(61,220,255,.28)"],
+  p2: ["rgba(123,47,247,.28)", "rgba(47,217,255,.28)", "rgba(47,255,143,.28)"],
+  p3: ["rgba(47,255,212,.28)", "rgba(198,255,47,.28)", "rgba(255,238,47,.28)"],
+  p4: ["rgba(255,59,59,.28)", "rgba(255,159,59,.28)", "rgba(255,59,196,.28)"],
+  p5: ["rgba(59,107,255,.28)", "rgba(59,240,255,.28)", "rgba(123,255,59,.28)"],
+  p6: ["rgba(193,59,255,.28)", "rgba(255,59,224,.28)", "rgba(255,210,59,.28)"],
+  p7: ["rgba(255,122,0,.28)", "rgba(255,46,99,.28)", "rgba(178,59,255,.28)"],
+  p8: ["rgba(59,255,160,.28)", "rgba(233,255,59,.28)", "rgba(59,175,255,.28)"]
+};
+
+const FACE_PARAMS = {
+  p1: {skin:"#D9A066", hair:"#FFFFFF", style:"ponytail", accessory:"none", facial:true, beard:true},
+  p2: {skin:"#F0C8A0", hair:"#241C18", style:"short", accessory:"none", facial:false},
+  p3: {skin:"#7A4B32", hair:"#1A1310", style:"bald", accessory:"none", facial:false},
+  p4: {skin:"#F0C8A0", hair:"#1A1310", style:"bald", accessory:"none", facial:false},
+  p5: {skin:"#F0C8A0", hair:"#C9C9C9", style:"short", accessory:"sunglasses", facial:true},
+  p6: {skin:"#C68863", hair:"#2B2320", style:"long", accessory:"none", facial:false},
+  p7: {skin:"#F0C8A0", hair:"#B98650", style:"short", accessory:"sunglasses", facial:false},
+  p8: {skin:"#E0AD7D", hair:"#241C18", style:"long", accessory:"none", facial:false}
+};
+
+function faceSVG(p){
+  if(!p) p = {skin:"#E0AD7D", hair:"#241C18", style:"short", accessory:"none", facial:false};
+  let hair = "";
+  if(p.style==="short"){
+    hair = `<path d="M8 30 Q10 6 32 6 Q54 6 56 30 L56 24 Q54 12 32 12 Q10 12 8 24 Z" fill="${p.hair}"/>`;
+  } else if(p.style==="ponytail"){
+    hair = `<path d="M8 28 Q10 6 32 6 Q54 6 56 28 L56 22 Q54 12 32 12 Q10 12 8 22 Z" fill="${p.hair}"/>
+            <ellipse cx="58" cy="34" rx="7" ry="13" fill="${p.hair}"/>`;
+  } else if(p.style==="long"){
+    hair = `<path d="M6 30 Q8 6 32 6 Q56 6 58 30 L58 52 Q52 40 52 30 Q52 14 32 14 Q12 14 12 30 Q12 40 6 52 Z" fill="${p.hair}"/>`;
+  }
+  const acc = p.accessory==="sunglasses"
+    ? `<rect x="16" y="30" width="14" height="8" rx="3" fill="#1B1A1F"/><rect x="34" y="30" width="14" height="8" rx="3" fill="#1B1A1F"/><rect x="30" y="32" width="4" height="2" fill="#1B1A1F"/>`
+    : p.accessory==="headband"
+    ? `<rect x="8" y="20" width="48" height="7" fill="${p.accColor||'#F4B400'}"/>`
+    : "";
+  const facial = p.facial ? `<rect x="22" y="42" width="20" height="4" rx="2" fill="${p.hair}"/>` : "";
+  const beard = p.beard ? `<path d="M18 44 Q18 58 32 60 Q46 58 46 44 Q46 52 40 54 Q32 56 24 54 Q18 52 18 44 Z" fill="${p.hair}"/>` : "";
+  return `<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+    <rect width="64" height="64" fill="${p.skin}"/>
+    <ellipse cx="32" cy="38" rx="17" ry="19" fill="${p.skin}"/>
+    <circle cx="24" cy="36" r="2.4" fill="#1B1A1F"/>
+    <circle cx="40" cy="36" r="2.4" fill="#1B1A1F"/>
+    <path d="M27 47 Q32 50 37 47" stroke="#8A5A3D" stroke-width="2" fill="none" stroke-linecap="round"/>
+    ${beard}
+    ${facial}
+    ${hair}
+    ${acc}
+  </svg>`;
+}
+
+
+const CELEB_SUPPORTERS = [
+  {name:"Diddly", role:"Pre-match hype man (fictional)", quote:"I'm in that change room before every single game, getting the boys locked in. That's just love."},
+  {name:"Coach Adam Johnsoninho", role:"Club legend, former player turned pundit (fictional)", quote:"I pulled on this shirt for a decade before I ever picked up a microphone. This club made me who I am."},
+  {name:"Young Fillet", role:"Telenovela icon (fictional)", quote:"We don't take no for an answer — not from refs, not from rivals, not from anybody."},
+  {name:"Drayke", role:"Part owner & lifelong fan (fictional)", quote:"I bought in years ago and I've never once thought about selling my stake. I just love this club too much."},
+  {name:"Gordon Ramaso", role:"Street food legend, unofficial club chef (fictional)", quote:"Give me a kitchen, give me the matchday menu, and get out of my way. Food first, football second."}
+];
+
+const ASPIRING_SIGNINGS = [
+  {name:"Mason Blackwood", role:"Current pro, chasing a move (fictional)", quote:"Every transfer window I put in the request. One day the club's gonna say yes and I'm packing my bags that night."}
+];
+
+const PRESS_MANAGER = {name:"Sophy Rane", role:"Head of Media & Communications (fictional)"};
+
+const CONTROVERSIES = [
+  {
+    player:"Pacey Lacey", tag:"Discipline",
+    desc:"Cantona-style flying kick on a heckling fan in the stands after full time. Currently under league review for violent conduct.",
+    guidance:"Stick to the line: 'I let my emotions get the better of me and I fully apologize to the supporter involved.' Nothing about what the fan actually said. Nothing about his mother. Do not bring up the fan's mother."
+  },
+  {
+    player:"El Tecla", tag:"Loyalty",
+    desc:"Filmed at a bar singing Independiente chants — awkward, given he's currently on our books. Fans are not thrilled.",
+    guidance:"Say it was 'stuck in his head from childhood' and move on quickly. Do not elaborate on which songs, and do not sing anything in front of the cameras this time."
+  }
+];
+
+const FAN_FORUM = [
+  {user:"RosaledaRuckus", text:"Vilma's a nice story but this is Division 2, not a fairy tale. Bench her before we get relegated again."},
+  {user:"Boquerones4Life", text:"She's getting skinned alive out there every week and nobody wants to say it because it's the 'feel good' selection. I want to WIN."},
+  {user:"SigueSigue_Malaga", text:"19 years old, basically no first-team minutes before this season, and she's starting over players who've been grinding here for years. Make it make sense."},
+  {user:"watergirl2starter", text:"Vilma at left back?? She was literally handing out water bottles a year ago. This club is a joke."},
+  {user:"TerraceTicoTico", text:"Pacey Lacey needs to sort his head out. Doesn't matter what the fan screamed, you don't put your boot on someone."},
+  {user:"OldSchoolUltra_88", text:"One more incident from Lacey and he should be nowhere near matchday squads, full stop."}
+];
+
+const QUOTE_OF_WEEK = {
+  playerId: "p5",
+  playerName: "John Barnes",
+  quote: "Hello, I'm John Barnes. Sometimes when I'm playing football, I have to be brave. Lots of people want me to score a goal and win the game. But can I tell you a secret? I don't always feel like being brave."
+};
+
+const NAT_NAMES = {CHN:"China", ARG:"Argentina", ESP:"Spain", ENG:"England"};
+
+const DEFAULT_PLAYER_STORIES = {};
+
+const HISTORY = [
+  {era:"Mexico '70", note:"Club founded", div:5, w:4,  d:0,  l:1,  playoff:"4W – 1L", peak:false},
+  {era:"Spain '82",  note:"Promoted to Division 4", div:4, w:9,  d:1,  l:13, playoff:"3W – 5L", peak:false},
+  {era:"Italy '90",  note:"Peak season — promoted to Division 1", div:1, w:38, d:6,  l:29, playoff:"6W – 6L", peak:true},
+  {era:"France '98", note:"Relegated from Division 1", div:2, w:37, d:11, l:20, playoff:"8W – 2L", peak:false},
+  {era:"South Africa '10", note:"Relegated to Division 3", div:3, w:22, d:7,  l:17, playoff:"4W – 2L", peak:false},
+  {era:"USA, Canada, Mexico 2026", note:"Promoted back to Division 2", div:2, w:76, d:20, l:47, playoff:"13W – 2L", peak:false},
+  {era:"Spain & Portugal 2030", note:"Current season", div:2, w:20, d:3,  l:20, playoff:"Pending", peak:false}
+];
+
+let clubInfo = {name:"Galacticoß BPIE", reputation:"Well Known", fans:"24M", wageCap:1150000};
+let roster = [];
+let training = [];
+let press = [];
+let playerStories = {};
+let fixtures = [];
+let results = [];
+let soundbites = [];
+let saveTimer = null;
+
+function uid(){ return Math.random().toString(36).slice(2,9); }
+function money(n){ return "£" + Math.round(n||0).toLocaleString(); }
+
+const WAGE_FIX = {p1:200000, p2:220000, p3:100000, p4:80000, p5:180000, p6:500, p7:120000, p8:150000};
+const CONTRACT_FIX = {p6:"Trial"};
+const NAME_FIX = {
+  p1:"Zhuge Liang (Astrocube)", p2:"Santi \"El Capitano\" Cazorla (Nicorugby13305)", p3:"Tung Tung Tung Sahur (inferno-samurai1)",
+  p4:"Pacey Lacey (JonasGarciaGutie)", p5:"John Barnes (MaskedGarlic938)", p6:"Vilma Seghesso Bur (mattefede_21)",
+  p7:"Ernesto \"El Tecla\" Farias (Argenks)", p8:"Emilio \"El Loco\" Bur (Emiliobur)"
+};
+const AGE_FIX = {p1:29, p2:35, p3:30, p4:24, p5:33, p6:19, p7:56, p8:27};
+const POSITION_FIX = {p4:"RM", p8:"CDM"};
+const PLAYER_ORIGIN = {p4:"Academy Graduate"};
+const POSITION_LABEL = {p5:"Versatile (ST / CM / LM)", p2:"Midfielder / Set Piece Specialist", p6:"Watergirl (Academy Player / First Team Squad)"};
+function applyWageFix(){
+  let changed = false;
+  roster.forEach(p=>{
+    if(WAGE_FIX[p.id]!==undefined && p.wage!==WAGE_FIX[p.id]){ p.wage = WAGE_FIX[p.id]; changed = true; }
+    if(CONTRACT_FIX[p.id]!==undefined && p.contract!==CONTRACT_FIX[p.id]){ p.contract = CONTRACT_FIX[p.id]; changed = true; }
+    if(NAME_FIX[p.id]!==undefined && p.name!==NAME_FIX[p.id]){ p.name = NAME_FIX[p.id]; changed = true; }
+    if(AGE_FIX[p.id]!==undefined && (p.age===undefined || p.age===null || p.age==="")){ p.age = AGE_FIX[p.id]; changed = true; }
+    if(POSITION_FIX[p.id]!==undefined && p.position!==POSITION_FIX[p.id]){ p.position = POSITION_FIX[p.id]; changed = true; }
+  });
+  if(clubInfo.wageCap < 1000000){ clubInfo.wageCap = 1150000; changed = true; }
+  training.forEach(s=>{
+    if(s.location !== "Galacticos TG"){ s.location = "Galacticos TG"; changed = true; }
+  });
+  DEFAULT_TRAINING.forEach(def=>{
+    if(!training.some(s=>s.id===def.id)){ training.push({...def}); changed = true; }
+  });
+  const OLD_AUTO_BIO_P7 = "Born in Rosario, El Tecla built his name as a physical, clinical goal poacher";
+  if(playerStories.p7 && playerStories.p7.startsWith(OLD_AUTO_BIO_P7)){ playerStories.p7 = ""; changed = true; }
+  if(changed) scheduleSave();
+}
+
+async function loadAll(){
+  let hasStoredInfo = false, hasStoredRoster = false, hasStoredTraining = false, hasStoredPress = false, hasStoredStories = false, hasStoredFixtures = false, hasStoredResults = false, hasStoredSoundbites = false;
+  try{
+    const r = await window.storage.get('club-info', true);
+    if(r && r.value){ clubInfo = JSON.parse(r.value); hasStoredInfo = true; }
+  }catch(e){}
+  try{
+    const r = await window.storage.get('roster', true);
+    if(r && r.value){ roster = JSON.parse(r.value); hasStoredRoster = true; }
+  }catch(e){}
+  try{
+    const r = await window.storage.get('training', true);
+    if(r && r.value){ training = JSON.parse(r.value); hasStoredTraining = true; }
+  }catch(e){}
+  try{
+    const r = await window.storage.get('press', true);
+    if(r && r.value){ press = JSON.parse(r.value); hasStoredPress = true; }
+  }catch(e){}
+  try{
+    const r = await window.storage.get('player-stories', true);
+    if(r && r.value){ playerStories = JSON.parse(r.value); hasStoredStories = true; }
+  }catch(e){}
+  try{
+    const r = await window.storage.get('fixtures', true);
+    if(r && r.value){ fixtures = JSON.parse(r.value); hasStoredFixtures = true; }
+  }catch(e){}
+  try{
+    const r = await window.storage.get('results', true);
+    if(r && r.value){ results = JSON.parse(r.value); hasStoredResults = true; }
+  }catch(e){}
+  try{
+    const r = await window.storage.get('soundbites', true);
+    if(r && r.value){ soundbites = JSON.parse(r.value); hasStoredSoundbites = true; }
+  }catch(e){}
+  if(!hasStoredRoster || roster.length===0){ roster = DEFAULT_ROSTER.map(p=>({...p})); }
+  if(!hasStoredTraining || training.length===0){ training = DEFAULT_TRAINING.map(s=>({...s})); }
+  if(!hasStoredPress || press.length===0){ press = DEFAULT_PRESS.map(s=>({...s})); }
+  if(!hasStoredStories){ playerStories = {...DEFAULT_PLAYER_STORIES}; }
+  if(!hasStoredFixtures || fixtures.length===0){ fixtures = DEFAULT_FIXTURES.map(s=>({...s})); }
+  if(!hasStoredResults || results.length===0){ results = DEFAULT_RESULTS.map(s=>({...s})); }
+  if(!hasStoredSoundbites || soundbites.length===0){ soundbites = DEFAULT_SOUNDBITES.map(s=>({...s})); }
+  applyWageFix();
+  render();
+  if(!hasStoredInfo || !hasStoredRoster || !hasStoredTraining || !hasStoredPress || !hasStoredStories || !hasStoredFixtures || !hasStoredResults || !hasStoredSoundbites){ scheduleSave(); }
+}
+
+function scheduleSave(){
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(saveAll, 400);
+}
+async function saveAll(){
+  try{ await window.storage.set('club-info', JSON.stringify(clubInfo), true); }catch(e){}
+  try{ await window.storage.set('roster', JSON.stringify(roster), true); }catch(e){}
+  try{ await window.storage.set('training', JSON.stringify(training), true); }catch(e){}
+  try{ await window.storage.set('press', JSON.stringify(press), true); }catch(e){}
+  try{ await window.storage.set('player-stories', JSON.stringify(playerStories), true); }catch(e){}
+  try{ await window.storage.set('fixtures', JSON.stringify(fixtures), true); }catch(e){}
+  try{ await window.storage.set('results', JSON.stringify(results), true); }catch(e){}
+  try{ await window.storage.set('soundbites', JSON.stringify(soundbites), true); }catch(e){}
+}
+
+function render(){
+  document.getElementById('clubNameInput').value = clubInfo.name || "";
+  document.getElementById('repChip').textContent = clubInfo.reputation || "";
+  document.getElementById('fansChip').textContent = clubInfo.fans || "";
+  document.getElementById('wageCapInput').value = clubInfo.wageCap || 0;
+
+  renderSquad();
+  renderWages();
+  renderTraining();
+  renderQuoteOfWeek();
+  renderPress();
+  renderControversies();
+  renderFanForum();
+  renderTicker();
+  renderFixtures();
+  renderManager();
+  renderOverview();
+  renderHistory();
+  renderCelebs();
+  renderPlayerStories();
+}
+
+/* ---------- SQUAD ---------- */
+function renderSquad(){
+  const body = document.getElementById('squadBody');
+  body.innerHTML = "";
+  document.getElementById('squadEmpty').style.display = roster.length ? "none" : "block";
+  const numFields = ["number","wage","apps","goals","assists","cs","potm","red","passPct","sotPct"];
+  roster.forEach(p=>{
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><input class="cell num-col narrow" type="number" min="1" max="99" value="${p.number}" data-f="number" readonly></td>
+      <td><input class="cell" type="text" value="${escAttr(p.name)}" data-f="name" placeholder="Player name" style="min-width:130px;" readonly></td>
+      <td><input class="cell narrow" type="text" value="${escAttr(p.nat)}" data-f="nat" style="text-align:center;" readonly></td>
+      <td><select class="cell" data-f="position" disabled>${POSITIONS.map(pos=>`<option ${p.position===pos?'selected':''}>${pos}</option>`).join("")}</select></td>
+      <td><input class="cell narrow" type="text" value="${escAttr(p.height)}" data-f="height" readonly></td>
+      <td><input class="cell" type="text" value="${escAttr(p.style)}" data-f="style" style="min-width:90px;" readonly></td>
+      <td><input class="cell num-col" type="number" min="0" step="50" value="${p.wage}" data-f="wage" style="min-width:80px;" readonly></td>
+      <td><input class="cell narrow" type="text" value="${escAttr(p.contract)}" data-f="contract" readonly></td>
+      <td><input class="cell num-col narrow" type="number" min="0" value="${p.apps}" data-f="apps" readonly></td>
+      <td><input class="cell num-col narrow" type="number" min="0" value="${p.goals}" data-f="goals" readonly></td>
+      <td><input class="cell num-col narrow" type="number" min="0" value="${p.assists}" data-f="assists" readonly></td>
+      <td><input class="cell num-col narrow" type="number" min="0" value="${p.cs}" data-f="cs" readonly></td>
+      <td><input class="cell num-col narrow" type="number" min="0" value="${p.potm}" data-f="potm" readonly></td>
+      <td><input class="cell num-col narrow" type="number" min="0" value="${p.red}" data-f="red" readonly></td>
+      <td><input class="cell num-col narrow" type="number" min="0" max="100" value="${p.passPct}" data-f="passPct" readonly></td>
+      <td><input class="cell num-col narrow" type="number" min="0" max="100" value="${p.sotPct}" data-f="sotPct" readonly></td>
+      <td><button class="btn-danger" data-del="${p.id}" title="Remove player">✕</button></td>
+    `;
+    tr.querySelectorAll('[data-f]').forEach(el=>{
+      el.addEventListener('change', ()=>{
+        const f = el.getAttribute('data-f');
+        let v = el.value;
+        if(numFields.includes(f)) v = Number(v)||0;
+        p[f] = v;
+        scheduleSave();
+        renderWages(); renderOverview();
+      });
+    });
+    tr.querySelector('[data-del]').addEventListener('click', ()=>{
+      roster = roster.filter(x=>x.id!==p.id);
+      scheduleSave();
+      render();
+    });
+    body.appendChild(tr);
+  });
+}
+function escAttr(s){ return String(s??"").replace(/"/g,"&quot;"); }
+function escHtml(s){ return String(s??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+document.getElementById('addPlayerBtn').addEventListener('click', ()=>{
+  roster.push({id:uid(), number: roster.length+1, name:"", nat:"", position:"CM", height:"", style:"", wage:1000, contract:"", apps:0, goals:0, assists:0, cs:0, potm:0, red:0, passPct:0, sotPct:0});
+  scheduleSave();
+  render();
+});
+
+/* ---------- WAGES ---------- */
+function renderWages(){
+  const total = roster.reduce((s,p)=>s+(Number(p.wage)||0),0);
+  document.getElementById('wageBillTotal').textContent = money(total);
+  const cap = clubInfo.wageCap || 0;
+  const pct = cap>0 ? Math.min(150, Math.round((total/cap)*100)) : 0;
+  const fill = document.getElementById('capBarFill');
+  fill.style.width = Math.min(100,pct) + "%";
+  fill.className = "cap-bar-fill" + (total>cap && cap>0 ? " over" : "");
+  document.getElementById('capBarLabel').textContent = cap>0
+    ? `${money(total)} of ${money(cap)} used (${pct}%)${total>cap?" — over budget":""}`
+    : "Set a wage cap above to track budget.";
+
+  const list = document.getElementById('wageList');
+  document.getElementById('wagesEmpty').style.display = roster.length ? "none" : "block";
+  list.innerHTML = "";
+  const maxWage = Math.max(1, ...roster.map(p=>Number(p.wage)||0));
+  [...roster].sort((a,b)=>(b.wage||0)-(a.wage||0)).forEach(p=>{
+    const row = document.createElement('div');
+    row.className = "wage-row";
+    row.innerHTML = `
+      <div class="wage-name">${escHtml(p.name) || "Unnamed"} <span style="color:var(--ink-soft);font-weight:400;">#${p.number}</span></div>
+      <div class="wage-bar-track"><div class="wage-bar-fill" style="width:${Math.round((p.wage/maxWage)*100)}%"></div></div>
+      <div class="wage-amt">${money(p.wage)}</div>
+    `;
+    list.appendChild(row);
+  });
+}
+document.getElementById('wageCapInput').addEventListener('change', e=>{
+  clubInfo.wageCap = Number(e.target.value)||0;
+  scheduleSave();
+  renderWages();
+});
+
+/* ---------- TRAINING ---------- */
+function renderTraining(){
+  const grid = document.getElementById('weekGrid');
+  grid.innerHTML = "";
+  DAYS.forEach(day=>{
+    const col = document.createElement('div');
+    col.className = "day-col";
+    const sessions = training.filter(s=>s.day===day).sort((a,b)=>a.time.localeCompare(b.time));
+    col.innerHTML = `<div class="day-head">${day}</div>` +
+      (sessions.length ? sessions.map(s=>`
+        <div class="session-card">
+          <button class="session-del" data-del="${s.id}" title="Remove">✕</button>
+          <div class="session-time">${s.time}</div>
+          <div class="session-type">${escHtml(s.type)}</div>
+          <div class="session-loc">${escHtml(s.location)}</div>
+        </div>
+      `).join("") : `<div style="font-size:11.5px;color:var(--ink-soft);">No sessions</div>`);
+    grid.appendChild(col);
+  });
+  grid.querySelectorAll('[data-del]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      training = training.filter(s=>s.id!==btn.getAttribute('data-del'));
+      scheduleSave();
+      renderTraining();
+      renderOverview();
+    });
+  });
+}
+
+document.getElementById('addSessBtn').addEventListener('click', ()=>{
+  const type = document.getElementById('sessType').value.trim();
+  if(!type) return;
+  training.push({
+    id: uid(),
+    day: document.getElementById('sessDay').value,
+    time: document.getElementById('sessTime').value || "00:00",
+    type: type,
+    location: document.getElementById('sessLoc').value.trim() || "Galacticos TG"
+  });
+  document.getElementById('sessType').value = "";
+  document.getElementById('sessLoc').value = "";
+  scheduleSave();
+  renderTraining();
+  renderOverview();
+});
+
+/* ---------- QUOTE OF THE WEEK ---------- */
+function renderQuoteOfWeek(){
+  const el = document.getElementById('quoteOfWeek');
+  if(!el) return;
+  const face = faceSVG(FACE_PARAMS[QUOTE_OF_WEEK.playerId]);
+  el.innerHTML = `
+    <div class="quote-card">
+      <div class="quote-avatar">${face}</div>
+      <div class="quote-body">
+        <blockquote>"${escHtml(QUOTE_OF_WEEK.quote)}"</blockquote>
+        <div class="quote-attr">— ${escHtml(QUOTE_OF_WEEK.playerName)}</div>
+      </div>
+    </div>
+  `;
+}
+
+/* ---------- PRESS ---------- */
+function renderPress(){
+  const list = document.getElementById('pressList');
+  const sorted = [...press].sort((a,b)=> DAYS.indexOf(a.day)-DAYS.indexOf(b.day) || a.time.localeCompare(b.time));
+  list.innerHTML = sorted.length ? sorted.map(s=>`
+    <div class="press-card">
+      <div class="press-day">${s.day}</div>
+      <div class="press-time">${s.time}</div>
+      <div class="press-info">
+        <div class="press-title">${escHtml(s.title)}</div>
+        <div class="press-who">Required: <b>${escHtml(s.who)}</b></div>
+      </div>
+      <button class="btn-danger" data-del="${s.id}" title="Remove">✕</button>
+    </div>
+  `).join("") : `<div class="empty-state">No press conferences scheduled.</div>`;
+  list.querySelectorAll('[data-del]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      press = press.filter(s=>s.id!==btn.getAttribute('data-del'));
+      scheduleSave();
+      renderPress();
+    });
+  });
+}
+
+document.getElementById('addPresBtn').addEventListener('click', ()=>{
+  const title = document.getElementById('presTitle').value.trim();
+  const who = document.getElementById('presWho').value.trim();
+  if(!title || !who) return;
+  press.push({
+    id: uid(),
+    day: document.getElementById('presDay').value,
+    time: document.getElementById('presTime').value || "00:00",
+    title: title,
+    who: who
+  });
+  document.getElementById('presTitle').value = "";
+  document.getElementById('presWho').value = "";
+  scheduleSave();
+  renderPress();
+});
+
+/* ---------- CONTROVERSIES ---------- */
+function renderControversies(){
+  const list = document.getElementById('controversyList');
+  if(!list) return;
+  list.innerHTML = CONTROVERSIES.map(c=>`
+    <div class="controversy-card">
+      <div class="controversy-head">
+        <div class="controversy-player">${escHtml(c.player)}</div>
+        <div class="controversy-tag">${escHtml(c.tag)}</div>
+      </div>
+      <div class="controversy-desc">${escHtml(c.desc)}</div>
+      <div class="press-guidance"><b>${escHtml(PRESS_MANAGER.name)}</b> (${escHtml(PRESS_MANAGER.role)}) says: "${escHtml(c.guidance)}"</div>
+    </div>
+  `).join("");
+}
+
+function renderFanForum(){
+  const list = document.getElementById('fanForumList');
+  if(!list) return;
+  list.innerHTML = FAN_FORUM.map(f=>`
+    <div class="forum-post">
+      <div class="forum-user">${escHtml(f.user)}</div>
+      <div class="forum-text">${escHtml(f.text)}</div>
+    </div>
+  `).join("");
+}
+
+/* ---------- LIVE TICKER ---------- */
+function renderTicker(){
+  const track = document.getElementById('tickerTrack');
+  if(!track) return;
+  const bits = [];
+  if(results.length){
+    const r = results[0];
+    const gf = Number(r.goalsFor)||0, ga = Number(r.goalsAgainst)||0;
+    const outcome = gf>ga ? "WIN" : gf===ga ? "DRAW" : "LOSS";
+    bits.push(`FULL TIME: Galacticos ${gf}–${ga} ${r.opponent} (${outcome})`);
+  }
+  if(fixtures.length){
+    const f = fixtures[0];
+    bits.push(`NEXT UP: ${f.venue} vs ${f.opponent} — ${f.date}, ${f.time}`);
+  }
+  if(CONTROVERSIES.length){
+    bits.push(`HEADLINE: ${CONTROVERSIES[0].player} — ${CONTROVERSIES[0].tag}`);
+  }
+  if(!bits.length){ bits.push("Welcome to Galacticos BPIE Club HQ"); }
+  const content = bits.map(b=>`<span>${escHtml(b)}</span><span class="tsep">•</span>`).join("");
+  track.innerHTML = content + content;
+}
+
+/* ---------- FIXTURES & RESULTS ---------- */
+function renderFixtures(){
+  renderTicker();
+  const metrics = document.getElementById('recordMetrics');
+  if(metrics){
+    const played = results.length;
+    const wins = results.filter(r=>r.goalsFor>r.goalsAgainst).length;
+    const draws = results.filter(r=>r.goalsFor===r.goalsAgainst).length;
+    const losses = results.filter(r=>r.goalsFor<r.goalsAgainst).length;
+    const gf = results.reduce((s,r)=>s+(Number(r.goalsFor)||0),0);
+    const ga = results.reduce((s,r)=>s+(Number(r.goalsAgainst)||0),0);
+    metrics.innerHTML = `
+      <div class="metric-card"><div class="metric-label">Played</div><div class="metric-value">${played}</div></div>
+      <div class="metric-card"><div class="metric-label">W-D-L</div><div class="metric-value">${wins}-${draws}-${losses}</div></div>
+      <div class="metric-card"><div class="metric-label">Goals for</div><div class="metric-value">${gf}</div></div>
+      <div class="metric-card"><div class="metric-label">Goals against</div><div class="metric-value">${ga}</div></div>
+    `;
+  }
+
+  const fixList = document.getElementById('fixturesList');
+  if(fixList){
+    fixList.innerHTML = fixtures.length ? fixtures.map(f=>`
+      <div class="fixture-card">
+        <div class="fixture-date">${escHtml(f.date)} · ${escHtml(f.time)}</div>
+        <div class="fixture-opp">vs ${escHtml(f.opponent)}</div>
+        <div class="fixture-comp">${escHtml(f.comp)}</div>
+        <div class="fixture-venue">${escHtml(f.venue)}</div>
+        <button class="btn-danger" data-del-fix="${f.id}" title="Remove">✕</button>
+      </div>
+    `).join("") : `<div class="empty-state">No fixtures scheduled.</div>`;
+    fixList.querySelectorAll('[data-del-fix]').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        fixtures = fixtures.filter(f=>f.id!==btn.getAttribute('data-del-fix'));
+        scheduleSave();
+        renderFixtures();
+      });
+    });
+  }
+
+  const resList = document.getElementById('resultsList');
+  if(resList){
+    resList.innerHTML = results.length ? results.map(r=>{
+      const gf = Number(r.goalsFor)||0, ga = Number(r.goalsAgainst)||0;
+      const outcome = gf>ga ? "win" : gf===ga ? "draw" : "loss";
+      const badge = gf>ga ? "W" : gf===ga ? "D" : "L";
+      return `
+        <div class="result-card ${outcome}">
+          <div class="result-badge">${badge}</div>
+          <div class="result-score">${gf}–${ga}</div>
+          <div class="result-opp">vs ${escHtml(r.opponent)}</div>
+          <div class="result-meta">${escHtml(r.comp)}<br>${escHtml(r.date)}</div>
+          <button class="btn-danger" data-del-res="${r.id}" title="Remove">✕</button>
+        </div>
+      `;
+    }).join("") : `<div class="empty-state">No results logged yet.</div>`;
+    resList.querySelectorAll('[data-del-res]').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        results = results.filter(r=>r.id!==btn.getAttribute('data-del-res'));
+        scheduleSave();
+        renderFixtures();
+      });
+    });
+  }
+}
+
+document.getElementById('addFixBtn').addEventListener('click', ()=>{
+  const opponent = document.getElementById('fixOpponent').value.trim();
+  if(!opponent) return;
+  fixtures.push({
+    id: uid(),
+    opponent: opponent,
+    date: document.getElementById('fixDate').value.trim() || "TBD",
+    time: document.getElementById('fixTime').value || "00:00",
+    comp: document.getElementById('fixComp').value.trim() || "League",
+    venue: document.getElementById('fixVenue').value
+  });
+  document.getElementById('fixOpponent').value = "";
+  document.getElementById('fixDate').value = "";
+  document.getElementById('fixComp').value = "";
+  scheduleSave();
+  renderFixtures();
+});
+
+document.getElementById('addResBtn').addEventListener('click', ()=>{
+  const opponent = document.getElementById('resOpponent').value.trim();
+  if(!opponent) return;
+  results.unshift({
+    id: uid(),
+    opponent: opponent,
+    goalsFor: Number(document.getElementById('resFor').value)||0,
+    goalsAgainst: Number(document.getElementById('resAgainst').value)||0,
+    date: document.getElementById('resDate').value.trim() || "TBD",
+    comp: document.getElementById('resComp').value.trim() || "League"
+  });
+  document.getElementById('resOpponent').value = "";
+  document.getElementById('resFor').value = "";
+  document.getElementById('resAgainst').value = "";
+  document.getElementById('resDate').value = "";
+  document.getElementById('resComp').value = "";
+  scheduleSave();
+  renderFixtures();
+});
+
+/* ---------- MANAGER'S OFFICE ---------- */
+function renderManager(){
+  const profile = document.getElementById('managerProfile');
+  if(profile){
+    const face = faceSVG(MANAGER_FACE);
+    profile.innerHTML = `
+      <div class="avatar-badge">${face}</div>
+      <div>
+        <div class="mgr-name">${escHtml(MANAGER_PROFILE.name)}</div>
+        <div class="mgr-role">${escHtml(MANAGER_PROFILE.role)}</div>
+        <div class="mgr-tagline">${escHtml(MANAGER_PROFILE.tagline)}</div>
+      </div>
+    `;
+  }
+  const list = document.getElementById('soundbiteList');
+  if(list){
+    list.innerHTML = soundbites.length ? soundbites.map(s=>`
+      <div class="soundbite-card">
+        <div class="soundbite-context">${escHtml(s.context)}</div>
+        <div class="soundbite-quote">"${escHtml(s.quote)}"</div>
+      </div>
+    `).join("") : `<div class="empty-state">No soundbites yet.</div>`;
+  }
+}
+
+document.getElementById('addSbBtn').addEventListener('click', ()=>{
+  const quote = document.getElementById('sbQuote').value.trim();
+  if(!quote) return;
+  soundbites.unshift({
+    id: uid(),
+    context: document.getElementById('sbContext').value.trim() || "General",
+    quote: quote
+  });
+  document.getElementById('sbContext').value = "";
+  document.getElementById('sbQuote').value = "";
+  scheduleSave();
+  renderManager();
+});
+
+/* ---------- OVERVIEW ---------- */
+function renderOverview(){
+  const metrics = document.getElementById('overviewMetrics');
+  const totalWage = roster.reduce((s,p)=>s+(Number(p.wage)||0),0);
+  const upcoming = training.length;
+  metrics.innerHTML = `
+    <div class="metric-card"><div class="metric-label">Squad size</div><div class="metric-value">${roster.length}</div></div>
+    <div class="metric-card"><div class="metric-label">Weekly wages</div><div class="metric-value">${money(totalWage)}</div></div>
+    <div class="metric-card"><div class="metric-label">Sessions / week</div><div class="metric-value">${upcoming}</div></div>
+  `;
+
+  const cardGrid = document.getElementById('squadCardGrid');
+  cardGrid.innerHTML = roster.map(p=>{
+    const grp = POS_GROUP[p.position] || "mid";
+    const face = faceSVG(FACE_PARAMS[p.id]);
+    const hc = HOLO_COLORS[p.id] || HOLO_COLORS.p1;
+    const holoStyle = `--holo-c1:${hc[0]};--holo-c2:${hc[1]};--holo-c3:${hc[2]};`;
+    return `
+      <div class="squad-card holo" style="${holoStyle}">
+        <div class="avatar-wrap"><div class="avatar-badge grp-${grp}">${face}</div></div>
+        <div class="sc-body">
+          <div class="sc-name">${escHtml(p.name)||'Unnamed'}</div>
+          <div class="sc-meta"><span>#${p.number} · ${p.position}</span></div>
+          ${p.style ? `<span class="sc-style">${escHtml(p.style)}</span>` : ''}
+        </div>
+      </div>
+    `;
+  }).join("");
+
+  const pitch = document.getElementById('pitchView');
+  pitch.innerHTML = FORMATION.map(row => `
+    <div class="pitch-col">${row.players.map(pl => `
+      <div class="pdot">${pl.label}<span class="nm">${escHtml(pl.name)}</span></div>
+    `).join("")}</div>
+  `).join("");
+}
+
+/* ---------- HISTORY ---------- */
+function renderHistory(){
+  const tl = document.getElementById('historyTimeline');
+  tl.innerHTML = HISTORY.map(h=>`
+    <div class="tl-item ${h.peak?'peak':''}">
+      <div class="tl-head">
+        <div class="tl-era">${escHtml(h.era)}</div>
+        <div class="tl-div">Division ${h.div}</div>
+      </div>
+      <div class="tl-stats">
+        <span>League <b>${h.w}W – ${h.d}D – ${h.l}L</b></span>
+        <span>Playoffs <b>${h.playoff}</b></span>
+      </div>
+      ${h.note ? `<div class="tl-note">🏆 ${escHtml(h.note)}</div>` : ""}
+    </div>
+  `).join("");
+}
+
+/* ---------- ABOUT / CELEBS ---------- */
+function renderCelebs(){
+  const grid = document.getElementById('celebGrid');
+  if(!grid) return;
+  grid.innerHTML = CELEB_SUPPORTERS.map(c=>`
+    <div class="celeb-card">
+      <div class="celeb-name">${escHtml(c.name)}</div>
+      <div class="celeb-role">${escHtml(c.role)}</div>
+      <div class="celeb-quote">"${escHtml(c.quote)}"</div>
+    </div>
+  `).join("");
+  const aspGrid = document.getElementById('aspiringGrid');
+  if(aspGrid){
+    aspGrid.innerHTML = ASPIRING_SIGNINGS.map(c=>`
+      <div class="celeb-card">
+        <div class="celeb-name">${escHtml(c.name)}</div>
+        <div class="celeb-role">${escHtml(c.role)}</div>
+        <div class="celeb-quote">"${escHtml(c.quote)}"</div>
+      </div>
+    `).join("");
+  }
+}
+
+/* ---------- PLAYER STORIES (editable) ---------- */
+function renderPlayerStories(){
+  const grid = document.getElementById('playerStoriesGrid');
+  if(!grid) return;
+  grid.innerHTML = roster.map(p=>{
+    const grp = POS_GROUP[p.position] || "mid";
+    const face = faceSVG(FACE_PARAMS[p.id]);
+    const bio = playerStories[p.id];
+    return `
+    <div class="story-flip-card" data-flip-id="${p.id}">
+      <div class="story-flip-inner">
+        <div class="flip-face flip-front" data-flip-open="${p.id}">
+          <div class="avatar-badge grp-${grp}">${face}</div>
+          <div class="ff-name">${escHtml(p.name)||'Unnamed'}</div>
+          <div class="ff-hint">click to read story</div>
+        </div>
+        <div class="flip-face flip-back">
+          <button class="flip-back-btn" data-flip-close="${p.id}">← Back</button>
+          <div class="story-name">${escHtml(p.name)}</div>
+          <div class="story-facts">
+            <b>Position:</b> ${escHtml(POSITION_LABEL[p.id] || p.position)}<br>
+            <b>Nationality:</b> ${escHtml(NAT_NAMES[p.nat]||p.nat)}<br>
+            <b>Team:</b> Galacticos${PLAYER_ORIGIN[p.id] ? ` (${escHtml(PLAYER_ORIGIN[p.id])})` : ""}
+          </div>
+          <textarea class="story-bio-edit" data-story="${p.id}" placeholder="No story written yet." readonly>${bio ? escHtml(bio) : ''}</textarea>
+        </div>
+      </div>
+    </div>
+  `;
+  }).join("");
+  grid.querySelectorAll('[data-flip-open]').forEach(el=>{
+    el.addEventListener('click', ()=>{
+      grid.querySelector(`.story-flip-card[data-flip-id="${el.getAttribute('data-flip-open')}"]`).classList.add('flipped');
+    });
+  });
+  grid.querySelectorAll('[data-flip-close]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      grid.querySelector(`.story-flip-card[data-flip-id="${btn.getAttribute('data-flip-close')}"]`).classList.remove('flipped');
+    });
+  });
+  grid.querySelectorAll('[data-story]').forEach(ta=>{
+    ta.addEventListener('input', ()=>{
+      playerStories[ta.getAttribute('data-story')] = ta.value;
+      scheduleSave();
+    });
+  });
+}
+
+/* ---------- CLUB INFO / TABS ---------- */
+document.getElementById('clubNameInput').addEventListener('input', e=>{
+  clubInfo.name = e.target.value;
+  scheduleSave();
+});
+
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('panel-'+btn.dataset.tab).classList.add('active');
+  });
+});
+
+document.querySelectorAll('.subtabs').forEach(bar=>{
+  const wrapper = bar.closest('.panel');
+  bar.querySelectorAll('.subtab-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      bar.querySelectorAll('.subtab-btn').forEach(b=>b.classList.remove('active'));
+      wrapper.querySelectorAll('.subpanel').forEach(p=>p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('panel-'+btn.dataset.subtab).classList.add('active');
+    });
+  });
+});
+
+loadAll();
+</script>
+</body>
+</html>
