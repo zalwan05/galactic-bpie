@@ -521,7 +521,7 @@ select.cell:disabled{ opacity:1; color:var(--ink); background:transparent; curso
     <div class="metric-grid" id="overviewMetrics"></div>
     <h2 class="section-title" style="font-size:16px;margin-bottom:10px;">Meet the squad</h2>
     <div class="squad-card-grid" id="squadCardGrid"></div>
-    <h2 class="section-title" style="font-size:16px;margin-bottom:10px;">Squad shape — 4-2-3-1</h2>
+    <h2 class="section-title" style="font-size:16px;margin-bottom:10px;">Squad shape — 4-4-2</h2>
     <div class="pitch" id="pitchView"></div>
     <p class="section-sub" style="margin-top:6px;">Starting XI, goalkeeper on the left, striker on the right.</p>
   </div>
@@ -537,7 +537,7 @@ select.cell:disabled{ opacity:1; color:var(--ink); background:transparent; curso
     <div class="about-prose">
       <p>Galacticoß BPIE was founded in Mexico '70 as a fifth-division side with nothing but a kit and a dream. Five decades on, the club has been everywhere a football club can go — all the way up to the top flight in Italy '90, and back down to Division 3 by South Africa '10 — before clawing its way back to a settled Division 2 outfit heading into the 2030 season.</p>
       <p>The club now plays in Málaga blue and white, and the crest carries the same castle-and-sea imagery that's watched over the city's own football club for generations. It's a "Well Known" outfit these days, with a reported 24 million fans across every platform the boys play on.</p>
-      <p>The current squad runs a 4-2-3-1: Tung Tung Tung Sahur between the sticks, Vilma Seghesso Bur at left back backed up by an AI-manned back three, Pacey Lacey and Emilio "El Loco" Bur screening the defence, John Barnes, Santi "El Capitano" Cazorla and El Tecla supplying the final ball, and Zhuge Liang leading the line.</p>
+      <p>The current squad runs a 4-4-2: Tung Tung Tung Sahur between the sticks, an AI-manned back four holding the defence, John Barnes and Pacey Lacey providing the width on the flanks, Santi "El Capitano" Cazorla and Emilio "El Loco" Bur controlling the middle, and Zhuge Liang and El Tecla leading the line together up top.</p>
     </div>
     <h2 class="section-title" style="font-size:16px;margin:26px 0 4px;">Celebrity supporters</h2>
     <p class="section-sub">A completely made-up fan crew — fictional characters, not real people.</p>
@@ -736,15 +736,14 @@ const DEFAULT_ROSTER = [
 
 const FORMATION = [
   {line:"Goalkeeper",     cls:"gk",  players:[{label:"TTS", name:"Tung Tung Tung Sahur"}]},
-  {line:"Defence",        cls:"def", players:[{label:"VS",  name:"Vilma Seghesso Bur"},{label:"AI", name:"AI"},{label:"AI", name:"AI"},{label:"AI", name:"AI"}]},
-  {line:"Def mid",        cls:"mid", players:[{label:"PL",  name:"Pacey Lacey"},{label:"EB", name:"Emilio \"El Loco\" Bur"}]},
-  {line:"Attack mid",     cls:"mid", players:[{label:"JB",  name:"John Barnes"},{label:"SC", name:"Santi \"El Capitano\" Cazorla"},{label:"ET", name:"El Tecla"}]},
-  {line:"Striker",        cls:"att", players:[{label:"ZL",  name:"Zhuge Liang"}]}
+  {line:"Defence",        cls:"def", players:[{label:"AI", name:"AI"},{label:"AI", name:"AI"},{label:"AI", name:"AI"},{label:"AI", name:"AI"}]},
+  {line:"Midfield",       cls:"mid", players:[{label:"JB", name:"John Barnes"},{label:"SC", name:"Santi \"El Capitano\" Cazorla"},{label:"EB", name:"Emilio \"El Loco\" Bur"},{label:"PL", name:"Pacey Lacey"}]},
+  {line:"Strikers",       cls:"att", players:[{label:"ZL", name:"Zhuge Liang"},{label:"ET", name:"El Tecla"}]}
 ];
 
 const DEFAULT_TRAINING = [
   {id:"t1", day:"Mon", time:"18:00", type:"Recovery & fitness", location:"Galacticos TG"},
-  {id:"t2", day:"Tue", time:"19:00", type:"4-2-3-1 shape work", location:"Galacticos TG"},
+  {id:"t2", day:"Tue", time:"19:00", type:"4-4-2 shape work", location:"Galacticos TG"},
   {id:"t3", day:"Wed", time:"20:00", type:"Passing & possession drills", location:"Galacticos TG"},
   {id:"t4", day:"Thu", time:"19:30", type:"Set pieces & finishing", location:"Galacticos TG"},
   {id:"t5", day:"Sat", time:"12:00", type:"Matchday warm-up", location:"Galacticos TG"},
@@ -760,15 +759,22 @@ const DEFAULT_PRESS = [
 const DEFAULT_FIXTURES = [];
 
 const DEFAULT_RESULTS = [
-  {id:"rs1", opponent:"ImWallinfc", goalsFor:4, goalsAgainst:7, date:"Thu Jul 23", comp:"Division 2"},
-  {id:"rs2", opponent:"100 za v", goalsFor:3, goalsAgainst:4, date:"Thu Jul 23", comp:"Division 2 Relegation"},
-  {id:"rs3", opponent:"YemmeTho", goalsFor:4, goalsAgainst:3, date:"Thu Jul 23", comp:"Division 3"}
+  {id:"rs1", opponent:"Jevo United", goalsFor:3, goalsAgainst:2, date:"Sun Jul 26", comp:"Division 3 Promotion"},
+  {id:"rs2", opponent:"BlueLockcf", goalsFor:2, goalsAgainst:3, date:"Sun Jul 26", comp:"Division 3 Promotion"},
+  {id:"rs3", opponent:"El Alfa", goalsFor:3, goalsAgainst:0, date:"Sun Jul 26", comp:"Division 3"},
+  {id:"rs4", opponent:"son 67 fc", goalsFor:2, goalsAgainst:2, date:"Sun Jul 26", comp:"Division 3"},
+  {id:"rs5", opponent:"eTijuana FC", goalsFor:0, goalsAgainst:0, date:"Sun Jul 26", comp:"Division 3"},
+  {id:"rs6", opponent:"Bernabeu boys", goalsFor:4, goalsAgainst:2, date:"Sun Jul 26", comp:"Division 3"},
+  {id:"rs7", opponent:"For Mark FC", goalsFor:3, goalsAgainst:4, date:"Sun Jul 26", comp:"Division 3"},
+  {id:"rs8", opponent:"Drama United", goalsFor:2, goalsAgainst:4, date:"Sun Jul 26", comp:"Division 3"},
+  {id:"rs9", opponent:"Dog Dads FC", goalsFor:2, goalsAgainst:1, date:"Sun Jul 26", comp:"Division 3"},
+  {id:"rs10", opponent:"EGOVERSE", goalsFor:5, goalsAgainst:4, date:"Sun Jul 26", comp:"Division 3"}
 ];
 
 const MANAGER_PROFILE = {
   name: "Dean Syche",
   role: "Head Coach (fictional)",
-  tagline: "Third season in charge. Brought in the 4-2-3-1, took the blame for the promotion collapse before anyone could pin it on the players, and still hasn't explained why an AI plays left back."
+  tagline: "Third season in charge. Brought in the 4-4-2, took the blame for the promotion collapse before anyone could pin it on the players, and still hasn't explained why the entire back four is AI."
 };
 const MANAGER_FACE = {skin:"#E0AD7D", hair:"#C1591A", style:"short", accessory:"none", facial:true, beard:false};
 
