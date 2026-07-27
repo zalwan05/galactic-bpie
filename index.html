@@ -205,6 +205,25 @@
   .celeb-role{font-size:11px;text-transform:uppercase;letter-spacing:.8px;color:var(--ink-soft);font-weight:600;margin:2px 0 8px;}
   .celeb-quote{font-size:12.5px;color:var(--ink);font-style:italic;line-height:1.5;}
 
+  /* Club legends */
+  .legends-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:18px;}
+  .legend-card{background:linear-gradient(160deg, var(--claret) 0%, #0A2A54 100%);border-radius:16px;padding:22px 24px;
+    color:var(--chalk);position:relative;overflow:hidden;border:2px solid var(--gold);box-shadow:0 10px 30px -10px rgba(0,0,0,.4);}
+  .legend-card::before{content:"";position:absolute;top:-40%;right:-10%;width:60%;height:180%;
+    background:linear-gradient(100deg, rgba(255,255,255,.1), transparent 60%);transform:rotate(8deg);}
+  .legend-badge{position:relative;z-index:2;display:inline-block;font-family:'Anton',sans-serif;font-size:11px;letter-spacing:1.5px;
+    text-transform:uppercase;background:var(--gold);color:var(--gold-dark);padding:3px 10px;border-radius:5px;margin-bottom:12px;
+    box-shadow:0 0 10px -1px rgba(244,180,0,.6);}
+  .legend-top{position:relative;z-index:2;display:flex;gap:16px;align-items:center;margin-bottom:14px;}
+  .legend-avatar{width:84px;height:84px;border-radius:50%;overflow:hidden;border:3px solid var(--gold);flex:none;
+    box-shadow:0 0 0 4px rgba(240,163,61,.25);}
+  .legend-avatar svg{width:100%;height:100%;display:block;}
+  .legend-name{font-family:'Anton',sans-serif;font-size:20px;}
+  .legend-role{font-size:11.5px;color:var(--gold);text-transform:uppercase;letter-spacing:1px;font-weight:600;margin-top:3px;}
+  .legend-stats{position:relative;z-index:2;display:flex;gap:18px;flex-wrap:wrap;font-size:12px;color:rgba(255,255,255,.75);margin:0 0 14px;}
+  .legend-stats b{color:#fff;font-family:'IBM Plex Mono',monospace;}
+  .legend-bio{position:relative;z-index:2;font-size:13.5px;line-height:1.6;color:rgba(255,255,255,.92);white-space:pre-line;}
+
   /* Player stories */
   .story-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-bottom:8px;}
   .story-card{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:14px 16px;}
@@ -360,9 +379,22 @@ thead th{background:linear-gradient(120deg, var(--sky) 0%, #123c66 100%);}
 .club-name-input:focus{text-shadow:0 0 12px rgba(244,180,0,.5);}
 
 /* Fan forum */
-.forum-post{background:var(--paper);border:1px solid var(--line);border-radius:9px;padding:10px 13px;display:flex;gap:10px;align-items:baseline;}
-.forum-user{font-family:'IBM Plex Mono',monospace;font-size:11.5px;font-weight:600;color:var(--sky);flex:none;white-space:nowrap;}
-.forum-text{font-size:12.5px;color:var(--ink);line-height:1.5;}
+.forum-post{position:relative;background:var(--paper);border:1px solid var(--line);border-left:3px solid var(--line-strong);border-radius:9px;padding:10px 13px;display:flex;gap:10px;align-items:flex-start;}
+.forum-post.angry{border-left-color:var(--rust);background:rgba(181,72,52,.045);}
+.forum-post.hype{border-left-color:var(--gold);background:rgba(240,163,61,.06);}
+.forum-post.pinned{border-left-color:var(--gold);box-shadow:0 0 0 1px rgba(240,163,61,.4), 0 6px 18px -8px rgba(240,163,61,.35);margin-top:6px;}
+.forum-pin-badge{position:absolute;top:-9px;left:12px;background:var(--gold);color:var(--gold-dark);font-family:'Anton',sans-serif;
+  font-size:9.5px;letter-spacing:.6px;text-transform:uppercase;padding:2px 8px;border-radius:5px;box-shadow:0 0 8px -1px rgba(244,180,0,.6);}
+.forum-avatar{width:28px;height:28px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;
+  font-family:'Anton',sans-serif;font-size:12px;color:#fff;margin-top:1px;}
+.forum-body{flex:1;min-width:0;}
+.forum-meta{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;}
+.forum-user{font-family:'IBM Plex Mono',monospace;font-size:11.5px;font-weight:600;color:var(--sky);white-space:nowrap;}
+.forum-verified{color:var(--sky);font-size:11px;background:rgba(29,111,184,.12);border-radius:50%;width:14px;height:14px;
+  display:inline-flex;align-items:center;justify-content:center;font-weight:700;}
+.forum-time{font-size:10.5px;color:var(--ink-soft);}
+.forum-text{font-size:12.5px;color:var(--ink);line-height:1.5;margin-top:2px;}
+.forum-reactions{display:flex;gap:14px;margin-top:6px;font-size:11.5px;color:var(--ink-soft);font-weight:600;}
 
 /* Live ticker */
 .live-ticker{background:var(--ink);color:#fff;overflow:hidden;position:relative;display:flex;align-items:center;height:34px;}
@@ -530,6 +562,7 @@ select.cell:disabled{ opacity:1; color:var(--ink); background:transparent; curso
     <div class="subtabs">
       <button class="subtab-btn active" data-subtab="about">About</button>
       <button class="subtab-btn" data-subtab="history">History</button>
+      <button class="subtab-btn" data-subtab="legends">Legends</button>
     </div>
   <div class="subpanel active" id="panel-about">
     <h2 class="section-title">About the club</h2>
@@ -537,7 +570,7 @@ select.cell:disabled{ opacity:1; color:var(--ink); background:transparent; curso
     <div class="about-prose">
       <p>Galacticoß BPIE was founded in Mexico '70 as a fifth-division side with nothing but a kit and a dream. Five decades on, the club has been everywhere a football club can go — all the way up to the top flight in Italy '90, and back down to Division 3 by South Africa '10 — before clawing its way back to a settled Division 2 outfit heading into the 2030 season.</p>
       <p>The club now plays in Málaga blue and white, and the crest carries the same castle-and-sea imagery that's watched over the city's own football club for generations. It's a "Well Known" outfit these days, with a reported 24 million fans across every platform the boys play on.</p>
-      <p>The current squad runs a 4-4-2: Tung Tung Tung Sahur between the sticks, an AI-manned back four holding the defence, John Barnes and Pacey Lacey providing the width on the flanks, Santi "El Capitano" Cazorla and Emilio "El Loco" Bur controlling the middle, and Zhuge Liang and El Tecla leading the line together up top.</p>
+      <p>The current squad runs a 4-4-2: new signing The Joker between the sticks, an AI-manned back four holding the defence, John Barnes and Pacey Lacey providing the width on the flanks, Santi "El Capitano" Cazorla and Emilio "El Loco" Bur controlling the middle, and Zhuge Liang and El Tecla leading the line together up top.</p>
     </div>
     <h2 class="section-title" style="font-size:16px;margin:26px 0 4px;">Celebrity supporters</h2>
     <p class="section-sub">A completely made-up fan crew — fictional characters, not real people.</p>
@@ -550,6 +583,11 @@ select.cell:disabled{ opacity:1; color:var(--ink); background:transparent; curso
     <h2 class="section-title">Club history</h2>
     <p class="section-sub">From Division 5 in Mexico '70 to today — every era the club has played through.</p>
     <div class="timeline" id="historyTimeline"></div>
+  </div>
+  <div class="subpanel" id="panel-legends">
+    <h2 class="section-title">Club legends</h2>
+    <p class="section-sub">The names Galacticoß BPIE will never stop talking about.</p>
+    <div class="legends-grid" id="legendsGrid"></div>
   </div>
   </div>
 
@@ -726,16 +764,16 @@ const DAYS = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
 const DEFAULT_ROSTER = [
   {id:"p1", number:9,  name:"Zhuge Liang (Astrocube)",                nat:"CHN", position:"ST", age:29, height:"6'5\"",  style:"Target",       rating:86, wage:200000,contract:"S5", apps:274, goals:245, assists:199, cs:0,  potm:47, red:9,  passPct:74, sotPct:28},
   {id:"p2", number:8,  name:"Santi \"El Capitano\" Cazorla (Nicorugby13305)", nat:"ARG", position:"CM", age:35, height:"5'7\"",  style:"Spark",        rating:90, wage:220000,contract:"S5", apps:378, goals:297, assists:381, cs:1,  potm:81, red:5,  passPct:73, sotPct:39},
-  {id:"p3", number:1,  name:"Tung Tung Tung Sahur (inferno-samurai1)",nat:"ENG", position:"GK", age:30, height:"6'7\"",  style:"Shot Stopper", rating:83, wage:100000,contract:"S5", apps:261, goals:24,  assists:15,  cs:17, potm:8,  red:9,  passPct:70, sotPct:21},
   {id:"p4", number:6,  name:"Pacey Lacey (JonasGarciaGutie)",         nat:"ESP", position:"RM", age:24, height:"5'8\"",  style:"Maestro",      rating:76, wage:80000, contract:"S4", apps:141, goals:44,  assists:11,  cs:0,  potm:2,  red:33, passPct:75, sotPct:26},
   {id:"p5", number:10, name:"John Barnes (MaskedGarlic938)",          nat:"ENG", position:"ST", age:33, height:"5'6\"",  style:"Magician",     rating:91, wage:180000,contract:"S5", apps:394, goals:247, assists:214, cs:0,  potm:65, red:31, passPct:84, sotPct:33},
   {id:"p6", number:19, name:"Vilma Seghesso Bur (mattefede_21)",      nat:"ARG", position:"ST", age:19, height:"5'6\"",  style:"Magician",     rating:71, wage:500,   contract:"Trial", apps:10,  goals:5,   assists:4,   cs:0,  potm:0,  red:0,  passPct:85, sotPct:19},
   {id:"p7", number:7,  name:"Ernesto \"El Tecla\" Farias (Argenks)", nat:"ARG", position:"ST", age:56, height:"6'5\"",  style:"Target",       rating:82, wage:120000,contract:"S4", apps:260, goals:145, assists:77,  cs:3,  potm:14, red:18, passPct:74, sotPct:21},
-  {id:"p8", number:4,  name:"Emilio \"El Loco\" Bur (Emiliobur)",     nat:"ARG", position:"CDM", age:27, height:"5'9\"",  style:"Maestro",      rating:79, wage:150000,contract:"S4", apps:178, goals:65,  assists:52,  cs:0,  potm:14, red:34, passPct:82, sotPct:30}
+  {id:"p8", number:4,  name:"Emilio \"El Loco\" Bur (Emiliobur)",     nat:"ARG", position:"CDM", age:27, height:"5'9\"",  style:"Maestro",      rating:79, wage:150000,contract:"S4", apps:178, goals:65,  assists:52,  cs:0,  potm:14, red:34, passPct:82, sotPct:30},
+  {id:"p9", number:1,  name:"The Joker",                              nat:"USA", position:"GK", age:35, height:"6'2\"",  style:"Wildcard",     rating:85, wage:150000,contract:"S1", apps:0,   goals:0,   assists:0,   cs:0,  potm:0,  red:0,  passPct:65, sotPct:0}
 ];
 
 const FORMATION = [
-  {line:"Goalkeeper",     cls:"gk",  players:[{label:"TTS", name:"Tung Tung Tung Sahur"}]},
+  {line:"Goalkeeper",     cls:"gk",  players:[{label:"TJ", name:"The Joker"}]},
   {line:"Defence",        cls:"def", players:[{label:"AI", name:"AI"},{label:"AI", name:"AI"},{label:"AI", name:"AI"},{label:"AI", name:"AI"}]},
   {line:"Midfield",       cls:"mid", players:[{label:"JB", name:"John Barnes"},{label:"SC", name:"Santi \"El Capitano\" Cazorla"},{label:"EB", name:"Emilio \"El Loco\" Bur"},{label:"PL", name:"Pacey Lacey"}]},
   {line:"Strikers",       cls:"att", players:[{label:"ZL", name:"Zhuge Liang"},{label:"ET", name:"El Tecla"}]}
@@ -787,23 +825,23 @@ const DEFAULT_SOUNDBITES = [
 const HOLO_COLORS = {
   p1: ["rgba(255,61,138,.28)", "rgba(255,217,61,.28)", "rgba(61,220,255,.28)"],
   p2: ["rgba(123,47,247,.28)", "rgba(47,217,255,.28)", "rgba(47,255,143,.28)"],
-  p3: ["rgba(47,255,212,.28)", "rgba(198,255,47,.28)", "rgba(255,238,47,.28)"],
   p4: ["rgba(255,59,59,.28)", "rgba(255,159,59,.28)", "rgba(255,59,196,.28)"],
   p5: ["rgba(59,107,255,.28)", "rgba(59,240,255,.28)", "rgba(123,255,59,.28)"],
   p6: ["rgba(193,59,255,.28)", "rgba(255,59,224,.28)", "rgba(255,210,59,.28)"],
   p7: ["rgba(255,122,0,.28)", "rgba(255,46,99,.28)", "rgba(178,59,255,.28)"],
-  p8: ["rgba(59,255,160,.28)", "rgba(233,255,59,.28)", "rgba(59,175,255,.28)"]
+  p8: ["rgba(59,255,160,.28)", "rgba(233,255,59,.28)", "rgba(59,175,255,.28)"],
+  p9: ["rgba(155,60,255,.28)", "rgba(46,204,113,.28)", "rgba(255,255,255,.28)"]
 };
 
 const FACE_PARAMS = {
   p1: {skin:"#D9A066", hair:"#FFFFFF", style:"ponytail", accessory:"none", facial:true, beard:true},
   p2: {skin:"#F0C8A0", hair:"#241C18", style:"short", accessory:"none", facial:false},
-  p3: {skin:"#7A4B32", hair:"#1A1310", style:"bald", accessory:"none", facial:false},
   p4: {skin:"#F0C8A0", hair:"#1A1310", style:"bald", accessory:"none", facial:false},
   p5: {skin:"#F0C8A0", hair:"#C9C9C9", style:"short", accessory:"sunglasses", facial:true},
   p6: {skin:"#C68863", hair:"#2B2320", style:"long", accessory:"none", facial:false},
   p7: {skin:"#F0C8A0", hair:"#B98650", style:"short", accessory:"sunglasses", facial:false},
-  p8: {skin:"#E0AD7D", hair:"#241C18", style:"long", accessory:"none", facial:false}
+  p8: {skin:"#E0AD7D", hair:"#241C18", style:"long", accessory:"none", facial:false},
+  p9: {skin:"#F5E6D3", hair:"#1EA548", style:"short", accessory:"none", facial:false}
 };
 
 function faceSVG(p){
@@ -850,6 +888,19 @@ const ASPIRING_SIGNINGS = [
   {name:"Mason Blackwood", role:"Current pro, chasing a move (fictional)", quote:"Every transfer window I put in the request. One day the club's gonna say yes and I'm packing my bags that night."}
 ];
 
+const CLUB_LEGENDS = [
+  {
+    name: "Tung Tung Tung Sahur",
+    tag: "Retired",
+    role: "Goalkeeper · 5 seasons",
+    stats: [{label:"Apps", value:261},{label:"Clean sheets", value:17},{label:"POTM", value:8}],
+    bio: `The eccentric shot-stopper who carried Galacticoß BPIE through the long climb back to Division 2 has hung up his gloves for good. Legend has it Tung Tung is the literal offspring of the ancient trees surrounding the Galacticos training ground — part man, part nature, and fully committed to the badge from his very first save.
+His distribution was, charitably, a disaster — he treated the ball like it had personally wronged him. But on his day, nobody in the league got the ball past him. Heroic reflexes, a giant heart, and just enough chaos to make every clean sheet feel like a small miracle.
+Thank you for everything, Tung Tung. The badge won't be the same without you between the sticks.`,
+    face: {skin:"#7A4B32", hair:"#1A1310", style:"bald", accessory:"none", facial:false}
+  }
+];
+
 const PRESS_MANAGER = {name:"Sophy Rane", role:"Head of Media & Communications (fictional)"};
 
 const CONTROVERSIES = [
@@ -866,12 +917,16 @@ const CONTROVERSIES = [
 ];
 
 const FAN_FORUM = [
-  {user:"RosaledaRuckus", text:"Vilma's a nice story but this is Division 2, not a fairy tale. Bench her before we get relegated again."},
-  {user:"Boquerones4Life", text:"She's getting skinned alive out there every week and nobody wants to say it because it's the 'feel good' selection. I want to WIN."},
-  {user:"SigueSigue_Malaga", text:"19 years old, basically no first-team minutes before this season, and she's starting over players who've been grinding here for years. Make it make sense."},
-  {user:"watergirl2starter", text:"Vilma at left back?? She was literally handing out water bottles a year ago. This club is a joke."},
-  {user:"TerraceTicoTico", text:"Pacey Lacey needs to sort his head out. Doesn't matter what the fan screamed, you don't put your boot on someone."},
-  {user:"OldSchoolUltra_88", text:"One more incident from Lacey and he should be nowhere near matchday squads, full stop."}
+  {user:"SignsAnyone", text:"We signed a keeper with an alleged murder in his past and it's somehow not even top 3 craziest things about this club's transfer dealings. Wild era to support Galacticos.", likes:874, dislikes:41, replies:56, sentiment:"hype", time:"3h ago", verified:true, pinned:true},
+  {user:"NoNetNoProblem", text:"The new keeper literally SIDESTEPPED a rolling ball into his own net on his SEASON DEBUT. We paid for this?? We PAID for this??", likes:412, dislikes:19, replies:88, sentiment:"angry", time:"1h ago"},
+  {user:"JokerOutOfClub", text:"'Wildcard' they said. 'Trust the process' they said. Bro dodged the ball like it owed him money. Bench him immediately.", likes:289, dislikes:31, replies:29, sentiment:"angry", time:"2h ago"},
+  {user:"ChaoticGoodFan", text:"Ngl the Joker dodging the ball instead of saving it might be the funniest thing I've ever seen in a Galacticos shirt. 10/10 debut honestly.", likes:601, dislikes:38, replies:47, sentiment:"hype", time:"1h ago"},
+  {user:"Div3PromoWatch", text:"Beat Jevo United 3-2 then IMMEDIATELY dropped the BlueLockcf promotion decider 2-3?? This team specializes in self-sabotage.", likes:334, dislikes:9, replies:41, sentiment:"angry", time:"5h ago", verified:true},
+  {user:"FiveFourFrenzy", text:"5-4 over EGOVERSE is the most Galacticos scoreline in club history. Nobody's defense showed up but somehow we still won. Chaos football, love it.", likes:522, dislikes:12, replies:63, sentiment:"hype", time:"4h ago"},
+  {user:"BackToBackBlues", text:"3-4 to For Mark FC then 2-4 to Drama United in back-to-back games. Whatever's going on in that dressing room needs fixing NOW.", likes:301, dislikes:22, replies:35, sentiment:"angry", time:"6h ago"},
+  {user:"CleanSheetCurious", text:"0-0 with eTijuana FC and a 2-2 with son 67 fc in the same stretch as a 5-4 shootout. This squad genuinely cannot decide what kind of team it wants to be.", likes:187, dislikes:14, replies:18, sentiment:"neutral", time:"8h ago"},
+  {user:"TerraceTicoTico", text:"Pacey Lacey needs to sort his head out. Doesn't matter what the fan screamed, you don't put your boot on someone.", likes:134, dislikes:7, replies:22, sentiment:"neutral", time:"1d ago"},
+  {user:"OldSchoolUltra_88", text:"One more incident from Lacey and he should be nowhere near matchday squads, full stop.", likes:98, dislikes:5, replies:11, sentiment:"neutral", time:"1d ago"}
 ];
 
 const QUOTE_OF_WEEK = {
@@ -880,17 +935,14 @@ const QUOTE_OF_WEEK = {
   quote: "Hello, I'm John Barnes. Sometimes when I'm playing football, I have to be brave. Lots of people want me to score a goal and win the game. But can I tell you a secret? I don't always feel like being brave."
 };
 
-const NAT_NAMES = {CHN:"China", ARG:"Argentina", ESP:"Spain", ENG:"England"};
+const NAT_NAMES = {CHN:"China", ARG:"Argentina", ESP:"Spain", ENG:"England", USA:"United States"};
 
 // Type each player's story between the quotation marks below, then save the file.
 const DEFAULT_PLAYER_STORIES = {
-  p1: `A towering aerial monster, Zhuge Liang dominates the skies and wins almost every header with ease. Unfortunately, his finishing is highly unreliable — he often becomes mentally unstable and delayed when the ball drops in front of goal, squandering many clear chances.
-Originally a project signing, the 6'5" striker is known for his physical presence but frustrating inconsistency in the final third. He is currently undergoing intense samurai-style training in an attempt to sharpen his focus and mentality, though the results remain to be seen.`, // Zhuge Liang
+  p1: `Zhuge Liang was the Galácticos under-8s prodigy until he tore both Achilles tendons and both ACLs in one afternoon and was told he'd need to be cut. Refusing to accept it, he vanished into the deepest mountains of China, training with martial artists for 105 years of solitude until he somehow learned to run again.
+He's back now, but severe Alzheimer's means he regularly forgets he's even playing football. Every so often lucidity returns in violent, beautiful flashes: a thunderous strike that nearly tears the net, followed five seconds later by a completely unprovoked karate chop to the nearest full-back.`, // Zhuge Liang
   p2: `The self-proclaimed dictator of the Galacticos, Santi Cazorla rules the team both on the pitch and from the shadows. He does whatever he wants, issues orders mid-game, and no player dares disobey him — he simply holds too much power within the club.
 A strong set-piece taker, El Capitano loves whipping dangerous balls into the box for his girthy strikers to attack. While technically gifted, his main strength is absolute control over the squad. Cross him, and you’ll quickly find yourself on the bench… or worse.`, // Santi "El Capitano" Cazorla
-  p3: `Tung Tung Tung Sahur is the eccentric Galacticos goalkeeper with genuine passion and excellent 1v1 shot-stopping ability. His distribution, however, is absolutely horrendous — he treats the ball like it personally offended him.
-A complete failure during his early academy days as a keeper, Tung Tung eventually became one of the biggest success stories in the first team, rising through pure determination. He is usually there when the team needs him most, pulling off heroic saves. But every now and then his strange roots show — he has momentary lapses where he completely sells the game.
-Legend says Tung Tung is the literal offspring of the ancient trees surrounding the Galacticos training grounds, making him a Groot-like being in human(ish) form — part man, part nature, and fully committed to the badge.`, // Tung Tung Tung Sahur
   p4: `Pacey Lacey is the ultimate Galacticos homegrown project gone wrong. An extremely limited striker with poor technique, minimal football IQ, and almost no natural talent, he somehow remains in the first team purely due to his fanatical loyalty and powerful connections within the club.
 Nicknamed "Rapey Lacey" by both fans and enemies alike, he has racked up numerous charges for drug dealing and human trafficking over the years. Thanks to his close relationship with certain high-ranking club officials, all cases conveniently disappear or never reach court. On the pitch, however, he is a different animal — a passionate, reckless warrior who runs himself into the ground, throws himself into every challenge, and will happily die for the Galacticos badge. This results in constant yellows and reds, making him a walking disciplinary nightmare.`, // Pacey Lacey
   p5: `A club legend named after the iconic Liverpool winger, John Barnes is the ultimate Galacticos utility man. Whether deployed as a striker or central midfielder, he gives everything for the badge and is always ready to step up when called upon.
@@ -901,7 +953,9 @@ Nothing ever seems to go his way on the pitch. He lacks quality, confidence, and
   p7: `Born in Rosario, Argentina, El Tecla was once a feared goal poacher known for his physicality and clinical finishing. Now 56, he continues playing for the Galacticos as a veteran striker.
 After being found guilty on multiple rape charges back home, Farias fled Argentina. He currently plays for the Galacticos in a country with no extradition treaty, making him untouchable by Argentine authorities. The controversy follows him everywhere, but on the pitch he remains a cunning, hard-nosed finisher who bullies defenders and scores with cold efficiency.`, // Ernesto "El Tecla" Farias
   p8: `A true Galacticos legend and the ultimate midfield destroyer, Emilio "El Loco" Bur is the man who holds the lines together. Born to win at all costs, his only priority on the pitch is securing the three points. He defends the badge with ferocious tackles, tactical intelligence, and total commitment — often putting his body on the line without hesitation.
-For years he has been the heart and soul of the team, a respected leader who sets the tone for every match. However, recent allegations have tarnished his reputation: he is under investigation for betting on the Galacticos to lose or concede goals in the first half, with suspicious patterns in several matches raising eyebrows.`  // Emilio "El Loco" Bur
+For years he has been the heart and soul of the team, a respected leader who sets the tone for every match. However, recent allegations have tarnished his reputation: he is under investigation for betting on the Galacticos to lose or concede goals in the first half, with suspicious patterns in several matches raising eyebrows.`, // Emilio "El Loco" Bur
+  p9: `The Joker was a washed-up drug addict abandoned by his parents as a kid, drifting through life until one night he snapped on live television and murdered the talk-show host mid-interview. In the chaos he vanished into the screaming crowd, re-emerging months later as a completely different man — colder, quieter, and somehow a goalkeeper of unnerving brilliance.
+No one knows how Galácticos found him or why they signed him, but the scouts who watched him train still refuse to talk about what they saw between the posts.` // The Joker
 };
 
 const HISTORY = [
@@ -927,14 +981,14 @@ let saveTimer = null;
 function uid(){ return Math.random().toString(36).slice(2,9); }
 function money(n){ return "£" + Math.round(n||0).toLocaleString(); }
 
-const WAGE_FIX = {p1:200000, p2:220000, p3:100000, p4:80000, p5:180000, p6:500, p7:120000, p8:150000};
+const WAGE_FIX = {p1:200000, p2:220000, p4:80000, p5:180000, p6:500, p7:120000, p8:150000};
 const CONTRACT_FIX = {p6:"Trial"};
 const NAME_FIX = {
-  p1:"Zhuge Liang (Astrocube)", p2:"Santi \"El Capitano\" Cazorla (Nicorugby13305)", p3:"Tung Tung Tung Sahur (inferno-samurai1)",
+  p1:"Zhuge Liang (Astrocube)", p2:"Santi \"El Capitano\" Cazorla (Nicorugby13305)",
   p4:"Pacey Lacey (JonasGarciaGutie)", p5:"John Barnes (MaskedGarlic938)", p6:"Vilma Seghesso Bur (mattefede_21)",
   p7:"Ernesto \"El Tecla\" Farias (Argenks)", p8:"Emilio \"El Loco\" Bur (Emiliobur)"
 };
-const AGE_FIX = {p1:29, p2:35, p3:30, p4:24, p5:33, p6:19, p7:56, p8:27};
+const AGE_FIX = {p1:29, p2:35, p4:24, p5:33, p6:19, p7:56, p8:27};
 const POSITION_FIX = {p4:"RM", p8:"CDM"};
 const PLAYER_ORIGIN = {p4:"Academy Graduate"};
 const POSITION_LABEL = {p5:"Versatile (ST / CM / LM)", p2:"Midfielder / Set Piece Specialist", p6:"Watergirl (Academy Player / First Team Squad)"};
@@ -1040,6 +1094,7 @@ function render(){
   renderHistory();
   renderCelebs();
   renderPlayerStories();
+  renderLegends();
 }
 
 /* ---------- SQUAD ---------- */
@@ -1089,6 +1144,11 @@ function renderSquad(){
 }
 function escAttr(s){ return String(s??"").replace(/"/g,"&quot;"); }
 function escHtml(s){ return String(s??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function avatarColor(str){
+  let hash = 0;
+  for(let i=0;i<str.length;i++){ hash = str.charCodeAt(i) + ((hash<<5)-hash); }
+  return `hsl(${Math.abs(hash)%360}, 60%, 42%)`;
+}
 
 document.getElementById('addPlayerBtn').addEventListener('click', ()=>{
   roster.push({id:uid(), number: roster.length+1, name:"", nat:"", position:"CM", height:"", style:"", wage:1000, contract:"", apps:0, goals:0, assists:0, cs:0, potm:0, red:0, passPct:0, sotPct:0});
@@ -1249,15 +1309,34 @@ function renderControversies(){
   `).join("");
 }
 
+const REACTION_ICON = {angry:"🔥", hype:"😂", neutral:"👍"};
 function renderFanForum(){
   const list = document.getElementById('fanForumList');
   if(!list) return;
-  list.innerHTML = FAN_FORUM.map(f=>`
-    <div class="forum-post">
-      <div class="forum-user">${escHtml(f.user)}</div>
-      <div class="forum-text">${escHtml(f.text)}</div>
+  const pinned = FAN_FORUM.filter(f=>f.pinned);
+  const rest = FAN_FORUM.filter(f=>!f.pinned).sort((a,b)=>(b.likes||0)-(a.likes||0));
+  list.innerHTML = [...pinned, ...rest].map(f=>{
+    const sentiment = f.sentiment || "neutral";
+    return `
+    <div class="forum-post ${sentiment}${f.pinned ? " pinned" : ""}">
+      ${f.pinned ? `<div class="forum-pin-badge">📌 Pinned hot take</div>` : ""}
+      <div class="forum-avatar" style="background:${avatarColor(f.user)}">${escHtml(f.user[0].toUpperCase())}</div>
+      <div class="forum-body">
+        <div class="forum-meta">
+          <span class="forum-user">${escHtml(f.user)}</span>
+          ${f.verified ? `<span class="forum-verified" title="Verified">✔</span>` : ""}
+          <span class="forum-time">${escHtml(f.time || "")}</span>
+        </div>
+        <div class="forum-text">${escHtml(f.text)}</div>
+        <div class="forum-reactions">
+          <span>${REACTION_ICON[sentiment]} ${(f.likes||0).toLocaleString()}</span>
+          <span>👎 ${(f.dislikes||0).toLocaleString()}</span>
+          <span>💬 ${(f.replies||0).toLocaleString()}</span>
+        </div>
+      </div>
     </div>
-  `).join("");
+  `;
+  }).join("");
 }
 
 /* ---------- LIVE TICKER ---------- */
@@ -1501,6 +1580,26 @@ function renderCelebs(){
       </div>
     `).join("");
   }
+}
+
+/* ---------- CLUB LEGENDS ---------- */
+function renderLegends(){
+  const grid = document.getElementById('legendsGrid');
+  if(!grid) return;
+  grid.innerHTML = CLUB_LEGENDS.length ? CLUB_LEGENDS.map(l=>`
+    <div class="legend-card">
+      <div class="legend-badge">${escHtml(l.tag)}</div>
+      <div class="legend-top">
+        <div class="legend-avatar">${faceSVG(l.face)}</div>
+        <div>
+          <div class="legend-name">${escHtml(l.name)}</div>
+          <div class="legend-role">${escHtml(l.role)}</div>
+        </div>
+      </div>
+      <div class="legend-stats">${l.stats.map(s=>`<span>${escHtml(s.label)}: <b>${escHtml(s.value)}</b></span>`).join("")}</div>
+      <div class="legend-bio">${escHtml(l.bio)}</div>
+    </div>
+  `).join("") : `<div class="empty-state">No legends retired yet.</div>`;
 }
 
 /* ---------- PLAYER STORIES (editable) ---------- */
