@@ -13,7 +13,16 @@
     --sky:#1D6FB8; --sky-light:#A9D8F5; --rust:#B54834; --line:#DCE3EA; --line-strong:#BFCBD6;
   }
   *{box-sizing:border-box;}
-  body{margin:0;background:var(--chalk);color:var(--ink);font-family:'Inter',sans-serif;}
+  body{margin:0;background-color:var(--chalk);color:var(--ink);font-family:'Inter',sans-serif;
+    background-image:
+      radial-gradient(rgba(18,60,122,.06) 1px, transparent 1px),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 520'%3E%3Crect x='20' y='20' width='760' height='480' rx='6' fill='none' stroke='rgba(18,60,122,0.16)' stroke-width='3'/%3E%3Cline x1='400' y1='20' x2='400' y2='500' stroke='rgba(18,60,122,0.16)' stroke-width='3'/%3E%3Ccircle cx='400' cy='260' r='72' fill='none' stroke='rgba(18,60,122,0.16)' stroke-width='3'/%3E%3Ccircle cx='400' cy='260' r='4' fill='rgba(18,60,122,0.16)'/%3E%3Crect x='20' y='140' width='120' height='240' fill='none' stroke='rgba(18,60,122,0.16)' stroke-width='3'/%3E%3Crect x='20' y='195' width='45' height='130' fill='none' stroke='rgba(18,60,122,0.16)' stroke-width='3'/%3E%3Crect x='660' y='140' width='120' height='240' fill='none' stroke='rgba(18,60,122,0.16)' stroke-width='3'/%3E%3Crect x='735' y='195' width='45' height='130' fill='none' stroke='rgba(18,60,122,0.16)' stroke-width='3'/%3E%3C/svg%3E"),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 232'%3E%3Cpath d='M100 8 L184 34 L184 108 Q184 186 100 224 Q16 186 16 108 L16 34 Z' fill='rgba(18,60,122,0.05)' stroke='rgba(18,60,122,0.09)' stroke-width='4'/%3E%3C/svg%3E"),
+      repeating-linear-gradient(105deg, rgba(18,60,122,0.022) 0 42px, rgba(18,60,122,0.045) 42px 84px);
+    background-size:22px 22px, min(1100px, 92vw) auto, min(560px, 65vw) auto, auto;
+    background-position:0 0, center 120px, center 640px, 0 0;
+    background-repeat:repeat, no-repeat, no-repeat, repeat;
+    background-attachment:scroll, fixed, fixed, scroll;}
   .wrap{max-width:1080px;margin:0 auto;padding:0 20px 60px;}
 
   /* Masthead */
@@ -38,12 +47,13 @@
   .panel{display:none;padding-top:26px;}
   .panel.active{display:block;}
 
-  .subtabs{display:flex;gap:4px;margin-bottom:20px;border-bottom:1px solid var(--line);flex-wrap:wrap;}
-  .subtab-btn{background:transparent;border:none;font-family:'Inter',sans-serif;font-weight:600;font-size:12.5px;
-    text-transform:uppercase;letter-spacing:.7px;color:var(--ink-soft);padding:8px 12px;cursor:pointer;
-    border-bottom:2px solid transparent;margin-bottom:-1px;transition:.15s;}
-  .subtab-btn:hover{color:var(--claret);}
-  .subtab-btn.active{color:var(--claret);border-bottom-color:var(--claret);}
+  .subtabs{display:flex;gap:8px;margin-bottom:20px;border-bottom:none;flex-wrap:wrap;}
+  .subtab-btn{background:var(--paper);border:1px solid var(--line-strong);font-family:'Inter',sans-serif;font-weight:700;font-size:12.5px;
+    text-transform:uppercase;letter-spacing:.7px;color:var(--ink);padding:9px 18px;cursor:pointer;
+    border-radius:20px;transition:.15s;box-shadow:0 1px 3px rgba(0,0,0,.06);}
+  .subtab-btn:hover{color:var(--claret);border-color:var(--claret);background:rgba(18,60,122,.05);transform:translateY(-1px);}
+  .subtab-btn.active{color:#fff;background:linear-gradient(120deg, var(--claret) 0%, #0A2A54 100%);border-color:var(--claret);
+    box-shadow:0 4px 12px -3px rgba(18,60,122,.5);}
   .subpanel{display:none;padding-top:4px;}
   .subpanel.active{display:block;}
 
@@ -103,7 +113,17 @@
   input.cell[type=number]::-webkit-inner-spin-button{-webkit-appearance:none; margin:0;}
   input.cell.narrow{min-width:58px;}
   .num-col{font-family:'IBM Plex Mono',monospace;}
-  .table-scroll{overflow-x:auto;}
+  .table-scroll{overflow-x:auto;position:relative;}
+  .week-grid-wrap{position:relative;}
+  .scroll-hint-arrow{position:absolute;top:50%;right:4px;transform:translateY(-50%);width:24px;height:24px;
+    border-radius:50%;background:var(--gold);color:var(--gold-dark);display:flex;align-items:center;justify-content:center;
+    font-size:15px;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.35);pointer-events:none;z-index:25;
+    transition:opacity .2s;animation:scrollHintNudge 1.8s ease-in-out infinite;}
+  .scroll-hint-arrow.dark{background:var(--claret);color:#fff;}
+  .scroll-hint-arrow.hidden{opacity:0;}
+  @keyframes scrollHintNudge{0%,100%{transform:translateY(-50%) translateX(0);}50%{transform:translateY(-50%) translateX(4px);}}
+  .table-avatar{width:26px;height:26px;border-radius:50%;flex:none;overflow:hidden;}
+  .table-avatar svg{width:100%;height:100%;display:block;}
 
   /* Wages */
   .cap-bar-track{height:10px;border-radius:6px;background:var(--line);overflow:hidden;margin-top:8px;}
@@ -118,8 +138,9 @@
 
   /* Training */
   .week-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-bottom:20px;}
-  .day-col{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:8px;min-height:120px;}
-  .day-head{font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:700;color:var(--claret);padding-bottom:6px;border-bottom:1px solid var(--line);margin-bottom:6px;}
+  .day-col{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:8px;min-height:120px;overflow:hidden;}
+  .day-head{font-family:'Anton',sans-serif;font-size:12px;text-transform:uppercase;letter-spacing:1px;color:#fff;
+    padding:6px 8px;margin:-8px -8px 8px;background:linear-gradient(120deg, var(--claret) 0%, #0A2A54 100%);}
   .session-card{background:var(--chalk);border-left:3px solid var(--gold);border-radius:5px;padding:6px 8px;margin-bottom:6px;position:relative;}
   .session-time{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;color:var(--claret);}
   .session-type{font-size:12.5px;font-weight:600;margin:1px 0;}
@@ -173,9 +194,12 @@
   .manager-profile .mgr-name{font-family:'Anton',sans-serif;font-size:20px;}
   .manager-profile .mgr-role{font-size:12px;color:var(--gold);text-transform:uppercase;letter-spacing:1px;font-weight:600;margin-top:2px;}
   .manager-profile .mgr-tagline{font-size:13px;color:rgba(255,255,255,.85);margin-top:8px;line-height:1.5;}
-  .soundbite-card{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:12px 14px;}
+  .soundbite-card{background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:10px;
+    padding:12px 14px 12px 16px;position:relative;overflow:hidden;}
+  .soundbite-card::before{content:"\201C";position:absolute;top:-10px;right:8px;font-family:Georgia,serif;font-size:56px;
+    color:var(--claret);opacity:.08;line-height:1;}
   .soundbite-context{font-size:10.5px;text-transform:uppercase;letter-spacing:.6px;font-weight:700;color:var(--sky);margin-bottom:4px;}
-  .soundbite-quote{font-size:13.5px;font-style:italic;color:var(--ink);line-height:1.5;}
+  .soundbite-quote{font-size:13.5px;font-style:italic;color:var(--ink);line-height:1.5;position:relative;}
 
   /* Quote of the week */
   .quote-card{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:18px 20px;display:flex;gap:16px;align-items:flex-start;}
@@ -187,9 +211,16 @@
   /* History */
   .timeline{position:relative;padding-left:26px;}
   .timeline::before{content:"";position:absolute;left:9px;top:6px;bottom:6px;width:2px;background:var(--line-strong);}
-  .tl-item{position:relative;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-bottom:12px;}
+  .tl-item{position:relative;background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--line-strong);border-radius:10px;padding:14px 16px;margin-bottom:12px;}
   .tl-item::before{content:"";position:absolute;left:-22px;top:18px;width:12px;height:12px;border-radius:50%;background:var(--gold);border:2px solid var(--claret);}
   .tl-item.peak::before{background:var(--claret);border-color:var(--gold);}
+  .tl-item.peak{border-left-color:var(--claret);}
+  .tl-item.promo{border-left-color:#3F8F5F;}
+  .tl-item.promo::before{background:#3F8F5F;}
+  .tl-item.releg{border-left-color:var(--rust);}
+  .tl-item.releg::before{background:var(--rust);}
+  .tl-item.current{border-left-color:var(--gold);box-shadow:0 0 0 1px rgba(240,163,61,.3);}
+  .tl-item.current::before{background:var(--gold);border-color:var(--claret);}
   .tl-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:6px;margin-bottom:6px;}
   .tl-era{font-family:'Anton',sans-serif;font-size:17px;color:var(--claret);}
   .tl-div{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;background:var(--chalk);border:1px solid var(--line);border-radius:6px;padding:2px 8px;color:var(--sky);}
@@ -242,22 +273,20 @@
   .story-flip-inner{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d;}
   .story-flip-card.flipped .story-flip-inner{transform:rotateY(180deg);}
   .flip-face{position:absolute;inset:0;backface-visibility:hidden;background:var(--paper);border:1px solid var(--line);border-radius:12px;overflow:hidden;}
-  .flip-front{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;cursor:pointer;padding:16px;text-align:center;}
-  .flip-front .avatar-badge{width:96px;height:96px;border:3px solid var(--line-strong);}
-  .flip-front .ff-name{font-family:'Anton',sans-serif;font-size:15px;color:var(--claret);}
-  .flip-front .ff-hint{font-size:10.5px;color:var(--ink-soft);}
-  .flip-back{transform:rotateY(180deg);padding:16px 18px;display:flex;flex-direction:column;}
+  .flip-front{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;
+    cursor:pointer;padding:16px;text-align:center;color:#fff;box-shadow:0 8px 22px -8px rgba(0,0,0,.4);}
+  .flip-front::before{content:"";position:absolute;top:-55%;left:-25%;width:65%;height:220%;z-index:1;
+    background:linear-gradient(75deg, transparent 25%, rgba(255,255,255,.4) 47%, transparent 68%);pointer-events:none;}
+  .flip-front .avatar-badge{position:relative;z-index:2;width:96px;height:96px;border:3px solid rgba(255,255,255,.65);background:rgba(255,255,255,.15);}
+  .flip-front .ff-name{position:relative;z-index:2;font-family:'Anton',sans-serif;font-size:15px;}
+  .flip-front .ff-hint{position:relative;z-index:2;font-size:10.5px;color:rgba(255,255,255,.75);}
+  .flip-back{transform:rotateY(180deg);padding:16px 18px;display:flex;flex-direction:column;border-top:4px solid var(--claret);}
   .flip-back-btn{align-self:flex-start;background:var(--chalk);border:1px solid var(--line-strong);border-radius:6px;padding:3px 9px;font-size:11px;font-weight:600;color:var(--ink);cursor:pointer;margin-bottom:8px;}
   .flip-back-btn:hover{border-color:var(--claret);color:var(--claret);}
   .flip-back .story-name{margin-top:0;}
   .flip-back .story-bio-display{min-height:150px;flex:1;font-size:13px;line-height:1.55;color:var(--ink);
     background:var(--chalk);border-radius:8px;padding:10px 12px;overflow-y:auto;white-space:pre-wrap;}
   .flip-back .story-bio-display.empty{color:var(--ink-soft);font-style:italic;}
-  .flip-back .story-bio-edit{min-height:150px;flex:1;width:100%;font-family:'Inter',sans-serif;font-size:13px;line-height:1.55;color:var(--ink);
-    background:var(--chalk);border:1px solid transparent;border-radius:8px;padding:10px 12px;resize:vertical;}
-  .flip-back .story-bio-edit:hover{border-color:var(--line-strong);}
-  .flip-back .story-bio-edit:focus{outline:none;border-color:var(--claret);background:var(--paper);}
-  .flip-back .story-bio-edit::placeholder{color:var(--ink-soft);font-style:italic;}
 
   .sync-note{font-size:11.5px;color:var(--ink-soft);margin:14px 0 0;text-align:center;}
   .empty-state{text-align:center;padding:30px 10px;color:var(--ink-soft);font-size:13.5px;}
@@ -295,7 +324,6 @@
 .crest svg{filter:drop-shadow(0 3px 8px rgba(0,0,0,.35));}
 
 /* Tabs: glowing active state + gradient sweep */
-.tabs{position:relative;}
 .tab-btn.active{
   background:linear-gradient(180deg, rgba(244,180,0,.14), rgba(244,180,0,.03));
   box-shadow: inset 0 -2px 0 var(--gold), 0 0 14px -4px rgba(244,180,0,.6);
@@ -368,12 +396,6 @@ thead th{background:linear-gradient(120deg, var(--sky) 0%, #123c66 100%);}
 .panel.active{animation:panelIn .35s ease;}
 .subpanel.active{animation:panelIn .3s ease;}
 
-/* Subtab underline slide feel */
-.subtab-btn{position:relative;}
-.subtab-btn.active::after{
-  content:"";position:absolute;left:10%;right:10%;bottom:-1px;height:2px;
-  background:var(--claret); box-shadow:0 0 6px -1px rgba(18,60,122,.6);
-}
 
 /* Crest name input focus glow, small nice touch */
 .club-name-input:focus{text-shadow:0 0 12px rgba(244,180,0,.5);}
@@ -426,7 +448,7 @@ thead th{background:linear-gradient(120deg, var(--sky) 0%, #123c66 100%);}
 /* Holo-shine — every squad card gets one, each player its own colorway */
 .squad-card.holo{position:relative;}
 .squad-card.holo::after{
-  content:"";position:absolute;inset:0;border-radius:12px;pointer-events:none;opacity:0;
+  content:"";position:absolute;inset:0;z-index:2;border-radius:12px;pointer-events:none;opacity:0;
   background:linear-gradient(115deg, transparent 20%, var(--holo-c1, rgba(255,0,150,.28)) 35%, var(--holo-c2, rgba(255,200,0,.28)) 50%,
     var(--holo-c3, rgba(0,220,255,.28)) 65%, transparent 80%);
   background-size:250% 250%;
@@ -436,12 +458,76 @@ thead th{background:linear-gradient(120deg, var(--sky) 0%, #123c66 100%);}
 @keyframes holoShift{ 0%{background-position:0% 0%;} 100%{background-position:100% 100%;} }
 .squad-card.holo{box-shadow:0 0 0 1px rgba(244,180,0,.35);}
 
+/* ============ OVERVIEW HERO BANNER ============ */
+.hero-banner{background:linear-gradient(120deg, var(--claret) 0%, #0A2A54 100%);border-radius:16px;padding:20px 22px;
+  margin-bottom:22px;color:var(--chalk);position:relative;overflow:hidden;}
+.hero-banner::before{content:"";position:absolute;top:-40%;right:-10%;width:60%;height:180%;
+  background:linear-gradient(100deg, rgba(255,255,255,.09), transparent 60%);transform:rotate(8deg);}
+.hero-tag{position:relative;z-index:2;display:inline-block;font-size:10.5px;text-transform:uppercase;letter-spacing:1.2px;
+  font-weight:700;background:var(--gold);color:var(--gold-dark);border-radius:5px;padding:3px 9px;margin-bottom:12px;
+  box-shadow:0 0 10px -1px rgba(244,180,0,.6);}
+.hero-main{position:relative;z-index:2;display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+.hero-result-badge{font-family:'Anton',sans-serif;font-size:16px;width:34px;height:34px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;color:#fff;flex:none;}
+.hero-result-badge.win{background:#3F8F5F;}
+.hero-result-badge.draw{background:var(--gold);color:var(--gold-dark);}
+.hero-result-badge.loss{background:var(--rust);}
+.hero-score{font-family:'IBM Plex Mono',monospace;font-size:26px;font-weight:600;}
+.hero-opp{font-family:'Anton',sans-serif;font-size:20px;}
+.hero-sub{position:relative;z-index:2;font-size:12px;color:rgba(255,255,255,.75);margin-top:6px;}
+.hero-divider{position:relative;z-index:2;height:1px;background:rgba(255,255,255,.18);margin:14px 0;}
+.hero-record{position:relative;z-index:2;display:flex;gap:26px;flex-wrap:wrap;}
+.hero-record div{display:flex;flex-direction:column;gap:2px;}
+.hero-record span{font-size:10.5px;text-transform:uppercase;letter-spacing:.8px;color:rgba(255,255,255,.65);}
+.hero-record b{font-family:'IBM Plex Mono',monospace;font-size:17px;}
+.confetti-layer{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:1;}
+.confetti-piece{position:absolute;top:-10px;border-radius:1px;opacity:.9;animation-name:confettiFall;
+  animation-timing-function:linear;animation-iteration-count:infinite;}
+@keyframes confettiFall{
+  0%{transform:translateY(-10px) rotate(0deg);opacity:1;}
+  100%{transform:translateY(220px) rotate(360deg);opacity:0;}
+}
+
+/* ============ SQUAD CARDS (fun, non-ranked) ============ */
+.squad-card.fut-card{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;
+  padding:16px 10px 12px;color:#fff;overflow:hidden;border:none;box-shadow:0 8px 22px -8px rgba(0,0,0,.4);
+  transform-style:preserve-3d;will-change:transform;transition:transform .12s ease-out,box-shadow .18s ease;}
+.squad-card.fut-card:hover{transform:none;}
+.squad-card.fut-card::before{content:"";position:absolute;top:-55%;left:-25%;width:65%;height:220%;z-index:1;
+  background:linear-gradient(75deg, transparent 25%, rgba(255,255,255,.4) 47%, transparent 68%);
+  transform:rotate(0deg);pointer-events:none;}
+.fut-top{position:relative;z-index:3;display:flex;justify-content:center;align-items:flex-start;width:100%;padding:0 6px;}
+.fut-pos{font-family:'Anton',sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:.6px;
+  background:rgba(255,255,255,.14);border-radius:5px;padding:2px 9px;}
+.fut-face{position:relative;z-index:3;width:72px;height:72px;border-radius:50%;overflow:hidden;margin:8px auto 8px;
+  border:2px solid rgba(255,255,255,.65);background:rgba(255,255,255,.15);}
+.fut-face svg{width:100%;height:100%;display:block;}
+.fut-name{position:relative;z-index:3;font-family:'Anton',sans-serif;font-size:13px;letter-spacing:.3px;text-transform:uppercase;
+  line-height:1.25;min-height:2.4em;display:flex;align-items:center;justify-content:center;padding:0 4px;}
+.fut-funfact{position:relative;z-index:3;margin-top:4px;padding-top:8px;border-top:1px solid rgba(255,255,255,.22);
+  width:88%;font-size:11px;font-style:italic;color:rgba(255,255,255,.85);line-height:1.4;}
+.fut-style-tag{position:relative;z-index:3;margin-top:8px;font-size:9.5px;text-transform:uppercase;letter-spacing:.6px;
+  font-weight:700;background:rgba(0,0,0,.2);border-radius:5px;padding:2px 8px;}
+
+/* ============ NEWSPAPER MATCH REPORT ============ */
+.press-article{background:#F5EFE0;border:1px solid #d8cdb0;border-radius:4px;padding:20px 24px 24px;
+  margin-bottom:24px;box-shadow:0 10px 26px -12px rgba(0,0,0,.3);position:relative;}
+.press-article-kicker{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;
+  color:#8a5300;border-bottom:2px solid #1a1109;padding-bottom:10px;margin-bottom:12px;}
+.press-article-headline{font-family:Georgia,'Times New Roman',serif;font-weight:700;font-size:23px;line-height:1.2;
+  color:#1a1109;margin:0 0 8px;}
+.press-article-byline{font-family:Georgia,serif;font-style:italic;font-size:12px;color:#5c4a2c;margin-bottom:14px;
+  padding-bottom:12px;border-bottom:1px solid #d8cdb0;}
+.press-article-body{font-family:Georgia,serif;font-size:14px;line-height:1.65;color:#2a2015;}
+.press-article-body p{margin:0 0 12px;}
+.press-article-body p:first-of-type::first-letter{font-family:'Anton',sans-serif;font-size:42px;float:left;
+  line-height:.78;padding:4px 6px 0 0;color:var(--claret);}
+
 /* ============ VIEW-ONLY MODE ============ */
 /* Published site is read-only for visitors — content updates happen by editing this file and redeploying. */
 .btn-danger, .session-del, .admin-only{ display:none !important; }
 input.cell:read-only:hover, input.cell:read-only:focus,
-.club-name-input:read-only:hover, .club-name-input:read-only:focus,
-.story-bio-edit:read-only:hover, .story-bio-edit:read-only:focus{
+.club-name-input:read-only:hover, .club-name-input:read-only:focus{
   border-color:transparent; background:transparent; text-shadow:none; cursor:default;
 }
 select.cell:disabled{ opacity:1; color:var(--ink); background:transparent; cursor:default; -webkit-text-fill-color:var(--ink); }
@@ -537,23 +623,25 @@ select.cell:disabled{ opacity:1; color:var(--ink); background:transparent; curso
   <div class="ticker-viewport"><div class="ticker-track" id="tickerTrack"></div></div>
 </div>
 
-<div class="tabs">
+<div class="tabs" id="tabsBar">
   <button class="tab-btn active" data-tab="overview">Overview</button>
   <button class="tab-btn" data-tab="club">Club</button>
   <button class="tab-btn" data-tab="squadhub">Squad</button>
   <button class="tab-btn" data-tab="matchday">Matchday</button>
   <button class="tab-btn" data-tab="media">Media</button>
+  <span class="scroll-hint-arrow">&#8250;</span>
 </div>
 
 <div class="wrap">
 
   <div class="panel active" id="panel-overview">
+    <div id="overviewHero"></div>
     <h2 class="section-title">Club overview</h2>
     <p class="section-sub">Live snapshot — updates as the squad, wages and schedule change.</p>
     <div class="metric-grid" id="overviewMetrics"></div>
     <h2 class="section-title" style="font-size:16px;margin-bottom:10px;">Meet the squad</h2>
     <div class="squad-card-grid" id="squadCardGrid"></div>
-    <h2 class="section-title" style="font-size:16px;margin-bottom:10px;">Squad shape — 4-4-2</h2>
+    <h2 class="section-title" style="font-size:16px;margin-bottom:10px;">Squad shape — 4-1-4-1</h2>
     <div class="pitch" id="pitchView"></div>
     <p class="section-sub" style="margin-top:6px;">Starting XI, goalkeeper on the left, striker on the right.</p>
   </div>
@@ -570,7 +658,7 @@ select.cell:disabled{ opacity:1; color:var(--ink); background:transparent; curso
     <div class="about-prose">
       <p>Galacticoß BPIE was founded in Mexico '70 as a fifth-division side with nothing but a kit and a dream. Five decades on, the club has been everywhere a football club can go — all the way up to the top flight in Italy '90, and back down to Division 3 by South Africa '10 — before clawing its way back to a settled Division 2 outfit heading into the 2030 season.</p>
       <p>The club now plays in Málaga blue and white, and the crest carries the same castle-and-sea imagery that's watched over the city's own football club for generations. It's a "Well Known" outfit these days, with a reported 24 million fans across every platform the boys play on.</p>
-      <p>The current squad runs a 4-4-2: new signing The Joker between the sticks, an AI-manned back four holding the defence, John Barnes and Pacey Lacey providing the width on the flanks, Santi "El Capitano" Cazorla and Emilio "El Loco" Bur controlling the middle, and Zhuge Liang and El Tecla leading the line together up top.</p>
+      <p>The current squad runs a 4-1-4-1: new signing The Joker between the sticks, El Tecla dropped into an otherwise AI-manned back four, Emilio "El Loco" Bur screening alone in front of the defence, John Barnes and Nicolas Platano providing the width with Santi "El Capitano" Cazorla and Pacey Lacey through the middle, and Zhuge Liang leading the line on his own up top.</p>
     </div>
     <h2 class="section-title" style="font-size:16px;margin:26px 0 4px;">Celebrity supporters</h2>
     <p class="section-sub">A completely made-up fan crew — fictional characters, not real people.</p>
@@ -603,15 +691,15 @@ select.cell:disabled{ opacity:1; color:var(--ink); background:transparent; curso
 
     <div class="stats-week-card">
       <div class="stats-week-tag">Stats of the week</div>
-      <p>One point. That's all Galacticos needed heading into the final round to lock in a spot in the promotion games — and somehow, they let it slip through their fingers, turning a routine finish into one of the most talked-about collapses the club has seen this century.</p>
-      <p>Silver lining: the switch to a 4-4-2 is working wonders up top. With two out-and-out strikers and a lot more service into the box, <b>El Tecla's numbers have exploded</b> — he's winning headers all night and turning crosses into goals at a rate nobody expected from him this season.</p>
+      <p>Division 1. After the closest of misses last time out, Galacticoß BPIE have gone up — a gritty 2–0 win over Yaadballers FC sealed the return to the top flight for the first time since the Italy '90 peak.</p>
+      <p>The story behind it: with The Joker and Pacey Lacey both out injured, Dean Syche tore up the 4-4-2 and threw out a makeshift 4-1-4-1 for the decider — <b>El Tecla dropping in at center back</b>, Emilio "El Loco" Bur holding the base of midfield alone, Santi "El Capitano" Cazorla in front of him at CM, John Barnes shifted out to LM, and Zhuge Liang left to lead the line by himself up top. Backs against the wall, and somehow it worked.</p>
     </div>
 
     <div class="toolbar admin-only">
       <span></span>
       <button class="btn btn-primary" id="addPlayerBtn">+ Add player</button>
     </div>
-    <div class="table-scroll">
+    <div class="table-scroll" id="squadTableScroll">
       <table id="squadTable">
         <thead><tr>
           <th>No.</th><th>Name</th><th>Nat</th><th>Pos</th><th>Height</th><th>Style</th>
@@ -620,6 +708,7 @@ select.cell:disabled{ opacity:1; color:var(--ink); background:transparent; curso
         </tr></thead>
         <tbody id="squadBody"></tbody>
       </table>
+      <span class="scroll-hint-arrow dark">&#8250;</span>
     </div>
     <div class="empty-state" id="squadEmpty" style="display:none;">No players yet — add your first signing above.</div>
   </div>
@@ -657,7 +746,10 @@ select.cell:disabled{ opacity:1; color:var(--ink); background:transparent; curso
   <div class="subpanel active" id="panel-training">
     <h2 class="section-title">Training schedule</h2>
     <p class="section-sub">Weekly sessions — visible to the whole club.</p>
-    <div class="week-grid" id="weekGrid"></div>
+    <div class="week-grid-wrap" id="weekGridWrap">
+      <div class="week-grid" id="weekGrid"></div>
+      <span class="scroll-hint-arrow dark">&#8250;</span>
+    </div>
     <h2 class="section-title admin-only" style="font-size:16px;margin-bottom:10px;">Add session</h2>
     <div class="add-session-form admin-only">
       <div class="field"><label>Day</label>
@@ -712,6 +804,16 @@ select.cell:disabled{ opacity:1; color:var(--ink); background:transparent; curso
       <button class="subtab-btn" data-subtab="manager">Manager</button>
     </div>
   <div class="subpanel active" id="panel-press">
+    <div class="press-article">
+      <div class="press-article-kicker">Match report · Division 2 · Jul 30, 2026</div>
+      <h3 class="press-article-headline">Galacticos are up: 2&#8211;0 over Yaadballers seals Division 1 return</h3>
+      <div class="press-article-byline">By Marco Villalta, Galacticoß Gazette</div>
+      <div class="press-article-body">
+        <p>A disciplined 2&#8211;0 win over Yaadballers FC on a chaotic afternoon at home was enough to seal it, with a makeshift XI &#8212; missing both first-choice goalkeeper The Joker and winger Pacey Lacey through injury, and El Tecla dropped in at center back at fifty-six years old &#8212; grinding out the result that had eluded this squad for the better part of a season.</p>
+        <p>The celebrations that followed will likely outlive the football itself. John Barnes had Dean Syche convinced Santi Cazorla had a shoulder injury, dramatically pointing at the shoulder in question — right up until the changing room speaker dropped the beat and Cazorla launched into a full dance routine instead. By nightfall the entire squad had relocated to a pub near the ground, still in kit, buying rounds for anyone wearing the badge.</p>
+        <p>Division 1 awaits. Whether this squad is built for it remains to be seen &#8212; but for one night, nobody at Galacticoß BPIE cared.</p>
+      </div>
+    </div>
     <h2 class="section-title">Press conference schedule</h2>
     <p class="section-sub">Who has to show up, and when.</p>
     <div id="pressList" style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px;"></div>
@@ -762,26 +864,28 @@ const POS_GROUP = {GK:"gk",CB:"def",LB:"def",RB:"def",CDM:"mid",CM:"mid",CAM:"mi
 const DAYS = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
 
 const DEFAULT_ROSTER = [
-  {id:"p1", number:9,  name:"Zhuge Liang (Astrocube)",                nat:"CHN", position:"ST", age:29, height:"6'5\"",  style:"Target",       rating:86, wage:200000,contract:"S5", apps:274, goals:245, assists:199, cs:0,  potm:47, red:9,  passPct:74, sotPct:28},
-  {id:"p2", number:8,  name:"Santi \"El Capitano\" Cazorla (Nicorugby13305)", nat:"ARG", position:"CM", age:35, height:"5'7\"",  style:"Spark",        rating:90, wage:220000,contract:"S5", apps:378, goals:297, assists:381, cs:1,  potm:81, red:5,  passPct:73, sotPct:39},
-  {id:"p4", number:6,  name:"Pacey Lacey (JonasGarciaGutie)",         nat:"ESP", position:"RM", age:24, height:"5'8\"",  style:"Maestro",      rating:76, wage:80000, contract:"S4", apps:141, goals:44,  assists:11,  cs:0,  potm:2,  red:33, passPct:75, sotPct:26},
-  {id:"p5", number:10, name:"John Barnes (MaskedGarlic938)",          nat:"ENG", position:"ST", age:33, height:"5'6\"",  style:"Magician",     rating:91, wage:180000,contract:"S5", apps:394, goals:247, assists:214, cs:0,  potm:65, red:31, passPct:84, sotPct:33},
+  {id:"p1", number:9,  name:"Zhuge Liang (Astrocube)",                nat:"CHN", position:"ST", age:29, height:"6'5\"",  style:"Target",       rating:86, wage:200000,contract:"S5", apps:304, goals:272, assists:217, cs:1,  potm:48, red:10, passPct:74, sotPct:28},
+  {id:"p2", number:8,  name:"Santi \"El Capitano\" Cazorla (Nicorugby13305)", nat:"ARG", position:"CM", age:35, height:"5'7\"",  style:"Spark",        rating:90, wage:220000,contract:"S5", apps:441, goals:322, assists:446, cs:1,  potm:104,red:6,  passPct:74, sotPct:37},
+  {id:"p4", number:6,  name:"Pacey Lacey (JonasGarciaGutie)",         nat:"ESP", position:"RM", age:24, height:"5'8\"",  style:"Maestro",      rating:76, wage:80000, contract:"S4", apps:151, goals:44,  assists:12,  cs:0,  potm:2,  red:34, passPct:75, sotPct:25},
+  {id:"p5", number:10, name:"John Barnes (MaskedGarlic938)",          nat:"ENG", position:"ST", age:33, height:"5'6\"",  style:"Magician",     rating:91, wage:180000,contract:"S5", apps:449, goals:283, assists:248, cs:0,  potm:74, red:33, passPct:83, sotPct:32},
   {id:"p6", number:19, name:"Vilma Seghesso Bur (mattefede_21)",      nat:"ARG", position:"ST", age:19, height:"5'6\"",  style:"Magician",     rating:71, wage:500,   contract:"Trial", apps:10,  goals:5,   assists:4,   cs:0,  potm:0,  red:0,  passPct:85, sotPct:19},
-  {id:"p7", number:7,  name:"Ernesto \"El Tecla\" Farias (Argenks)", nat:"ARG", position:"ST", age:56, height:"6'5\"",  style:"Target",       rating:82, wage:120000,contract:"S4", apps:260, goals:145, assists:77,  cs:3,  potm:14, red:18, passPct:74, sotPct:21},
-  {id:"p8", number:4,  name:"Emilio \"El Loco\" Bur (Emiliobur)",     nat:"ARG", position:"CDM", age:27, height:"5'9\"",  style:"Maestro",      rating:79, wage:150000,contract:"S4", apps:178, goals:65,  assists:52,  cs:0,  potm:14, red:34, passPct:82, sotPct:30},
-  {id:"p9", number:1,  name:"The Joker",                              nat:"USA", position:"GK", age:35, height:"6'2\"",  style:"Wildcard",     rating:85, wage:150000,contract:"S1", apps:0,   goals:0,   assists:0,   cs:0,  potm:0,  red:0,  passPct:65, sotPct:0}
+  {id:"p7", number:7,  name:"Ernesto \"El Tecla\" Farias (Argenks)", nat:"ARG", position:"ST", age:56, height:"6'5\"",  style:"Target",       rating:82, wage:120000,contract:"S4", apps:307, goals:194, assists:87,  cs:5,  potm:17, red:24, passPct:74, sotPct:22},
+  {id:"p8", number:4,  name:"Emilio \"El Loco\" Bur (Emiliobur)",     nat:"ARG", position:"CDM", age:27, height:"5'9\"",  style:"Maestro",      rating:79, wage:150000,contract:"S4", apps:203, goals:74,  assists:57,  cs:0,  potm:15, red:37, passPct:81, sotPct:30},
+  {id:"p9", number:1,  name:"The Joker",                              nat:"USA", position:"GK", age:35, height:"6'2\"",  style:"Shot Stopper", rating:85, wage:150000,contract:"S1", apps:318, goals:28,  assists:16,  cs:27, potm:9,  red:10, passPct:69, sotPct:21},
+  {id:"p10", number:11, name:"Nicolas Platano (nono0446)",            nat:"VEN", position:"ST", age:30, height:"5'8\"",  style:"Magician",     rating:68, wage:20000, contract:"S1", apps:11,  goals:4,   assists:0,   cs:0,  potm:0,  red:1,  passPct:71, sotPct:40}
 ];
 
 const FORMATION = [
   {line:"Goalkeeper",     cls:"gk",  players:[{label:"TJ", name:"The Joker"}]},
-  {line:"Defence",        cls:"def", players:[{label:"AI", name:"AI"},{label:"AI", name:"AI"},{label:"AI", name:"AI"},{label:"AI", name:"AI"}]},
-  {line:"Midfield",       cls:"mid", players:[{label:"JB", name:"John Barnes"},{label:"SC", name:"Santi \"El Capitano\" Cazorla"},{label:"EB", name:"Emilio \"El Loco\" Bur"},{label:"PL", name:"Pacey Lacey"}]},
-  {line:"Strikers",       cls:"att", players:[{label:"ZL", name:"Zhuge Liang"},{label:"ET", name:"El Tecla"}]}
+  {line:"Defence",        cls:"def", players:[{label:"AI", name:"AI"},{label:"ET", name:"El Tecla"},{label:"AI", name:"AI"},{label:"AI", name:"AI"}]},
+  {line:"Def mid",        cls:"mid", players:[{label:"EB", name:"Emilio \"El Loco\" Bur"}]},
+  {line:"Midfield",       cls:"mid", players:[{label:"JB", name:"John Barnes"},{label:"SC", name:"Santi \"El Capitano\" Cazorla"},{label:"PL", name:"Pacey Lacey"},{label:"NP", name:"Nicolas Platano"}]},
+  {line:"Striker",        cls:"att", players:[{label:"ZL", name:"Zhuge Liang"}]}
 ];
 
 const DEFAULT_TRAINING = [
   {id:"t1", day:"Mon", time:"18:00", type:"Recovery & fitness", location:"Galacticos TG"},
-  {id:"t2", day:"Tue", time:"19:00", type:"4-4-2 shape work", location:"Galacticos TG"},
+  {id:"t2", day:"Tue", time:"19:00", type:"4-1-4-1 shape work", location:"Galacticos TG"},
   {id:"t3", day:"Wed", time:"20:00", type:"Passing & possession drills", location:"Galacticos TG"},
   {id:"t4", day:"Thu", time:"19:30", type:"Set pieces & finishing", location:"Galacticos TG"},
   {id:"t5", day:"Sat", time:"12:00", type:"Matchday warm-up", location:"Galacticos TG"},
@@ -797,29 +901,25 @@ const DEFAULT_PRESS = [
 const DEFAULT_FIXTURES = [];
 
 const DEFAULT_RESULTS = [
-  {id:"rs1", opponent:"Jevo United", goalsFor:3, goalsAgainst:2, date:"Sun Jul 26", comp:"Division 3 Promotion"},
-  {id:"rs2", opponent:"BlueLockcf", goalsFor:2, goalsAgainst:3, date:"Sun Jul 26", comp:"Division 3 Promotion"},
-  {id:"rs3", opponent:"El Alfa", goalsFor:3, goalsAgainst:0, date:"Sun Jul 26", comp:"Division 3"},
-  {id:"rs4", opponent:"son 67 fc", goalsFor:2, goalsAgainst:2, date:"Sun Jul 26", comp:"Division 3"},
-  {id:"rs5", opponent:"eTijuana FC", goalsFor:0, goalsAgainst:0, date:"Sun Jul 26", comp:"Division 3"},
-  {id:"rs6", opponent:"Bernabeu boys", goalsFor:4, goalsAgainst:2, date:"Sun Jul 26", comp:"Division 3"},
-  {id:"rs7", opponent:"For Mark FC", goalsFor:3, goalsAgainst:4, date:"Sun Jul 26", comp:"Division 3"},
-  {id:"rs8", opponent:"Drama United", goalsFor:2, goalsAgainst:4, date:"Sun Jul 26", comp:"Division 3"},
-  {id:"rs9", opponent:"Dog Dads FC", goalsFor:2, goalsAgainst:1, date:"Sun Jul 26", comp:"Division 3"},
-  {id:"rs10", opponent:"EGOVERSE", goalsFor:5, goalsAgainst:4, date:"Sun Jul 26", comp:"Division 3"}
+  {id:"rs1", opponent:"YemmeTho", goalsFor:4, goalsAgainst:3, date:"Thu Jul 30", comp:"Division 1"},
+  {id:"rs2", opponent:"100 za v", goalsFor:3, goalsAgainst:4, date:"Thu Jul 30", comp:"Division 1"},
+  {id:"rs3", opponent:"Yaadballers FC", goalsFor:2, goalsAgainst:0, date:"Thu Jul 30", comp:"Division 2 Promotion"},
+  {id:"rs4", opponent:"Dijon AS", goalsFor:8, goalsAgainst:3, date:"Thu Jul 30", comp:"Division 2 Promotion"},
+  {id:"rs5", opponent:"Mcknight FC", goalsFor:3, goalsAgainst:2, date:"Thu Jul 30", comp:"Division 2 Promotion"}
 ];
 
 const MANAGER_PROFILE = {
   name: "Dean Syche",
   role: "Head Coach (fictional)",
-  tagline: "Third season in charge. Brought in the 4-4-2, took the blame for the promotion collapse before anyone could pin it on the players, and still hasn't explained why the entire back four is AI."
+  tagline: "Third season in charge, and the one that finally delivered: promotion to Division 1. Doubted after last year's collapse, he tore up the system, brought in the 4-1-4-1, and proved beyond argument that he was the man for the job — AI center-backs and all."
 };
 const MANAGER_FACE = {skin:"#E0AD7D", hair:"#C1591A", style:"short", accessory:"none", facial:true, beard:false};
 
 const DEFAULT_SOUNDBITES = [
-  {id:"sb1", context:"Post-match, missed promotion", quote:"We had it in our hands. I won't make excuses — that one's on me as much as anyone."},
-  {id:"sb2", context:"On the switch to 4-4-2", quote:"More bodies in the box, more crosses in, and frankly El Tecla's head is a better finisher than half our feet."},
-  {id:"sb3", context:"Asked about Vilma at left back", quote:"She's earned it in training every week. I don't care that she's the water girl on paper."}
+  {id:"sb1", context:"On sealing promotion to Division 1", quote:"Yaadballers away, missing two starters, half the squad walking wounded — I've had smoother Tuesdays. But we're up. That's the only sentence that matters."},
+  {id:"sb2", context:"On Santi Cazorla's dressing-room 'injury'", quote:"Barnes had me fully convinced, pointing right at the shoulder and everything. Then the beat drops and Santi's already dancing. I should've known — that's twice now."},
+  {id:"sb3", context:"On moving The Joker to center back", quote:"He's calmer out of goal, and frankly so am I. I'm not going to overthink it and neither should you."},
+  {id:"sb4", context:"On El Tecla playing center back at 56", quote:"I asked him if he could do ninety minutes at the back. He didn't say yes, he just started stretching. That was good enough for me."}
 ];
 
 const HOLO_COLORS = {
@@ -830,7 +930,8 @@ const HOLO_COLORS = {
   p6: ["rgba(193,59,255,.28)", "rgba(255,59,224,.28)", "rgba(255,210,59,.28)"],
   p7: ["rgba(255,122,0,.28)", "rgba(255,46,99,.28)", "rgba(178,59,255,.28)"],
   p8: ["rgba(59,255,160,.28)", "rgba(233,255,59,.28)", "rgba(59,175,255,.28)"],
-  p9: ["rgba(155,60,255,.28)", "rgba(46,204,113,.28)", "rgba(255,255,255,.28)"]
+  p9: ["rgba(155,60,255,.28)", "rgba(46,204,113,.28)", "rgba(255,255,255,.28)"],
+  p10: ["rgba(255,205,15,.28)", "rgba(0,56,168,.28)", "rgba(206,17,38,.28)"]
 };
 
 const FACE_PARAMS = {
@@ -841,7 +942,8 @@ const FACE_PARAMS = {
   p6: {skin:"#C68863", hair:"#2B2320", style:"long", accessory:"none", facial:false},
   p7: {skin:"#F0C8A0", hair:"#B98650", style:"short", accessory:"sunglasses", facial:false},
   p8: {skin:"#E0AD7D", hair:"#241C18", style:"long", accessory:"none", facial:false},
-  p9: {skin:"#F5E6D3", hair:"#1EA548", style:"short", accessory:"none", facial:false}
+  p9: {skin:"#F5E6D3", hair:"#1EA548", style:"short", accessory:"none", facial:false},
+  p10: {skin:"#C68863", hair:"#1A1310", style:"short", accessory:"none", facial:true}
 };
 
 function faceSVG(p){
@@ -905,34 +1007,32 @@ const PRESS_MANAGER = {name:"Sophy Rane", role:"Head of Media & Communications (
 
 const CONTROVERSIES = [
   {
-    player:"Pacey Lacey", tag:"Discipline",
-    desc:"Cantona-style flying kick on a heckling fan in the stands after full time. Currently under league review for violent conduct.",
-    guidance:"Stick to the line: 'I let my emotions get the better of me and I fully apologize to the supporter involved.' Nothing about what the fan actually said. Nothing about his mother. Do not bring up the fan's mother."
+    player:"The Joker", tag:"Position Change",
+    desc:"After the fallout from his chaotic debut between the posts, the club quietly moved The Joker from goalkeeper to center back — a switch nobody in the technical staff has properly explained, beyond nervous mutterings about \"managing fan sentiment.\"",
+    guidance:"Frame it as 'squad flexibility' and 'putting his physical tools to better use higher up the pitch.' Do not say the words 'fan panic' out loud. Do not, under any circumstances, take a question about what a man with his background knows about marking a 6-foot striker at the back post."
   },
   {
-    player:"El Tecla", tag:"Loyalty",
-    desc:"Filmed at a bar singing Independiente chants — awkward, given he's currently on our books. Fans are not thrilled.",
-    guidance:"Say it was 'stuck in his head from childhood' and move on quickly. Do not elaborate on which songs, and do not sing anything in front of the cameras this time."
+    player:"Santi \"El Capitano\" Cazorla", tag:"Dressing Room Comedy",
+    desc:"John Barnes had Dean Syche fully convinced Cazorla had a shoulder injury — dramatically pointing right at the shoulder in question — only for the changing room speaker to drop the beat two seconds later and Cazorla to launch straight into a full dance routine instead. Syche didn't know whether to call the physio or start filming. The clip is already everywhere.",
+    guidance:"Sophy Rane isn't even pretending to spin this one: \"Honestly? Just watch the clip. We're posting it on the club account ourselves.\""
   }
 ];
 
 const FAN_FORUM = [
-  {user:"SignsAnyone", text:"We signed a keeper with an alleged murder in his past and it's somehow not even top 3 craziest things about this club's transfer dealings. Wild era to support Galacticos.", likes:874, dislikes:41, replies:56, sentiment:"hype", time:"3h ago", verified:true, pinned:true},
-  {user:"NoNetNoProblem", text:"The new keeper literally SIDESTEPPED a rolling ball into his own net on his SEASON DEBUT. We paid for this?? We PAID for this??", likes:412, dislikes:19, replies:88, sentiment:"angry", time:"1h ago"},
-  {user:"JokerOutOfClub", text:"'Wildcard' they said. 'Trust the process' they said. Bro dodged the ball like it owed him money. Bench him immediately.", likes:289, dislikes:31, replies:29, sentiment:"angry", time:"2h ago"},
-  {user:"ChaoticGoodFan", text:"Ngl the Joker dodging the ball instead of saving it might be the funniest thing I've ever seen in a Galacticos shirt. 10/10 debut honestly.", likes:601, dislikes:38, replies:47, sentiment:"hype", time:"1h ago"},
-  {user:"Div3PromoWatch", text:"Beat Jevo United 3-2 then IMMEDIATELY dropped the BlueLockcf promotion decider 2-3?? This team specializes in self-sabotage.", likes:334, dislikes:9, replies:41, sentiment:"angry", time:"5h ago", verified:true},
-  {user:"FiveFourFrenzy", text:"5-4 over EGOVERSE is the most Galacticos scoreline in club history. Nobody's defense showed up but somehow we still won. Chaos football, love it.", likes:522, dislikes:12, replies:63, sentiment:"hype", time:"4h ago"},
-  {user:"BackToBackBlues", text:"3-4 to For Mark FC then 2-4 to Drama United in back-to-back games. Whatever's going on in that dressing room needs fixing NOW.", likes:301, dislikes:22, replies:35, sentiment:"angry", time:"6h ago"},
-  {user:"CleanSheetCurious", text:"0-0 with eTijuana FC and a 2-2 with son 67 fc in the same stretch as a 5-4 shootout. This squad genuinely cannot decide what kind of team it wants to be.", likes:187, dislikes:14, replies:18, sentiment:"neutral", time:"8h ago"},
-  {user:"TerraceTicoTico", text:"Pacey Lacey needs to sort his head out. Doesn't matter what the fan screamed, you don't put your boot on someone.", likes:134, dislikes:7, replies:22, sentiment:"neutral", time:"1d ago"},
-  {user:"OldSchoolUltra_88", text:"One more incident from Lacey and he should be nowhere near matchday squads, full stop.", likes:98, dislikes:5, replies:11, sentiment:"neutral", time:"1d ago"}
+  {user:"PubCrawlPitchside", text:"Full squad rolled into Casa del Gol still in their kit at 11pm and bought the ENTIRE PUB a round after the Division 1 result. I have never loved this club more.", likes:1560, dislikes:21, replies:289, sentiment:"hype", time:"20m ago", verified:true, pinned:true},
+  {user:"BarStoolReporter", text:"The Joker walked into the pub, sat alone in the corner in complete silence for forty minutes, said nothing to anyone, then left without paying. Genuinely one of the scariest nights of my life and I'd do it again.", likes:921, dislikes:15, replies:176, sentiment:"hype", time:"1h ago"},
+  {user:"JukeboxJudge", text:"Santi hijacked the jukebox, played the same song four times in a row, and did THE DANCE again live in the middle of the pub. Grown men were crying.", likes:743, dislikes:9, replies:122, sentiment:"hype", time:"45m ago", verified:true},
+  {user:"DartsWithLacey", text:"Played Pacey Lacey at darts at the pub tonight and he shook my hand and bought me a pint after losing. Genuinely lovely guy off the pitch, absolute menace on it. Wild duality.", likes:588, dislikes:12, replies:94, sentiment:"hype", time:"1h ago"},
+  {user:"WhereWasBarnesThisTime", text:"John Barnes actually showed up tonight?? The man who goes missing in every big match personally showed up to the pub and stayed till closing. Character development.", likes:466, dislikes:8, replies:71, sentiment:"hype", time:"2h ago"},
+  {user:"BettingLineWatcher", text:"El Loco bought three rounds for the entire pub tonight. Under investigation for betting against us and yet somehow still has more disposable income than the rest of us combined. Make it make sense.", likes:402, dislikes:33, replies:58, sentiment:"neutral", time:"1h ago"},
+  {user:"TungTungForever", text:"The whole pub randomly broke into a Tung Tung Tung Sahur chant tonight even though the man's been retired for weeks. Legends never really leave.", likes:355, dislikes:4, replies:40, sentiment:"hype", time:"3h ago"},
+  {user:"ShinPadsAt2AM", text:"Grainy photo just dropped of El Tecla still in full shin pads and boots at the bar at 2am. The man played 90 minutes at center back today at FIFTY-SIX and he's still going. Icon behavior.", likes:512, dislikes:6, replies:63, sentiment:"hype", time:"2h ago"}
 ];
 
 const QUOTE_OF_WEEK = {
-  playerId: "p5",
-  playerName: "John Barnes",
-  quote: "Hello, I'm John Barnes. Sometimes when I'm playing football, I have to be brave. Lots of people want me to score a goal and win the game. But can I tell you a secret? I don't always feel like being brave."
+  playerId: "p8",
+  playerName: "Emilio \"El Loco\" Bur",
+  quote: "I am not a racist."
 };
 
 const NAT_NAMES = {CHN:"China", ARG:"Argentina", ESP:"Spain", ENG:"England", USA:"United States"};
@@ -955,7 +1055,9 @@ After being found guilty on multiple rape charges back home, Farias fled Argenti
   p8: `A true Galacticos legend and the ultimate midfield destroyer, Emilio "El Loco" Bur is the man who holds the lines together. Born to win at all costs, his only priority on the pitch is securing the three points. He defends the badge with ferocious tackles, tactical intelligence, and total commitment — often putting his body on the line without hesitation.
 For years he has been the heart and soul of the team, a respected leader who sets the tone for every match. However, recent allegations have tarnished his reputation: he is under investigation for betting on the Galacticos to lose or concede goals in the first half, with suspicious patterns in several matches raising eyebrows.`, // Emilio "El Loco" Bur
   p9: `The Joker was a washed-up drug addict abandoned by his parents as a kid, drifting through life until one night he snapped on live television and murdered the talk-show host mid-interview. In the chaos he vanished into the screaming crowd, re-emerging months later as a completely different man — colder, quieter, and somehow a goalkeeper of unnerving brilliance.
-No one knows how Galácticos found him or why they signed him, but the scouts who watched him train still refuse to talk about what they saw between the posts.` // The Joker
+No one knows how Galácticos found him or why they signed him, but the scouts who watched him train still refuse to talk about what they saw between the posts.`, // The Joker
+  p10: `Nicolas Platano is the son of Venezuelan president Nicolas Maduro. Raised in the presidential palace, he spent his childhood practicing free kicks with bags of plantains after the real footballs kept getting nationalized and the goalposts were declared "property of the people."
+When a failed attempt to seize Real Madrid's youth academy went sideways, he fled to Europe and somehow talked Galácticos into signing him by promising unlimited cheap oil, a lifetime supply of arepas, and free haircuts for the entire first team. On the pitch he's surprisingly useful… until he suddenly decides the ball must be redistributed to the opposition "for the people," then celebrates by trying to nationalize the corner flag.` // Nicolas Platano
 };
 
 const HISTORY = [
@@ -968,7 +1070,7 @@ const HISTORY = [
   {era:"Spain & Portugal 2030", note:"Current season", div:2, w:20, d:3,  l:20, playoff:"Pending", peak:false}
 ];
 
-let clubInfo = {name:"Galacticoß BPIE", reputation:"Well Known", fans:"24M", wageCap:1150000};
+let clubInfo = {name:"Galacticoß BPIE", reputation:"World Renowned", fans:"31,027,827", wageCap:1150000};
 let roster = [];
 let training = [];
 let press = [];
@@ -1095,6 +1197,34 @@ function render(){
   renderCelebs();
   renderPlayerStories();
   renderLegends();
+  initScrollHints();
+}
+
+const SCROLL_HINT_TARGETS = [
+  ['tabsBar', '#tabsBar .scroll-hint-arrow'],
+  ['squadTableScroll', '#squadTableScroll .scroll-hint-arrow'],
+  ['weekGrid', '#weekGridWrap .scroll-hint-arrow']
+];
+function checkScrollHint(scrollerId, arrowSel){
+  const scroller = document.getElementById(scrollerId);
+  const arrow = document.querySelector(arrowSel);
+  if(!scroller || !arrow) return;
+  const canScroll = scroller.scrollWidth > scroller.clientWidth + 2;
+  const atEnd = scroller.scrollLeft + scroller.clientWidth >= scroller.scrollWidth - 2;
+  arrow.classList.toggle('hidden', !canScroll || atEnd);
+}
+function refreshScrollHints(){
+  SCROLL_HINT_TARGETS.forEach(([id, sel])=>checkScrollHint(id, sel));
+}
+function initScrollHints(){
+  SCROLL_HINT_TARGETS.forEach(([scrollerId, arrowSel])=>{
+    const scroller = document.getElementById(scrollerId);
+    if(!scroller || scroller.dataset.hintBound) return;
+    scroller.dataset.hintBound = "1";
+    scroller.addEventListener('scroll', ()=>checkScrollHint(scrollerId, arrowSel));
+    window.addEventListener('resize', refreshScrollHints);
+  });
+  refreshScrollHints();
 }
 
 /* ---------- SQUAD ---------- */
@@ -1105,9 +1235,14 @@ function renderSquad(){
   const numFields = ["number","wage","apps","goals","assists","cs","potm","red","passPct","sotPct"];
   roster.forEach(p=>{
     const tr = document.createElement('tr');
+    const cc = cardColors(p.id);
+    tr.style.boxShadow = `inset 3px 0 0 ${cc[0]}`;
     tr.innerHTML = `
       <td><input class="cell num-col narrow" type="number" min="1" max="99" value="${p.number}" data-f="number" readonly></td>
-      <td><input class="cell" type="text" value="${escAttr(p.name)}" data-f="name" placeholder="Player name" style="min-width:130px;" readonly></td>
+      <td><div style="display:flex;align-items:center;gap:8px;">
+        <div class="table-avatar" style="background:linear-gradient(160deg, ${cc[0]} 0%, ${cc[1]} 100%);">${faceSVG(FACE_PARAMS[p.id])}</div>
+        <input class="cell" type="text" value="${escAttr(p.name)}" data-f="name" placeholder="Player name" style="min-width:110px;" readonly>
+      </div></td>
       <td><input class="cell narrow" type="text" value="${escAttr(p.nat)}" data-f="nat" style="text-align:center;" readonly></td>
       <td><select class="cell" data-f="position" disabled>${POSITIONS.map(pos=>`<option ${p.position===pos?'selected':''}>${pos}</option>`).join("")}</select></td>
       <td><input class="cell narrow" type="text" value="${escAttr(p.height)}" data-f="height" readonly></td>
@@ -1149,6 +1284,32 @@ function avatarColor(str){
   for(let i=0;i<str.length;i++){ hash = str.charCodeAt(i) + ((hash<<5)-hash); }
   return `hsl(${Math.abs(hash)%360}, 60%, 42%)`;
 }
+function confettiHTML(){
+  const colors = ["var(--gold)","var(--sky-light)","#ffffff","var(--rust)"];
+  let out = "";
+  for(let i=0;i<40;i++){
+    const left = (Math.random()*100).toFixed(1);
+    const delay = (Math.random()*4).toFixed(2);
+    const duration = (3+Math.random()*2.5).toFixed(2);
+    const color = colors[Math.floor(Math.random()*colors.length)];
+    const w = (5+Math.random()*4).toFixed(1);
+    out += `<span class="confetti-piece" style="left:${left}%;background:${color};width:${w}px;height:${(w*0.4).toFixed(1)}px;animation-delay:${delay}s;animation-duration:${duration}s;"></span>`;
+  }
+  return `<div class="confetti-layer">${out}</div>`;
+}
+function animateCount(el, end, format){
+  format = format || (v=>Math.round(v).toLocaleString());
+  const duration = 900;
+  const start = performance.now();
+  function tick(now){
+    const p = Math.min(1, (now-start)/duration);
+    const eased = 1 - Math.pow(1-p, 3);
+    el.textContent = format(end*eased);
+    if(p<1) requestAnimationFrame(tick);
+    else el.textContent = format(end);
+  }
+  requestAnimationFrame(tick);
+}
 
 document.getElementById('addPlayerBtn').addEventListener('click', ()=>{
   roster.push({id:uid(), number: roster.length+1, name:"", nat:"", position:"CM", height:"", style:"", wage:1000, contract:"", apps:0, goals:0, assists:0, cs:0, potm:0, red:0, passPct:0, sotPct:0});
@@ -1174,11 +1335,13 @@ function renderWages(){
   list.innerHTML = "";
   const maxWage = Math.max(1, ...roster.map(p=>Number(p.wage)||0));
   [...roster].sort((a,b)=>(b.wage||0)-(a.wage||0)).forEach(p=>{
+    const cc = cardColors(p.id);
     const row = document.createElement('div');
     row.className = "wage-row";
     row.innerHTML = `
+      <div class="table-avatar" style="background:linear-gradient(160deg, ${cc[0]} 0%, ${cc[1]} 100%);flex:none;">${faceSVG(FACE_PARAMS[p.id])}</div>
       <div class="wage-name">${escHtml(p.name) || "Unnamed"} <span style="color:var(--ink-soft);font-weight:400;">#${p.number}</span></div>
-      <div class="wage-bar-track"><div class="wage-bar-fill" style="width:${Math.round((p.wage/maxWage)*100)}%"></div></div>
+      <div class="wage-bar-track"><div class="wage-bar-fill" style="width:${Math.round((p.wage/maxWage)*100)}%;background:linear-gradient(90deg, ${cc[0]}, ${cc[1]});"></div></div>
       <div class="wage-amt">${money(p.wage)}</div>
     `;
     list.appendChild(row);
@@ -1505,33 +1668,113 @@ document.getElementById('addSbBtn').addEventListener('click', ()=>{
 });
 
 /* ---------- OVERVIEW ---------- */
+const FUN_FACTS = {
+  p1: "Known for: unprovoked karate chops",
+  p2: "Known for: pulling out the dance moves when you least expect it",
+  p4: "Known for: buying you a pint after losing at darts",
+  p5: "Known for: showing up... eventually",
+  p6: "Known for: best vibes on the bench",
+  p7: "Known for: still going strong at 56",
+  p8: "Known for: buying rounds while under investigation",
+  p9: "Known for: not saying a single word",
+  p10: "Known for: being a man of the people"
+};
+function funFact(p){ return FUN_FACTS[p.id] || "Known for: mysteriously effective"; }
+const CARD_COLORS = {
+  p1: ["#d6336c", "#6a0f34"],
+  p2: ["#7b2ff7", "#2d0a5e"],
+  p4: ["#ff5b3d", "#7a1d0a"],
+  p5: ["#1d6fb8", "#0a2a54"],
+  p6: ["#17b6a7", "#0a4a44"],
+  p7: ["#f0a33d", "#8a5300"],
+  p8: ["#2fbf4f", "#0f5c22"],
+  p9: ["#3a1c66", "#06030d"],
+  p10: ["#CE1126", "#00247D"]
+};
+function cardColors(id){ return CARD_COLORS[id] || ["#123C7A", "#0A2A54"]; }
 function renderOverview(){
+  const hero = document.getElementById('overviewHero');
+  if(hero){
+    if(results.length){
+      const r = results[0];
+      const gf = Number(r.goalsFor)||0, ga = Number(r.goalsAgainst)||0;
+      const outcome = gf>ga ? "win" : gf===ga ? "draw" : "loss";
+      const badge = gf>ga ? "W" : gf===ga ? "D" : "L";
+      const played = results.length;
+      const wins = results.filter(x=>x.goalsFor>x.goalsAgainst).length;
+      const draws = results.filter(x=>x.goalsFor===x.goalsAgainst).length;
+      const losses = results.filter(x=>x.goalsFor<x.goalsAgainst).length;
+      const totalGf = results.reduce((s,x)=>s+(Number(x.goalsFor)||0),0);
+      const totalGa = results.reduce((s,x)=>s+(Number(x.goalsAgainst)||0),0);
+      const promoted = results.some(x=>/promotion/i.test(x.comp||""));
+      hero.innerHTML = `
+        <div class="hero-banner">
+          ${promoted ? confettiHTML() : ""}
+          <div class="hero-tag">Latest result</div>
+          <div class="hero-main">
+            <div class="hero-result-badge ${outcome}">${badge}</div>
+            <div class="hero-score">${gf}–${ga}</div>
+            <div class="hero-opp">vs ${escHtml(r.opponent)}</div>
+          </div>
+          <div class="hero-sub">${escHtml(r.comp)} · ${escHtml(r.date)}</div>
+          <div class="hero-divider"></div>
+          <div class="hero-record">
+            <div><span>Played</span><b data-count="${played}">0</b></div>
+            <div><span>W-D-L</span><b>${wins}-${draws}-${losses}</b></div>
+            <div><span>GF-GA</span><b>${totalGf}-${totalGa}</b></div>
+          </div>
+        </div>
+      `;
+      hero.querySelectorAll('[data-count]').forEach(el=>animateCount(el, Number(el.getAttribute('data-count'))||0));
+    } else {
+      hero.innerHTML = `
+        <div class="hero-banner">
+          <div class="hero-tag">Season snapshot</div>
+          <div class="hero-opp">No results logged yet — check back after the next match.</div>
+        </div>
+      `;
+    }
+  }
+
   const metrics = document.getElementById('overviewMetrics');
   const totalWage = roster.reduce((s,p)=>s+(Number(p.wage)||0),0);
   const upcoming = training.length;
   metrics.innerHTML = `
-    <div class="metric-card"><div class="metric-label">Squad size</div><div class="metric-value">${roster.length}</div></div>
-    <div class="metric-card"><div class="metric-label">Weekly wages</div><div class="metric-value">${money(totalWage)}</div></div>
-    <div class="metric-card"><div class="metric-label">Sessions / week</div><div class="metric-value">${upcoming}</div></div>
+    <div class="metric-card"><div class="metric-label">Squad size</div><div class="metric-value" data-count="${roster.length}">0</div></div>
+    <div class="metric-card"><div class="metric-label">Weekly wages</div><div class="metric-value" data-count="${totalWage}" data-money="1">£0</div></div>
+    <div class="metric-card"><div class="metric-label">Sessions / week</div><div class="metric-value" data-count="${upcoming}">0</div></div>
   `;
+  metrics.querySelectorAll('[data-count]').forEach(el=>{
+    const end = Number(el.getAttribute('data-count'))||0;
+    animateCount(el, end, el.hasAttribute('data-money') ? money : undefined);
+  });
 
   const cardGrid = document.getElementById('squadCardGrid');
   cardGrid.innerHTML = roster.map(p=>{
-    const grp = POS_GROUP[p.position] || "mid";
     const face = faceSVG(FACE_PARAMS[p.id]);
     const hc = HOLO_COLORS[p.id] || HOLO_COLORS.p1;
-    const holoStyle = `--holo-c1:${hc[0]};--holo-c2:${hc[1]};--holo-c3:${hc[2]};`;
+    const cc = cardColors(p.id);
+    const cardStyle = `--holo-c1:${hc[0]};--holo-c2:${hc[1]};--holo-c3:${hc[2]};background:linear-gradient(160deg, ${cc[0]} 0%, ${cc[1]} 100%);`;
     return `
-      <div class="squad-card holo" style="${holoStyle}">
-        <div class="avatar-wrap"><div class="avatar-badge grp-${grp}">${face}</div></div>
-        <div class="sc-body">
-          <div class="sc-name">${escHtml(p.name)||'Unnamed'}</div>
-          <div class="sc-meta"><span>#${p.number} · ${p.position}</span></div>
-          ${p.style ? `<span class="sc-style">${escHtml(p.style)}</span>` : ''}
-        </div>
+      <div class="squad-card holo fut-card" style="${cardStyle}">
+        <div class="fut-top"><div class="fut-pos">${escHtml(p.position)}</div></div>
+        <div class="fut-face">${face}</div>
+        <div class="fut-name">${escHtml(p.name)||'Unnamed'}</div>
+        <div class="fut-funfact">${escHtml(funFact(p))}</div>
+        ${p.style ? `<span class="fut-style-tag">${escHtml(p.style)}</span>` : ''}
       </div>
     `;
   }).join("");
+  cardGrid.querySelectorAll('.fut-card').forEach(card=>{
+    card.addEventListener('mousemove', e=>{
+      const rect = card.getBoundingClientRect();
+      const midX = rect.width/2, midY = rect.height/2;
+      const rotateY = ((e.clientX - rect.left - midX)/midX) * 10;
+      const rotateX = -((e.clientY - rect.top - midY)/midY) * 10;
+      card.style.transform = `perspective(700px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.04)`;
+    });
+    card.addEventListener('mouseleave', ()=>{ card.style.transform = ''; });
+  });
 
   const pitch = document.getElementById('pitchView');
   pitch.innerHTML = FORMATION.map(row => `
@@ -1542,10 +1785,18 @@ function renderOverview(){
 }
 
 /* ---------- HISTORY ---------- */
+function eraTag(h){
+  if(h.peak) return "peak";
+  const note = (h.note||"").toLowerCase();
+  if(note.includes("promot")) return "promo";
+  if(note.includes("relegat")) return "releg";
+  if(note.includes("current")) return "current";
+  return "";
+}
 function renderHistory(){
   const tl = document.getElementById('historyTimeline');
   tl.innerHTML = HISTORY.map(h=>`
-    <div class="tl-item ${h.peak?'peak':''}">
+    <div class="tl-item ${eraTag(h)}">
       <div class="tl-head">
         <div class="tl-era">${escHtml(h.era)}</div>
         <div class="tl-div">Division ${h.div}</div>
@@ -1607,18 +1858,19 @@ function renderPlayerStories(){
   const grid = document.getElementById('playerStoriesGrid');
   if(!grid) return;
   grid.innerHTML = roster.map(p=>{
-    const grp = POS_GROUP[p.position] || "mid";
     const face = faceSVG(FACE_PARAMS[p.id]);
     const bio = playerStories[p.id];
+    const cc = cardColors(p.id);
+    const frontStyle = `background:linear-gradient(160deg, ${cc[0]} 0%, ${cc[1]} 100%);`;
     return `
     <div class="story-flip-card" data-flip-id="${p.id}">
       <div class="story-flip-inner">
-        <div class="flip-face flip-front" data-flip-open="${p.id}">
-          <div class="avatar-badge grp-${grp}">${face}</div>
+        <div class="flip-face flip-front" data-flip-open="${p.id}" style="${frontStyle}">
+          <div class="avatar-badge">${face}</div>
           <div class="ff-name">${escHtml(p.name)||'Unnamed'}</div>
           <div class="ff-hint">click to read story</div>
         </div>
-        <div class="flip-face flip-back">
+        <div class="flip-face flip-back" style="border-top-color:${cc[0]};">
           <button class="flip-back-btn" data-flip-close="${p.id}">← Back</button>
           <div class="story-name">${escHtml(p.name)}</div>
           <div class="story-facts">
@@ -1626,7 +1878,7 @@ function renderPlayerStories(){
             <b>Nationality:</b> ${escHtml(NAT_NAMES[p.nat]||p.nat)}<br>
             <b>Team:</b> Galacticos${PLAYER_ORIGIN[p.id] ? ` (${escHtml(PLAYER_ORIGIN[p.id])})` : ""}
           </div>
-          <textarea class="story-bio-edit" data-story="${p.id}" placeholder="No story written yet." readonly>${bio ? escHtml(bio) : ''}</textarea>
+          <div class="story-bio-display ${bio ? '' : 'empty'}">${bio ? escHtml(bio) : 'No story written yet.'}</div>
         </div>
       </div>
     </div>
@@ -1640,12 +1892,6 @@ function renderPlayerStories(){
   grid.querySelectorAll('[data-flip-close]').forEach(btn=>{
     btn.addEventListener('click', ()=>{
       grid.querySelector(`.story-flip-card[data-flip-id="${btn.getAttribute('data-flip-close')}"]`).classList.remove('flipped');
-    });
-  });
-  grid.querySelectorAll('[data-story]').forEach(ta=>{
-    ta.addEventListener('input', ()=>{
-      playerStories[ta.getAttribute('data-story')] = ta.value;
-      scheduleSave();
     });
   });
 }
@@ -1662,6 +1908,7 @@ document.querySelectorAll('.tab-btn').forEach(btn=>{
     document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
     btn.classList.add('active');
     document.getElementById('panel-'+btn.dataset.tab).classList.add('active');
+    refreshScrollHints();
   });
 });
 
@@ -1673,6 +1920,7 @@ document.querySelectorAll('.subtabs').forEach(bar=>{
       wrapper.querySelectorAll('.subpanel').forEach(p=>p.classList.remove('active'));
       btn.classList.add('active');
       document.getElementById('panel-'+btn.dataset.subtab).classList.add('active');
+      refreshScrollHints();
     });
   });
 });
